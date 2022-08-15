@@ -1,0 +1,1 @@
+export 'package:soft_frontend/widgets/textButton.widget.dart';
