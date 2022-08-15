@@ -1,22 +1,16 @@
 // ignore_for_file: avoid_unnecessary_containers, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
-import 'package:soft_frontend/controllers/ventas.controller.dart';
-import 'package:soft_frontend/models/IdDetalleVenta.model.dart';
+
 import 'package:soft_frontend/models/IdVenta.model.dart';
-import 'package:soft_frontend/models/ProductoBuscado.model.dart';
 import 'package:soft_frontend/models/detalleventa.model.dart';
-import 'package:soft_frontend/models/ventas.model.dart';
 
-import 'package:soft_frontend/services/cliente.service.dart';
-import 'package:soft_frontend/models/cliente.model.dart';
-import 'package:soft_frontend/models/cliente.model.dart';
-import 'package:soft_frontend/services/detalleventa.service.dart';
-import 'package:soft_frontend/screens/arqueo/mostrarArqueo.screen.dart';
-
+import 'package:soft_frontend/controllers/ventas.controller.dart';
 import '../../controllers/Arqueo.controller.dart';
 import '../../controllers/detalleventa.controller.dart';
+
 import '../../services/ventas.service.dart';
+import 'package:soft_frontend/services/detalleventa.service.dart';
 
 class VentanaVenta extends StatefulWidget {
   const VentanaVenta({Key? key}) : super(key: key);
@@ -34,10 +28,10 @@ class _VentanaVentaState extends State<VentanaVenta> {
   var telCliente = TextEditingController();
   var codProductoController = TextEditingController();
   var cantidadProducController = TextEditingController();
-  var total = "0";
-  var subTotal = "0";
-  var descuentos = "0";
-  var impuestos = "0";
+  var total = '0';
+  var subTotal = '0';
+  var descuentos = '0';
+  var impuestos = '0';
   var totalISVController = TextEditingController();
   var totalVentaController = TextEditingController();
   var totalDescuentoVentaController = TextEditingController();
@@ -75,7 +69,9 @@ class _VentanaVentaState extends State<VentanaVenta> {
           ),
         ],
       ),
+      backgroundColor: Color.fromARGB(255, 243, 243, 243),
       body: Container(
+        // color: Colors.red,
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: SingleChildScrollView(
@@ -85,67 +81,53 @@ class _VentanaVentaState extends State<VentanaVenta> {
                 const SizedBox(
                   height: 5,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(1.0),
+                Container(
+                  width: size.width,
+                  // color: Colors.green,
                   child: SingleChildScrollView(
-
                      scrollDirection: Axis.horizontal,
-
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          child: TextButton(
-                            onPressed: null,
-                            child: Center(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  if (botonesHabilitados) {
-                                    null;
-                                  } else {
-
-                                    Navigator.pushNamed(
-                                        context, 'crear_cliente');
-
-                                  }
-                                },
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 5),
-                                  child: Text('Agregar Cliente'),
-                                ),
-                                style: ButtonStyle(
-                                  backgroundColor: (!botonesHabilitados)
-                                      ? MaterialStateProperty.all(Colors.blue)
-                                      : MaterialStateProperty.all(
-                                          Color.fromARGB(255, 194, 194, 194)),
-                                  elevation: (botonesHabilitados)
-                                      ? MaterialStateProperty.all(0)
-                                      : MaterialStateProperty.all(5.0),
-                                  // foregroundColor: MaterialStateProperty.all(Colors.black)
-                                  overlayColor: (botonesHabilitados)
-                                      ? MaterialStateProperty.all(
-                                          Color.fromARGB(255, 194, 194, 194))
-                                      : MaterialStateProperty.all(
-                                          Color.fromARGB(255, 35, 156, 255)),
-                                ),
-                              ),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (botonesHabilitados) {
+                                null;
+                              } else {
+                                Navigator.pushNamed(
+                                    context, 'crear_cliente');
+                              }
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 13),
+                              child: Text('Agregar Cliente'),
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor: (!botonesHabilitados)
+                                  ? MaterialStateProperty.all(Colors.blue)
+                                  : MaterialStateProperty.all(
+                                      Color.fromARGB(255, 194, 194, 194)),
+                              elevation: (botonesHabilitados)
+                                  ? MaterialStateProperty.all(0)
+                                  : MaterialStateProperty.all(5.0),
+                              // foregroundColor: MaterialStateProperty.all(Colors.black)
+                              overlayColor: (botonesHabilitados)
+                                  ? MaterialStateProperty.all(
+                                      Color.fromARGB(255, 194, 194, 194))
+                                  : MaterialStateProperty.all(
+                                      Color.fromARGB(255, 35, 156, 255)),
                             ),
                           ),
                         ),
+                        SizedBox(width: 30),
                         Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: size.width * 0.2,
-                                child: TextFormField(
-                                  controller: dniController,
-                                  decoration: InputDecoration(
-                                      labelText: 'Identidad del Cliente'),
-                                ),
-                              ),
-                            ],
+                          width: size.width * 0.2,
+                          child: TextFormField(
+                            controller: dniController,
+                            decoration: InputDecoration(
+                                labelText: 'Identidad del Cliente'),
                           ),
                         ),
                         TextButton(
@@ -221,7 +203,7 @@ class _VentanaVentaState extends State<VentanaVenta> {
                           child: Padding(
                                     padding: const EdgeInsets.all(2.0),
                                     child: Text(
-                                      "Excento",
+                                      'Excento',
                                       style: TextStyle(fontSize: 15),
                                     ),
                                   ),
@@ -491,122 +473,121 @@ class _VentanaVentaState extends State<VentanaVenta> {
                       width: 20,
                     ),
                     Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                    flex: 1,
-                                    child: Text(
-                                      'Codigo',
-                                      style: TextStyle(
-                                          fontSize: size.width * 0.009,
-                                          color: Colors.blue,
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                                Expanded(
-                                    flex: 3,
-                                    child: Text(
-                                      'Nombre del Producto',
-                                      style: TextStyle(
-                                          fontSize: size.width * 0.009,
-                                          color: Colors.blue,
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                                Expanded(
-                                    flex: 1,
-                                    child: Text(
-                                      'Precio',
-                                      style: TextStyle(
-                                          fontSize: size.width * 0.009,
-                                          color: Colors.blue,
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                                Expanded(
-                                    flex: 1,
-                                    child: Text(
-                                      'Cantidad',
-                                      style: TextStyle(
-                                          fontSize: size.width * 0.009,
-                                          color: Colors.blue,
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                                Expanded(
-                                    flex: 1,
-                                    child: Text(
-                                      'ISV',
-                                      style: TextStyle(
-                                          fontSize: size.width * 0.009,
-                                          color: Colors.blue,
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                                Expanded(
-                                    flex: 1,
-                                    child: Text(
-                                      'Descuento',
-                                      style: TextStyle(
-                                          fontSize: size.width * 0.009,
-                                          color: Colors.blue,
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                                Expanded(
-                                    flex: 1,
-                                    child: Text(
-                                      'Total',
-                                      style: TextStyle(
-                                          fontSize: size.width * 0.009,
-                                          color: Colors.blue,
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                                Expanded(
-                                    flex: 1,
-                                    child: Text(
-                                      'Opciones',
-                                      style: TextStyle(
-                                          fontSize: size.width * 0.009,
-                                          color: Colors.blue,
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                              ],
-                            ),
-                            Container(
-                                width: size.width * 0.7,
-                                height: size.height * 0.6,
-                                child: (idVentaActual != -1)
-                                    ? Expanded(
-                                        child: FutureBuilder(
-                                            future: mostrardetalleventa(
-                                                idVentaActual),
-                                            builder: (context,
-                                                AsyncSnapshot<dynamic>
-                                                    snapshot) {
-                                              if (snapshot.connectionState ==
-                                                      ConnectionState.done &&
-                                                  snapshot.data
-                                                      is DetalleDeVentasXid) {
-                                                DetalleDeVentasXid
-                                                    datosDetalle2 =
-                                                    snapshot.data;
-                                                return ListView.builder(
-                                                  scrollDirection:
-                                                      Axis.vertical,
-                                                  itemCount: datosDetalle2
-                                                      .detalleDeVentaNueva
-                                                      .length,
-                                                  itemBuilder: (_, i) =>
-                                                      _facturaItemList(datosDetalle2
-                                                          .detalleDeVentaNueva[i]),
-                                                );
-                                              } else {
-                                                return Center(
-                                                    child:
-                                                        CircularProgressIndicator());
-                                              }
-                                            }),
-                                      )
-                                    : SizedBox()),
-                          ],
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(15))
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 10, vertical:10),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                      flex: 1,
+                                      child: Text(
+                                        'Codigo',
+                                        style: TextStyle(
+                                            fontSize: size.width * 0.009,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                  Expanded(
+                                      flex: 3,
+                                      child: Text(
+                                        'Nombre del Producto',
+                                        style: TextStyle(
+                                            fontSize: size.width * 0.009,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                  Expanded(
+                                      flex: 1,
+                                      child: Text(
+                                        'Precio',
+                                        style: TextStyle(
+                                            fontSize: size.width * 0.009,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                  Expanded(
+                                      flex: 1,
+                                      child: Text(
+                                        'Cantidad',
+                                        style: TextStyle(
+                                            fontSize: size.width * 0.009,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                  Expanded(
+                                      flex: 1,
+                                      child: Text(
+                                        'ISV',
+                                        style: TextStyle(
+                                            fontSize: size.width * 0.009,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                  Expanded(
+                                      flex: 1,
+                                      child: Text(
+                                        'Descuento',
+                                        style: TextStyle(
+                                            fontSize: size.width * 0.009,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                  Expanded(
+                                      flex: 1,
+                                      child: Text(
+                                        'Total',
+                                        style: TextStyle(
+                                            fontSize: size.width * 0.009,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                  Expanded(
+                                      flex: 1,
+                                      child: Text(
+                                        'Opciones',
+                                        style: TextStyle(
+                                            fontSize: size.width * 0.009,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                ],
+                              ),
+                              Container(
+                                  width: size.width * 0.7,
+                                  height: size.height * 0.6,
+                                  child: (idVentaActual != -1)
+                                      ? Expanded(
+                                          child: FutureBuilder(
+                                              future: mostrardetalleventa(
+                                                  idVentaActual),
+                                              builder: (context,
+                                                  AsyncSnapshot<dynamic>
+                                                      snapshot) {
+                                                if (snapshot.connectionState ==
+                                                        ConnectionState.done &&
+                                                    snapshot.data
+                                                        is DetalleDeVentasXid) {
+                                                  DetalleDeVentasXid
+                                                      datosDetalle2 =
+                                                      snapshot.data;
+                                                  return ListView.builder(
+                                                    scrollDirection:
+                                                        Axis.vertical,
+                                                    itemCount: datosDetalle2
+                                                        .detalleDeVentaNueva
+                                                        .length,
+                                                    itemBuilder: (_, i) =>
+                                                        _facturaItemList(datosDetalle2
+                                                            .detalleDeVentaNueva[i]),
+                                                  );
+                                                } else {
+                                                  return Center(
+                                                      child:
+                                                          CircularProgressIndicator());
+                                                }
+                                              }),
+                                        )
+                                      : SizedBox()),
+                            ],
+                          ),
                         ),
                       ),
                     )
@@ -627,7 +608,7 @@ class _VentanaVentaState extends State<VentanaVenta> {
     return Container(
         decoration: BoxDecoration(color: Colors.white),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
               flex: 1,
@@ -741,17 +722,17 @@ class _VentanaVentaState extends State<VentanaVenta> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Cerrar Sesion"),
-          content: Text("¿Esta seguro que quiere anular la venta?"),
+          title: Text('Cerrar Sesion'),
+          content: Text('¿Esta seguro que quiere anular la venta?'),
           actions: <Widget>[
             ElevatedButton(
-              child: Text("Si"),
+              child: Text('Si'),
               onPressed: () {
                 eliminarVenta_Controller(idVentaActual.toString(), context);
               },
             ),
             ElevatedButton(
-              child: Text("No"),
+              child: Text('No'),
               onPressed: () {
                 Navigator.of(context).pop();
               },

@@ -32,7 +32,7 @@ class _CrearArqueoState extends State<CrearArqueo> {
                   ),
                   const SizedBox(height: 3),
                   const Text(
-                    'Por favor llene el campo',
+                    'Por favor ingrese la cantidad de dinero en efectivo que recibe al momento de abrir la caja.',
                     style: TextStyle(fontSize: 15, color: Color(0xff606060)),
                   ),
                   const SizedBox(height: 40),
@@ -58,46 +58,44 @@ class _CrearArqueoState extends State<CrearArqueo> {
                               SizedBox(
                                 height: 40,
                               ),
-                              TextButton(
-                                onPressed: null,
-                                child: Center(
-                                  child: ElevatedButton(
-                                      onPressed: () => crearArqueo_Controller(
-                                          efectivoAperturaController.text,
-                                          context),
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 10),
-                                        child: Text('Acetar'),
-                                      )),
-                                ),
+                              Row(
+                                children: [
+                                  TextButton(
+                                    onPressed: null,
+                                    child: Center(
+                                      child: ElevatedButton(
+                                          onPressed: () =>
+                                              crearArqueo_Controller(
+                                                  efectivoAperturaController
+                                                      .text,
+                                                  context),
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 10, vertical: 10),
+                                            child: Text('Aceptar'),
+                                          )),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  TextButton(
+                                    onPressed: null,
+                                    child: Center(
+                                      child: ElevatedButton(
+                                          onPressed: () =>
+                                              Navigator.pushReplacementNamed(
+                                                  context,
+                                                  'pantalla_principal'),
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 10, vertical: 10),
+                                            child: Text('Cancelar'),
+                                          )),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              TextButton(
-                                onPressed: null,
-                                child: Center(
-                                  child: ElevatedButton(
-                                      onPressed: () =>
-                                          Navigator.pushReplacementNamed(
-                                              context, 'pantalla_principal'),
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 10),
-                                        child: Text('Cancelar'),
-                                      )),
-                                ),
-                              ),
-                              /*TextButton(
-                                onPressed: () {
-                                  Navigator.popAndPushNamed(
-                                      context, 'pantalla_principal');
-                                },
-                                child: Text('Regresar',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 20)),
-                              )*/
                             ]),
                       ),
                     ),
