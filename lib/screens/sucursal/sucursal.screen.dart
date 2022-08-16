@@ -54,15 +54,14 @@ class _SucursalScreenState extends State<SucursalScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppTheme.primaryColor,
+        automaticallyImplyLeading: false,
         title: Text('Mantenimiento | Sucursal'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          )
-        ],
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.popAndPushNamed(context, 'mantenimiento');
+          },
+        ),
       ),
       body: Container(
         color: Colors.grey,

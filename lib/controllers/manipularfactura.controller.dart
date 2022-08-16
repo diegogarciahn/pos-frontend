@@ -308,27 +308,27 @@ class Totales {
 Totales calcularTotales(List<DetallesDeVenta?> detalleDeVenta) {
   Totales totales = Totales();
   for (var i = 0; i < detalleDeVenta.length; i++) {
-    totales.totalFactura =  totales.totalFactura + double.parse('${ detalleDeVenta[i]?.totalDetalleVenta }');
     if (detalleDeVenta[i]!.producto!.isExcento) {
-      totales.importeExcento = totales.importeExcento + double.parse('${ detalleDeVenta[i]?.totalDetalleVenta }');
+      totales.importeExcento = totales.importeExcento + (double.parse('${ detalleDeVenta[i]?.precioUnitario}')*double.parse('${ detalleDeVenta[i]?.cantidad}'));
     } else {
       if (detalleDeVenta[i]!.isvAplicado == '18.00') {
-        totales.importeGravado18 += (double.parse('${ detalleDeVenta[i]?.totalDetalleVenta  }')/1.18);
-        totales.isv18 += (totales.importeGravado18 * 0.18);
+        totales.importeGravado18 += ((double.parse('${ detalleDeVenta[i]?.precioUnitario}')*double.parse('${ detalleDeVenta[i]?.cantidad}'))/1.18);
       } else {
-        totales.importeGravado15 += (double.parse('${ detalleDeVenta[i]?.totalDetalleVenta  }')/1.15);
-        totales.isv15 += (totales.importeGravado15 * 0.15);
+        totales.importeGravado15 += ((double.parse('${ detalleDeVenta[i]?.precioUnitario}')*double.parse('${ detalleDeVenta[i]?.cantidad}'))/1.15);
       }
     }
   }
-  totales.subTotalFactura = totales.importeExcento + totales.importeGravado15 + totales.importeGravado18;
-  print('==========================================');
-  print('Total factura: ${totales.totalFactura}');
-  print('Total excento: ${totales.importeExcento}');
-  print('importe gravado 15%: ${totales.importeGravado15.toStringAsFixed(2)}');
-  print('isv 15%: ${totales.isv15.toStringAsFixed(2)}');
-  print('importe gravado 18%: ${totales.importeGravado18.toStringAsFixed(2)}');
-  print('isv 18%: ${totales.isv18.toStringAsFixed(2)}');
-  print('Sub total: ${totales.subTotalFactura.toStringAsFixed(2)}');
+  totales.isv18 += (totales.importeGravado18 * 0.18);
+  totales.isv15 += (totales.importeGravado15 * 0.15);
+  totales.subTotalFactura = totales.importeGravado15 + totales.importeGravado18 + totales.importeExcento;
+  totales.totalFactura = totales.importeExcento + totales.importeGravado15 + totales.importeGravado18 + totales.isv15 + totales.isv18;
+  // print('==========================================');
+  // print('Total factura: ${totales.totalFactura}');
+  // print('Total excento: ${totales.importeExcento}');
+  // print('importe gravado 15%: ${totales.importeGravado15.toStringAsFixed(2)}');
+  // print('isv 15%: ${totales.isv15.toStringAsFixed(2)}');
+  // print('importe gravado 18%: ${totales.importeGravado18.toStringAsFixed(2)}');
+  // print('isv 18%: ${totales.isv18.toStringAsFixed(2)}');
+  // print('Sub total: ${totales.subTotalFactura.toStringAsFixed(2)}');
   return totales;
 }

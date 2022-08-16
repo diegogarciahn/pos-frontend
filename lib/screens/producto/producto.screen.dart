@@ -163,18 +163,14 @@ class _PantallaProductoState extends State<PantallaProducto> {
             Expanded(
               child: Column(
                 children: [
-                  Container(
-                    width: 1200,
-                    height: 500,
-                    child: Expanded(
-                      child: ListView.builder(
-                        itemBuilder: (context, index) {
-                          return index == 0
-                              ? _searchBar()
-                              : _listItem(index - 1);
-                        },
-                        itemCount: tiposN.length + 1,
-                      ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        return index == 0
+                            ? _searchBar()
+                            : _listItem(index - 1);
+                      },
+                      itemCount: tiposN.length + 1,
                     ),
                   ),
                 ],
