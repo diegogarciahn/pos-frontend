@@ -170,27 +170,6 @@ Future filtrarFacturasPorFechaController(
   }
 }
 
-// Future filtrarFacturasPorIdTalonario(TextEditingController _textController,
-//     ListFactura callback, context) async {
-//   final token = await esperarToken(context);
-//   if (token != '') {
-//     final response = await filtrarFacturasPorTalonario(
-//         _textController.text.trim(), '', token);
-//     if (response is List<FacturaBuscada>) {
-//       callback(response);
-//       // Si no encontró ningúna coincidencia.
-//     } else if (response == 404) {
-//       dialogMensajeProblema(context,
-//           'No se encontró ningúna factura con el id de talonario: ${_textController.text.trim()}');
-//     } else if (response is MensajePeticion) {
-//       MensajePeticion mensajeError = response;
-//       dialogMensajeProblema(context, mensajeError.msg);
-//     } else if (response == 403) {
-//       Navigator.pushReplacementNamed(context, 'login');
-//     }
-//   }
-// }
-
 Future filtrarFacturasPorCAI(TextEditingController _textController,
     ListFactura callback, context) async {
   final token = await esperarToken(context);

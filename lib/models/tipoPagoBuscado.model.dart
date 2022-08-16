@@ -19,14 +19,14 @@ class TipoPagoBuscado {
 
   factory TipoPagoBuscado.fromJson(Map<String, dynamic> json) =>
       TipoPagoBuscado(
-        idTipoPago: json["idTipoPago"],
-        tipoDePago: json["tipoDePago"],
-        descripcionTipoPago: json["descripcionTipoPago"],
+        idTipoPago: json['idTipoPago'],
+        tipoDePago: json['tipoDePago'],
+        descripcionTipoPago: json['descripcionTipoPago'],
       );
 
   Map<String, dynamic> toJson() => {
-        "idTipoPago": idTipoPago,
-        "tipoDePago": tipoDePago,
-        "descripcionTipoPago": descripcionTipoPago,
+        'idTipoPago': idTipoPago,
+        'tipoDePago': tipoDePago,
+        'descripcionTipoPago': descripcionTipoPago,
       };
 }

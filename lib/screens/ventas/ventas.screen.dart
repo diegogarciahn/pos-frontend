@@ -554,37 +554,35 @@ class _VentanaVentaState extends State<VentanaVenta> {
                                   width: size.width * 0.7,
                                   height: size.height * 0.6,
                                   child: (idVentaActual != -1)
-                                      ? Expanded(
-                                          child: FutureBuilder(
-                                              future: mostrardetalleventa(
-                                                  idVentaActual),
-                                              builder: (context,
-                                                  AsyncSnapshot<dynamic>
-                                                      snapshot) {
-                                                if (snapshot.connectionState ==
-                                                        ConnectionState.done &&
-                                                    snapshot.data
-                                                        is DetalleDeVentasXid) {
-                                                  DetalleDeVentasXid
-                                                      datosDetalle2 =
-                                                      snapshot.data;
-                                                  return ListView.builder(
-                                                    scrollDirection:
-                                                        Axis.vertical,
-                                                    itemCount: datosDetalle2
-                                                        .detalleDeVentaNueva
-                                                        .length,
-                                                    itemBuilder: (_, i) =>
-                                                        _facturaItemList(datosDetalle2
-                                                            .detalleDeVentaNueva[i]),
-                                                  );
-                                                } else {
-                                                  return Center(
-                                                      child:
-                                                          CircularProgressIndicator());
-                                                }
-                                              }),
-                                        )
+                                      ? FutureBuilder(
+                                          future: mostrardetalleventa(
+                                              idVentaActual),
+                                          builder: (context,
+                                              AsyncSnapshot<dynamic>
+                                                  snapshot) {
+                                            if (snapshot.connectionState ==
+                                                    ConnectionState.done &&
+                                                snapshot.data
+                                                    is DetalleDeVentasXid) {
+                                              DetalleDeVentasXid
+                                                  datosDetalle2 =
+                                                  snapshot.data;
+                                              return ListView.builder(
+                                                scrollDirection:
+                                                    Axis.vertical,
+                                                itemCount: datosDetalle2
+                                                    .detalleDeVentaNueva
+                                                    .length,
+                                                itemBuilder: (_, i) =>
+                                                    _facturaItemList(datosDetalle2
+                                                        .detalleDeVentaNueva[i]),
+                                              );
+                                            } else {
+                                              return Center(
+                                                  child:
+                                                      CircularProgressIndicator());
+                                            }
+                                          })
                                       : SizedBox()),
                             ],
                           ),

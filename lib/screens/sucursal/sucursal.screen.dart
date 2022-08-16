@@ -55,6 +55,14 @@ class _SucursalScreenState extends State<SucursalScreen> {
       appBar: AppBar(
         backgroundColor: AppTheme.primaryColor,
         title: Text('Mantenimiento | Sucursal'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          )
+        ],
       ),
       body: Container(
         color: Colors.grey,
@@ -64,7 +72,6 @@ class _SucursalScreenState extends State<SucursalScreen> {
               color: Colors.white,
               margin: EdgeInsets.symmetric(
                   horizontal: width * 0.3, vertical: height * 0.02),
-              height: height * 0.65,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

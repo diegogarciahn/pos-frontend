@@ -16,7 +16,6 @@ Future traerFactura(String token) async {
     var response = await http
         .post(Uri.parse(API_URL + 'traerFacturas'), body: ({'token': token}))
         .timeout(Duration(seconds: 15));
-    print(response.statusCode);
     if (response.statusCode == 200) {
       final facturas = manipularFacturaResponseFromJson(response.body);
       return facturas;
@@ -65,19 +64,14 @@ Future filtrarFacturasPorCliente(
     } else if (dni.isNotEmpty) {
       url = url + '?dni=$dni';
     }
-    print(url);
     var response = await http.post(Uri.parse(url), body: {'token': token});
-    print(response.request);
     if (response.statusCode == 200) {
       final facturas = manipularFacturaResponseFromJson(response.body);
-      print(facturas.facturas);
       return facturas.facturas;
     } else if (response.statusCode == 404) {
       return response.statusCode;
     } else if (response.statusCode == 400) {
-      print(response.statusCode);
       final error = mensajePeticionFromJson(response.body);
-      print(error);
       return error;
     } else if (response.statusCode == 403) {
       return 403;
@@ -99,19 +93,14 @@ Future filtrarFacturasPorFecha(
     } else if (fecha1.isNotEmpty && fecha2.isEmpty) {
       url = url + '?fecha1=$fecha1';
     }
-    print(url);
     var response = await http.post(Uri.parse(url), body: {'token': token});
-    print(response.request);
     if (response.statusCode == 200) {
       final facturas = manipularFacturaResponseFromJson(response.body);
-      print(facturas.facturas);
       return facturas.facturas;
     } else if (response.statusCode == 404) {
       return response.statusCode;
     } else if (response.statusCode == 400) {
-      print(response.statusCode);
       final error = mensajePeticionFromJson(response.body);
-      print(error);
       return error;
     } else if (response.statusCode == 403) {
       return 403;
@@ -129,19 +118,14 @@ Future filtrarFacturasPorTalonario(
   String url = API_URL + 'buscarfacturaportalonario/';
   try {
     url = url + '?cai=$cai';
-    print(url);
     var response = await http.post(Uri.parse(url), body: {'token': token});
-    print(response.request);
     if (response.statusCode == 200) {
       final facturas = manipularFacturaResponseFromJson(response.body);
-      print(facturas.facturas);
       return facturas.facturas;
     } else if (response.statusCode == 404) {
       return response.statusCode;
     } else if (response.statusCode == 400) {
-      print(response.statusCode);
       final error = mensajePeticionFromJson(response.body);
-      print(error);
       return error;
     } else if (response.statusCode == 403) {
       return 403;
@@ -158,18 +142,14 @@ Future filtrarFacturasPorEmpleado(String nombreEmpleado, String token) async {
   String url = API_URL + 'buscarfacturaporempleado/';
   try {
     url = url + '?nombre=$nombreEmpleado';
-    print(url);
     var response = await http.post(Uri.parse(url), body: {'token': token});
-    print(response.request);
     if (response.statusCode == 200) {
       final facturas = manipularFacturaResponseFromJson(response.body);
       return facturas.facturas;
     } else if (response.statusCode == 404) {
       return response.statusCode;
     } else if (response.statusCode == 400) {
-      print(response.statusCode);
       final error = mensajePeticionFromJson(response.body);
-      print(error);
       return error;
     } else if (response.statusCode == 403) {
       return 403;
@@ -182,7 +162,7 @@ Future filtrarFacturasPorEmpleado(String nombreEmpleado, String token) async {
 }
 
 Future mostrarDatosDeUnaFactura(String numeroFactura, String token) async {
-  String url = 'http://localhost:8080/api/traerunafactura/';
+  String url = API_URL+'traerunafactura/';
   if (numeroFactura.isNotEmpty) {
     url = url + '?numeroFactura=$numeroFactura';
   }

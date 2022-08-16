@@ -332,12 +332,8 @@ class _EscogerVentaPruebState extends State<EscogerVentaPrueb> {
                                             Expanded(
                                               flex: 1,
                                               child: TextButton(
-                                                onPressed: () => procesarVenta(
-                                                        listaVenta[index]
-                                                            .id
-                                                            .toString())
-                                                    .then(
-                                                  (value) => Navigator.push(
+                                                onPressed: () {
+                                                  Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
                                                       builder: (context) =>
@@ -346,8 +342,8 @@ class _EscogerVentaPruebState extends State<EscogerVentaPrueb> {
                                                             listaVenta[index],
                                                       ),
                                                     ),
-                                                  ),
-                                                ),
+                                                  );
+                                                },
                                                 child: Text('Procesar'),
                                               ),
                                             ),

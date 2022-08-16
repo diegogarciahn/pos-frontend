@@ -9,13 +9,15 @@ Future crearFactura(
   Factura? factura = null;
   List<Factura?> facturaCreada = [];
   try {
-    var response = await http.post(Uri.parse(API_URL + "gene/insertfact"),
+    var response = await http.post(Uri.parse(API_URL + 'gene/insertfact'),
         body: ({'idVenta': idVenta, 'idTipoPago': idTipoPago, 'token': token}));
     if (response.statusCode == 200) {
       final facturaInsertada = facturaFromJson(response.body);
       return facturaInsertada;
-    } else {}
-    return facturaCreada;
+    } else if (response.statusCode == 500) {
+      print(response.statusCode);
+      return 500;
+    }
   } catch (e) {
     return facturaCreada;
   } finally {

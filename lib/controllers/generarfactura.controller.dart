@@ -3,6 +3,7 @@ import 'package:soft_frontend/constans.dart';
 
 import '../models/crearFactura.model.dart';
 import '../screens/manipularFactura/manipularfactura.screen.dart';
+import '../models/crearFactura.model.dart';
 import '../services/generarFactura.service.dart';
 import '../services/sharepreference.service.dart';
 
@@ -22,13 +23,13 @@ Future paToken(BuildContext context) async {
   }
 }
 
-Future<Factura?> crearFactura_Controller(
+Future crearFactura_Controller(
     String idVenta, String idTipoPago, context) async {
   final token = await paToken(context);
   if (token != '') {
     if (idVenta.isNotEmpty && idTipoPago.isNotEmpty) {
       final factura = await crearFactura(idVenta, idTipoPago, token, context);
-      if (factura != null) {
+      if (factura is Factura) {
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Factura añadido con exito")));
         return factura;

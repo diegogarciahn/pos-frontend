@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:soft_frontend/models/ventaBuscada.model.dart';
 import 'package:soft_frontend/screens/generarFactura/components/alertaimpresion.component.dart';
+import 'package:soft_frontend/screens/manipularFactura/components/dialogMensajeProblema.component.dart';
 import '../../controllers/generarfactura.controller.dart';
 import '../../models/tipoPagoBuscado.model.dart';
 import '../../services/tipoPago.service.dart';
+import '../../services/ventas.service.dart';
 import 'escogerVenta.screen.dart';
 
 class CrearFactura extends StatefulWidget {
@@ -19,27 +21,28 @@ bool _hasBeenPressed = false;
 
 class _CrearFacturaState extends State<CrearFactura> {
   List<TipoPagoBuscado> tipoPagos = [];
+  bool selecciono = false;
   var idVentaController = TextEditingController();
-  var totalISVController = TextEditingController();
-  var totalVentaController = TextEditingController();
-  var totalDecuentoVentaController = TextEditingController();
-  var puntoEmisionController = TextEditingController();
-  var establecimientoController = TextEditingController();
-  var subTotalExoneradoController = TextEditingController();
-  var cantidadLetrasController = TextEditingController();
-  var idTipoPagoController = TextEditingController();
-  var idUsuarioController = TextEditingController();
-  var idClienteController = TextEditingController();
-  var nombreClienteController = TextEditingController();
-  var rtnClienteController = TextEditingController();
-  var dniClienteController = TextEditingController();
-  var direccionClienteController = TextEditingController();
-  var telefonoClienteController = TextEditingController();
-  var idEmpleadoController = TextEditingController();
-  var nombreEmpleadoController = TextEditingController();
+  // var totalISVController = TextEditingController();
+  // var totalVentaController = TextEditingController();
+  // var totalDecuentoVentaController = TextEditingController();
+  // var puntoEmisionController = TextEditingController();
+  // var establecimientoController = TextEditingController();
+  // var subTotalExoneradoController = TextEditingController();
+  // var cantidadLetrasController = TextEditingController();
+  String idTipoPagoController = '';
+  // var idUsuarioController = TextEditingController();
+  // var idClienteController = TextEditingController();
+  // var nombreClienteController = TextEditingController();
+  // var rtnClienteController = TextEditingController();
+  // var dniClienteController = TextEditingController();
+  // var direccionClienteController = TextEditingController();
+  // var telefonoClienteController = TextEditingController();
+  // var idEmpleadoController = TextEditingController();
+  // var nombreEmpleadoController = TextEditingController();
   var estadoController = TextEditingController();
   //colocar fecha de hoy en un controlador
-  var FechaController = TextEditingController();
+  // var FechaController = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -54,25 +57,32 @@ class _CrearFacturaState extends State<CrearFactura> {
   Widget build(BuildContext context) {
     estadoController.text = '1';
     idVentaController.text = widget.venta.id.toString();
-    totalISVController.text = widget.venta.totalIsv.toString();
-    totalVentaController.text = widget.venta.totalVenta.toString();
-    totalDecuentoVentaController.text =
-        widget.venta.totalDescuentoVenta.toString();
-    puntoEmisionController.text = widget.venta.puntoDeEmision.toString();
-    establecimientoController.text = widget.venta.establecimiento.toString();
-    idUsuarioController.text = widget.venta.idUsuario.toString();
-    idClienteController.text = widget.venta.idCliente.toString();
-    nombreClienteController.text = widget.venta.nombreCliente.toString();
-    dniClienteController.text = widget.venta.dni.toString();
-    rtnClienteController.text = widget.venta.rtn.toString();
-    direccionClienteController.text = widget.venta.direccionCliente.toString();
-    idEmpleadoController.text = widget.venta.idEmpleado.toString();
-    nombreEmpleadoController.text = widget.venta.nombreEmpleado.toString();
+    // totalISVController.text = widget.venta.totalIsv.toString();
+    // totalVentaController.text = widget.venta.totalVenta.toString();
+    // totalDecuentoVentaController.text =
+    //     widget.venta.totalDescuentoVenta.toString();
+    // puntoEmisionController.text = widget.venta.puntoDeEmision.toString();
+    // establecimientoController.text = widget.venta.establecimiento.toString();
+    // idUsuarioController.text = widget.venta.idUsuario.toString();
+    // idClienteController.text = widget.venta.idCliente.toString();
+    // nombreClienteController.text = widget.venta.nombreCliente.toString();
+    // dniClienteController.text = widget.venta.dni.toString();
+    // rtnClienteController.text = widget.venta.rtn.toString();
+    // direccionClienteController.text = widget.venta.direccionCliente.toString();
+    // idEmpleadoController.text = widget.venta.idEmpleado.toString();
+    // nombreEmpleadoController.text = widget.venta.nombreEmpleado.toString();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text('Procesar Tipo de pago para la factura'),
-        centerTitle: true,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+            _hasBeenPressed = false;
+          },
+        ),
       ),
       body: Container(
         decoration: BoxDecoration(color: Colors.white),
@@ -91,10 +101,10 @@ class _CrearFacturaState extends State<CrearFactura> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: const [
                   Text(
                     'Seleccione un metodo de pago: ',
-                    style: GoogleFonts.adamina(
+                    style: TextStyle(
                         fontSize: 20,
                         color: Colors.black,
                         fontWeight: FontWeight.w500),
@@ -103,41 +113,55 @@ class _CrearFacturaState extends State<CrearFactura> {
                 ],
               ),
             ),
-            Expanded(child: _listViewTipoPag()),
+            (selecciono)
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          selecciono = false;
+                          _hasBeenPressed = false;
+                          setState(() {});
+                        },
+                        child: Text('Volver a seleccionar un método de pago'),
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.red)),
+                      ),
+                    ],
+                  )
+                : Expanded(flex: 7, child: _listViewTipoPag()),
             SizedBox(
               height: 20,
             ),
-            Column(
-              children: [
-                TextButton(
-                  onPressed: null,
-                  child: Center(
-                    child: ElevatedButton(
-                        onPressed: () async {
+            Expanded(
+              flex: 3,
+              child: TextButton(
+                onPressed: null,
+                child: Center(
+                  child: ElevatedButton(
+                      onPressed: () async {
+                        if (selecciono) {
+                          print(idTipoPagoController);
+                          procesarVenta(idVentaController.text);
                           crearFactura_Controller(idVentaController.text,
-                                  idTipoPagoController.text, context)
+                                  idTipoPagoController, context)
                               .then((value) {
                             dialogOpcionDeImpresion(context, value!, 1);
-
-                            // descargarFacturaOriginal(context,
-                            //     value!.insertfactura.numeroFactura, 1, 1);
-                          }
-                                  // => Navigator.push(
-                                  //       context,
-                                  //       MaterialPageRoute(
-                                  //         builder: (context) => ManipularFactura(),
-                                  //       ),
-                                  //     )
-                                  );
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 10),
-                          child: Text('Procesar Factura'),
-                        )),
-                  ),
+                            _hasBeenPressed = false;
+                          });
+                        } else {
+                          dialogMensajeProblema(context,
+                              'Por favor seleccione un método de pago');
+                        }
+                      },
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        child: Text('Procesar Factura'),
+                      )),
                 ),
-              ],
+              ),
             ),
           ],
         ),
@@ -147,6 +171,7 @@ class _CrearFacturaState extends State<CrearFactura> {
 
   ListView _listViewTipoPag() {
     return ListView.separated(
+      scrollDirection: Axis.horizontal,
       physics: BouncingScrollPhysics(),
       separatorBuilder: (_, i) => Divider(),
       itemCount: tipoPagos.length,
@@ -156,34 +181,34 @@ class _CrearFacturaState extends State<CrearFactura> {
 
   Container _pagoItemList(TipoPagoBuscado tipoPago) {
     return Container(
-        decoration: BoxDecoration(color: Colors.white),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            RaisedButton(
-              color: _hasBeenPressed
-                  ? Color.fromARGB(255, 255, 255, 255)
-                  : Color.fromARGB(255, 227, 233, 239),
-              onPressed: () => {
-                setState(() {
-                  idTipoPagoController.text = tipoPago.idTipoPago.toString();
-                  _hasBeenPressed = !_hasBeenPressed;
-                })
-              },
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                child: Text(
-                  tipoPago.idTipoPago.toString() +
-                      '    -    ' +
-                      tipoPago.tipoDePago,
-                  style: GoogleFonts.adamina(
-                      fontSize: 20,
-                      color: Colors.blue,
-                      fontWeight: FontWeight.w500),
-                ),
-              ),
+        margin: EdgeInsets.symmetric(horizontal: 10),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(25))),
+        child: RaisedButton(
+          padding: EdgeInsets.symmetric(horizontal:20),
+          
+          color: _hasBeenPressed
+              ? Color.fromARGB(255, 255, 255, 255)
+              : Color.fromARGB(255, 227, 233, 239),
+          onPressed: () => {
+            setState(() {
+              idTipoPagoController = tipoPago.idTipoPago.toString();
+              _hasBeenPressed = !_hasBeenPressed;
+              selecciono = true;
+              setState(() {});
+            })
+          },
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Text(
+              tipoPago.tipoDePago,
+              style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.blue,
+                  fontWeight: FontWeight.w500),
             ),
-          ],
+          ),
         ));
   }
 }
