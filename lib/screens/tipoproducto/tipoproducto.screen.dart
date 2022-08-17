@@ -1,42 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
+
 import 'package:google_fonts/google_fonts.dart';
+
 import 'package:soft_frontend/constans.dart';
 import 'package:soft_frontend/controllers/tipoproducto.controller.dart';
-import 'package:soft_frontend/screens/producto/producto.screen.dart';
 import 'package:soft_frontend/models/Tipoproducto.model.dart';
 import 'package:soft_frontend/services/tipoproducto.service.dart';
 
-void TipoProducto() {
-  runApp(const PantallaTipoProducto());
-}
-
-class PantallaTipoProducto extends StatelessWidget {
+class PantallaTipoProducto extends StatefulWidget {
   const PantallaTipoProducto({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Tipo Producto',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Tipo Producto'),
-    );
-  }
+  State<PantallaTipoProducto> createState() => _PantallaTipoProductoState();
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
+class _PantallaTipoProductoState extends State<PantallaTipoProducto> {
   int _counter = 0;
   List<Tipoproducto> tipos = <Tipoproducto>[];
   List<Tipoproducto> tiposN = <Tipoproducto>[];
@@ -44,20 +24,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<List<Tipoproducto>> fetchNotes2() async {
     var data = [];
-    var url = Uri.parse(API_URL + "producto/mostrartipos");
+    var url = Uri.parse(API_URL + 'producto/mostrartipos');
     var response = await http.get(url);
     List<Tipoproducto> users = [];
 
     try {
       if (response.statusCode == 200) {
         var units = (json.decode(response.body)
-            as Map<String, dynamic>)["tipoProducto"];
+            as Map<String, dynamic>)['tipoProducto'];
         for (var u in units) {
           Tipoproducto user = Tipoproducto(
-              id: u["id"],
-              tipoProducto: u["tipoProducto"],
-              descripcionProducto: u["descripcionProducto"],
-              isvTipoProducto: u["isvTipoProducto"]);
+              id: u['id'],
+              tipoProducto: u['tipoProducto'],
+              descripcionProducto: u['descripcionProducto'],
+              isvTipoProducto: u['isvTipoProducto']);
           users.add(user);
         }
       } else {
@@ -89,13 +69,17 @@ class _MyHomePageState extends State<MyHomePage> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.popAndPushNamed(context, 'PantallaProductos');
+                Navigator.maybePop(context).then((value) {
+                  if (!value) {
+                    Navigator.popAndPushNamed(context, 'mantenimiento/productos');
+                  }
+                });
               },
               child: Text('Regresar',
                   style: TextStyle(color: Colors.white, fontSize: 20)),
             ),
           ],
-          title: Text(widget.title),
+          title: Text('Tipos de productos'),
         ),
         body: Row(
           children: [
@@ -193,7 +177,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: Text(
-                          "Tipo de Producto",
+                          'Tipo de Producto',
                           style: TextStyle(fontSize: 18),
                         ),
                       ),
@@ -206,7 +190,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: Text(
-                          "Descripción",
+                          'Descripción',
                           style: TextStyle(fontSize: 18),
                         ),
                       ),
@@ -219,7 +203,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: Text(
-                          "ISV",
+                          'ISV',
                           style: TextStyle(fontSize: 18),
                         ),
                       ),
@@ -335,7 +319,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Tipo de Producto",
+                        'Tipo de Producto',
                         style: TextStyle(fontSize: 18),
                       ),
                       TextFormField(
@@ -347,7 +331,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: 40,
                       ),
                       Text(
-                        "Descripción",
+                        'Descripción',
                         style: TextStyle(fontSize: 18),
                       ),
                       TextFormField(
@@ -359,7 +343,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: 40,
                       ),
                       Text(
-                        "ISV",
+                        'ISV',
                         style: TextStyle(fontSize: 18),
                       ),
                       TextFormField(
@@ -419,7 +403,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Tipo de Producto",
+                        'Tipo de Producto',
                         style: TextStyle(fontSize: 18),
                       ),
                       TextFormField(
@@ -431,7 +415,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: 40,
                       ),
                       Text(
-                        "Descripción",
+                        'Descripción',
                         style: TextStyle(fontSize: 18),
                       ),
                       TextFormField(
@@ -443,7 +427,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: 40,
                       ),
                       Text(
-                        "ISV",
+                        'ISV',
                         style: TextStyle(fontSize: 18),
                       ),
                       TextFormField(
@@ -490,7 +474,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Expanded(
                 flex: 1,
                 child: TextButton(
-                  child: Text("Actualizar"),
+                  child: Text('Actualizar'),
                   onPressed: () {
                     _ventanaActualizar(
                         context,
@@ -503,7 +487,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Expanded(
                 flex: 1,
                 child: TextButton(
-                  child: Text("Eliminar"),
+                  child: Text('Eliminar'),
                   onPressed: () {
                     _ventanaEliminar2(context, tiposN[index].id.toString());
                   },
@@ -525,28 +509,28 @@ class _MyHomePageState extends State<MyHomePage> {
             Expanded(
               flex: 1,
               child: Text(
-                "Tipo producto",
+                'Tipo producto',
                 style: GoogleFonts.lato(fontSize: 15),
               ),
             ),
             Expanded(
               flex: 2,
               child: Text(
-                "Descripción",
+                'Descripción',
                 style: GoogleFonts.lato(fontSize: 15),
               ),
             ),
             Expanded(
               flex: 1,
               child: Text(
-                "Descripción",
+                'Descripción',
                 style: GoogleFonts.lato(fontSize: 15),
               ),
             ),
             Expanded(
               flex: 1,
               child: Text(
-                "Descripción",
+                'Descripción',
                 style: GoogleFonts.lato(fontSize: 15),
               ),
             ),
@@ -573,7 +557,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Acción realizada con éxito.",
+                        'Acción realizada con éxito.',
                         style: TextStyle(fontSize: 18),
                       ),
                       SizedBox(
@@ -622,7 +606,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "¿Está seguro de eliminar el tipo de producto?",
+                          '¿Está seguro de eliminar el tipo de producto?',
                           style: TextStyle(fontSize: 18),
                         ),
                         SizedBox(
@@ -682,7 +666,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Ocurrio un error al realizar esta acción, intente de nuevo.",
+                        'Ocurrio un error al realizar esta acción, intente de nuevo.',
                         style: TextStyle(fontSize: 18),
                       ),
                       SizedBox(

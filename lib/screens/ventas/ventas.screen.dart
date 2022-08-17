@@ -19,8 +19,6 @@ class VentanaVenta extends StatefulWidget {
   State<VentanaVenta> createState() => _VentanaVentaState();
 }
 
-
-
 class _VentanaVentaState extends State<VentanaVenta> {
   var rtnController = TextEditingController();
   var dniController = TextEditingController();
@@ -47,7 +45,6 @@ class _VentanaVentaState extends State<VentanaVenta> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -55,7 +52,11 @@ class _VentanaVentaState extends State<VentanaVenta> {
         actions: <Widget>[
           TextButton(
             onPressed: () {
-              Navigator.popAndPushNamed(context, 'PrincipalVentas');
+              Navigator.maybePop(context).then((value) {
+                (!value)
+                    ? Navigator.popAndPushNamed(context, 'PrincipalVenta')
+                    : null;
+              });
             },
             child: Text('Regresar',
                 style: TextStyle(color: Colors.white, fontSize: 20)),
@@ -85,7 +86,7 @@ class _VentanaVentaState extends State<VentanaVenta> {
                   width: size.width,
                   // color: Colors.green,
                   child: SingleChildScrollView(
-                     scrollDirection: Axis.horizontal,
+                    scrollDirection: Axis.horizontal,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -95,8 +96,7 @@ class _VentanaVentaState extends State<VentanaVenta> {
                               if (botonesHabilitados) {
                                 null;
                               } else {
-                                Navigator.pushNamed(
-                                    context, 'crear_cliente');
+                                Navigator.pushNamed(context, '/venta/crear_cliente');
                               }
                             },
                             child: Padding(
@@ -132,9 +132,11 @@ class _VentanaVentaState extends State<VentanaVenta> {
                         ),
                         TextButton(
                             onPressed: () async {
-
-                              final respuesta = await habilitarVenta(dniController,
-                                  nombreCliente, telCliente, context);
+                              final respuesta = await habilitarVenta(
+                                  dniController,
+                                  nombreCliente,
+                                  telCliente,
+                                  context);
 
                               if (respuesta is IdVenta) {
                                 idVentaActual = respuesta.id;
@@ -199,45 +201,47 @@ class _VentanaVentaState extends State<VentanaVenta> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                          width: size.width * 0.2,
-                          child: Padding(
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: Text(
-                                      'Excento',
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                  ),
-                        ),
-                        Container(
-                          width: size.width * 0.20,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: RadioListTile<int>(
-                                value: 1,
-                                groupValue: isExcento,
-                                title: Text('Si', style: TextStyle(fontSize: 15),
-                                ),
-                                onChanged: (value) { setState(() => isExcento = 1);
-                                isExcento2 = true;
-                                },
+                            width: size.width * 0.2,
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: Text(
+                                'Excento',
+                                style: TextStyle(fontSize: 15),
                               ),
                             ),
-                              Expanded(
-                              child: RadioListTile<int>(
-                              value: 0,
-                              groupValue: isExcento,
-                              title: Text('No',  style: TextStyle(fontSize: 15)),
-                              onChanged: (value) {
-                              setState(() => isExcento = 0);
-                              isExcento2 = false;
-                              }
+                          ),
+                          Container(
+                            width: size.width * 0.20,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: RadioListTile<int>(
+                                    value: 1,
+                                    groupValue: isExcento,
+                                    title: Text(
+                                      'Si',
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    onChanged: (value) {
+                                      setState(() => isExcento = 1);
+                                      isExcento2 = true;
+                                    },
+                                  ),
+                                ),
+                                Expanded(
+                                  child: RadioListTile<int>(
+                                      value: 0,
+                                      groupValue: isExcento,
+                                      title: Text('No',
+                                          style: TextStyle(fontSize: 15)),
+                                      onChanged: (value) {
+                                        setState(() => isExcento = 0);
+                                        isExcento2 = false;
+                                      }),
+                                ),
+                              ],
                             ),
                           ),
-                      ],
-                    ),
-                        ),
-
                           Container(
                             width: size.width * 0.2,
                             child: TextFormField(
@@ -475,10 +479,11 @@ class _VentanaVentaState extends State<VentanaVenta> {
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(15))
-                        ),
-                        padding: EdgeInsets.symmetric(horizontal: 10, vertical:10),
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(15))),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                         child: SingleChildScrollView(
                           child: Column(
                             children: [
@@ -558,21 +563,17 @@ class _VentanaVentaState extends State<VentanaVenta> {
                                           future: mostrardetalleventa(
                                               idVentaActual),
                                           builder: (context,
-                                              AsyncSnapshot<dynamic>
-                                                  snapshot) {
+                                              AsyncSnapshot<dynamic> snapshot) {
                                             if (snapshot.connectionState ==
                                                     ConnectionState.done &&
                                                 snapshot.data
                                                     is DetalleDeVentasXid) {
-                                              DetalleDeVentasXid
-                                                  datosDetalle2 =
+                                              DetalleDeVentasXid datosDetalle2 =
                                                   snapshot.data;
                                               return ListView.builder(
-                                                scrollDirection:
-                                                    Axis.vertical,
+                                                scrollDirection: Axis.vertical,
                                                 itemCount: datosDetalle2
-                                                    .detalleDeVentaNueva
-                                                    .length,
+                                                    .detalleDeVentaNueva.length,
                                                 itemBuilder: (_, i) =>
                                                     _facturaItemList(datosDetalle2
                                                         .detalleDeVentaNueva[i]),

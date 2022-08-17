@@ -46,6 +46,13 @@ class _TalonariosScreenState extends State<TalonariosScreen> {
       appBar: AppBar(
         backgroundColor: AppTheme.primaryColor,
         title: const Text('Mantenimiento | Talonarios'),
+        leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: (){
+          Navigator.maybePop(context).then((value) {
+            if (!value) {
+              Navigator.popAndPushNamed(context, 'mantenimiento');
+            }
+          });
+        },),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.horizontal,

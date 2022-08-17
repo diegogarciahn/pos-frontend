@@ -1,5 +1,5 @@
 // ignore_for_file: prefer_const_constructors
-
+import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:soft_frontend/controllers/cliente.controller.dart';
 import 'package:soft_frontend/services/cliente.service.dart';
@@ -17,13 +17,30 @@ class _CrearClientesState extends State<CrearClientes> {
   var telefonoController = TextEditingController();
   var emailController = TextEditingController();
 
+  regresarPantalla(context) {
+    String ruta = ModalRoute.of(context)!.settings.name.toString();
+    Navigator.maybePop(context).then((value) {
+      if (!value) {
+        if (ruta == '/venta/crear_cliente') {
+          Navigator.popAndPushNamed(context, 'ventas');
+        } else {
+          Navigator.popAndPushNamed(context, 'traer_clientes');
+        }
+      }
+    });
+  }
+
   @override
   Widget build(context) =>
       Scaffold(body: LayoutBuilder(builder: (context, constraints) {
         return Scaffold(
           appBar: AppBar(
-            leading: IconButton(icon: const Icon( Icons.arrow_back),
-            onPressed: () {Navigator.pushReplacementNamed(context, 'traer_clientes');},),
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                regresarPantalla(context);
+              },
+            ),
             title: Text('Crear Cliente'),
           ),
           body: SingleChildScrollView(
@@ -50,8 +67,8 @@ class _CrearClientesState extends State<CrearClientes> {
                         width: 500,
                         color: Colors.white,
                         child: Padding(
-                          padding: const EdgeInsets.all(40),
-                          child: Column(
+                            padding: const EdgeInsets.all(40),
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
@@ -102,7 +119,8 @@ class _CrearClientesState extends State<CrearClientes> {
                                   controller: direccionController,
                                   decoration: InputDecoration(
                                       border: UnderlineInputBorder(),
-                                      hintText: 'Barrio las vegas, Choluteca, Honduras'),
+                                      hintText:
+                                          'Barrio las vegas, Choluteca, Honduras'),
                                 ),
                                 SizedBox(
                                   height: 40,
@@ -133,44 +151,48 @@ class _CrearClientesState extends State<CrearClientes> {
                                 SizedBox(
                                   height: 40,
                                 ),
-                                Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                                TextButton(
-                                  onPressed: null,
-                                  child: Center(
-                                    child: ElevatedButton(
-                                        onPressed: () => crearCliente_Controller(
-                                            dniController.text,
-                                            emailController.text,
-                                            rtnController.text,
-                                            nombreController.text,
-                                            direccionController.text,
-                                            telefonoController.text,
-                                            context
-                                            ),
-                                          child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 10, vertical: 10),
-                                          child: Text('Aceptar'),
-                                        )),
-                                  ),
-                                ),
-                                TextButton(
-                                  onPressed: null,
-                                  child: Center(
-                                      child: ElevatedButton(
-                                        onPressed: () => Navigator.pushReplacementNamed(context,'traer_clientes'),
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 10, vertical: 10),
-                                          child: Text('Cancelar'),
-                                        )        
-                                    )
-                                  ) 
-                                ),
-                              ]),
-                            ],
-                          )
-                        ),
+                                Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      TextButton(
+                                        onPressed: null,
+                                        child: Center(
+                                          child: ElevatedButton(
+                                              onPressed: () =>
+                                                  crearCliente_Controller(
+                                                      dniController.text,
+                                                      emailController.text,
+                                                      rtnController.text,
+                                                      nombreController.text,
+                                                      direccionController.text,
+                                                      telefonoController.text,
+                                                      context),
+                                              child: Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 10,
+                                                    vertical: 10),
+                                                child: Text('Aceptar'),
+                                              )),
+                                        ),
+                                      ),
+                                      TextButton(
+                                          onPressed: null,
+                                          child: Center(
+                                              child: ElevatedButton(
+                                                  onPressed: () {
+                                                    regresarPantalla(context);
+                                                  },
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 10,
+                                                            vertical: 10),
+                                                    child: Text('Cancelar'),
+                                                  )))),
+                                    ]),
+                              ],
+                            )),
                       ),
                     )
                   ],

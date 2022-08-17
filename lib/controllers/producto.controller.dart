@@ -7,6 +7,8 @@ import 'package:soft_frontend/screens/login/login.screen.dart';
 import '../models/Producto.model.dart';
 import 'package:soft_frontend/services/sharepreference.service.dart';
 import '../models/user.model.dart';
+import '../screens/producto/components/ventanaerror.component.dart';
+import '../screens/producto/components/ventanaexito.component.dart';
 import '../services/producto.service.dart';
 import '../screens/producto/producto.screen.dart' as global;
 
@@ -28,8 +30,7 @@ Future expectToken(BuildContext context) async {
   }
 }
 
-
-Future <String> expectSesion(BuildContext context) async {
+Future<String> expectSesion(BuildContext context) async {
   final idUser = await usercontroller().catchError((error) {
     return '';
   });
@@ -47,7 +48,7 @@ Future<User> usercontroller() async {
   return userfinal;
 }
 
-Future <String> expectUser(BuildContext context) async {
+Future<String> expectUser(BuildContext context) async {
   final idUser = await usercontroller().catchError((error) {
     return '';
   });
@@ -58,7 +59,7 @@ Future <String> expectUser(BuildContext context) async {
   }
 }
 
-Future <String> expectIdSesion(BuildContext context) async {
+Future<String> expectIdSesion(BuildContext context) async {
   final idUser = await usercontroller().catchError((error) {
     return '';
   });
@@ -67,39 +68,6 @@ Future <String> expectIdSesion(BuildContext context) async {
   } else {
     return '';
   }
-}
-
-
-bool pruebaControlador(
-    String codigoProducto,
-    String nombreProducto,
-    String precioProducto,
-    String cantidadProducto,
-    String isvProducto,
-    String descProducto,
-    String isExcento,
-    String idTipoProducto,
-    XFile pickedFile,
-    context) {
-  bool funciona = false;
-  Producto producto = Producto();
-  Future<Producto?> producto2 = crearProductoController(
-      codigoProducto,
-      nombreProducto,
-      precioProducto,
-      cantidadProducto,
-      isvProducto,
-      descProducto,
-      isExcento,
-      idTipoProducto,
-      pickedFile,
-      context);
-  if (producto2 != null) {
-    funciona = true;
-  } else {    
-    funciona = false;
-  }
-  return funciona;
 }
 
 bool controladorActualizarSinProducto(
@@ -113,24 +81,24 @@ bool controladorActualizarSinProducto(
     String isExcento,
     String idTipoProducto,
     context) {
-    bool funciona = false;
-    Producto producto = Producto();
-    Future<Producto?> producto2 = actualizaProductoControllerN(
-        idProducto,
-        codigoProducto,
-        nombreProducto,
-        precioProducto,
-        cantidadProducto,
-        isvProducto,
-        descProducto,
-        isExcento,
-        idTipoProducto,
-        context);
-    if (producto2 != null) {
-      funciona = true;
-    } else {
-      funciona = false;
-    }
+  bool funciona = false;
+  Producto producto = Producto();
+  Future<Producto?> producto2 = actualizaProductoControllerN(
+      idProducto,
+      codigoProducto,
+      nombreProducto,
+      precioProducto,
+      cantidadProducto,
+      isvProducto,
+      descProducto,
+      isExcento,
+      idTipoProducto,
+      context);
+  if (producto2 != null) {
+    funciona = true;
+  } else {
+    funciona = false;
+  }
   return funciona;
 }
 
@@ -169,15 +137,11 @@ bool controladorActualizarConImagen(
 }
 
 bool controladorCantidad(
-    String codigoProducto,
-    String cantidadProducto,
-    context) {
+    String codigoProducto, String cantidadProducto, context) {
   bool funciona = false;
   Producto producto = Producto();
-  Future<Producto?> producto2 = actualizarCantidadController(
-      codigoProducto,
-      cantidadProducto,
-      context);
+  Future<Producto?> producto2 =
+      actualizarCantidadController(codigoProducto, cantidadProducto, context);
   if (producto2 != null) {
     funciona = true;
   } else {
@@ -187,26 +151,21 @@ bool controladorCantidad(
 }
 
 Future<Producto?> actualizarCantidadController(
-    String codigoProducto,
-    String cantidad,
-    context)  async {
-
-    if (codigoProducto.isNotEmpty && cantidad.isNotEmpty){
-      List<Producto?> producto = await ActualizarSaldo2(
-          codigoProducto,
-          cantidad,
-          context);
-      if (producto != null) {
-        _ventanaExito(context);
-      } else {
-        _ventanaError(context);
-      }
+    String codigoProducto, String cantidad, context) async {
+  if (codigoProducto.isNotEmpty && cantidad.isNotEmpty) {
+    List<Producto?> producto =
+        await ActualizarSaldo2(codigoProducto, cantidad, context);
+    if (producto != null) {
+      _ventanaExito(context);
     } else {
       _ventanaError(context);
     }
+  } else {
+    _ventanaError(context);
+  }
 }
 
-Future<Producto?> crearProductoController(
+Future crearProductoController(
     String codigoProducto,
     String nombreProducto,
     String precioProducto,
@@ -217,14 +176,14 @@ Future<Producto?> crearProductoController(
     String idTipoProducto,
     var pickedFile,
     context) async {
-    if (codigoProducto.isNotEmpty &&
+  print('$codigoProducto $nombreProducto $precioProducto $isvProducto $isExcento $idTipoProducto');
+  if (codigoProducto.isNotEmpty &&
       nombreProducto.isNotEmpty &&
       precioProducto.isNotEmpty &&
       cantidadProducto.isNotEmpty &&
       isvProducto.isNotEmpty &&
-      descProducto.isNotEmpty &&
       idTipoProducto.isNotEmpty) {
-        List<Producto?> producto = await crearProducto2(
+    final producto = await crearProducto2(
         codigoProducto,
         nombreProducto,
         precioProducto,
@@ -235,16 +194,17 @@ Future<Producto?> crearProductoController(
         idTipoProducto,
         pickedFile,
         context);
-        if (producto != null) {
-          _ventanaExito(context);
-        } else {
-          _ventanaError(context);
-        }
-    } else {
-      _ventanaError(context);
+    if (producto == 200) {
+      ventanaExito(context);
+      Navigator.pop(context);
+      Navigator.pop(context);
+    } else if (producto == 500){
+      ventanaError(context, 'Ocurrió un error interno en el servidor al agregar el producto, comuniquese con el administrador.');
     }
-
+  } else {
+    _ventanaError(context);
   }
+}
 
 Future<Producto?> actualizaProductoController(
     String id,
@@ -296,10 +256,8 @@ Future<Producto?> actualizaProductoControllerN(
     String descProducto,
     String isExcento,
     String idTipoProducto,
-    context)
-
-    async {
-    if (id.isNotEmpty &&
+    context) async {
+  if (id.isNotEmpty &&
       codigoProducto.isNotEmpty &&
       nombreProducto.isNotEmpty &&
       precioProducto.isNotEmpty &&
@@ -308,26 +266,26 @@ Future<Producto?> actualizaProductoControllerN(
       descProducto.isNotEmpty &&
       isExcento.isNotEmpty &&
       idTipoProducto.isNotEmpty) {
-        bool funciona = false;
-        List<Producto?> producto = await ActualizarProductoSinImagen(
-            id,
-            codigoProducto,
-            nombreProducto,
-            precioProducto,
-            cantidadProducto,
-            isvProducto,
-            descProducto,
-            isExcento,
-            idTipoProducto,
-            context);
-            if (producto != null) {
-              _ventanaExito(context);
-            } else {
-              _ventanaError(context);
-            }
-          } else {
-            _ventanaError(context);
-          }
+    bool funciona = false;
+    List<Producto?> producto = await ActualizarProductoSinImagen(
+        id,
+        codigoProducto,
+        nombreProducto,
+        precioProducto,
+        cantidadProducto,
+        isvProducto,
+        descProducto,
+        isExcento,
+        idTipoProducto,
+        context);
+    if (producto != null) {
+      _ventanaExito(context);
+    } else {
+      _ventanaError(context);
+    }
+  } else {
+    _ventanaError(context);
+  }
 }
 
 void _ventanaExito(BuildContext context) {
@@ -347,7 +305,7 @@ void _ventanaExito(BuildContext context) {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Acción realizada con éxito.",
+                      'Acción realizada con éxito.',
                       style: TextStyle(fontSize: 18),
                     ),
                     SizedBox(
@@ -393,7 +351,7 @@ void _ventanaError(BuildContext context) {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Ocurrio un error al realizar esta acción, intente de nuevo.",
+                      'Ocurrio un error al realizar esta acción, intente de nuevo.',
                       style: TextStyle(fontSize: 18),
                     ),
                     SizedBox(

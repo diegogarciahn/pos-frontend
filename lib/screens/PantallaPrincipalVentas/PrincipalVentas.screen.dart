@@ -65,13 +65,17 @@ class _Pantalla extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text("Modulo Ventas"),
+        title: Text('Modulo Ventas'),
         actions: <Widget>[
           TextButton(
             onPressed: () {
-              Navigator.popAndPushNamed(context, 'pantalla_principal');
+              Navigator.maybePop(context).then((value) => {
+                (!value)
+                ?Navigator.popAndPushNamed(context, 'pantalla_principal')
+                :null
+                });
             },
-            child: Text("Regresar",
+            child: Text('Regresar',
                 style: TextStyle(color: Colors.white, fontSize: 20)),
           ),
         ],

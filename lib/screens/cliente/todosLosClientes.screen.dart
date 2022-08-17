@@ -52,7 +52,7 @@ class _TodosLosClientes2State extends State<TodosLosClientes2> {
                         children: [
                           TextButton(
                             onPressed: () {
-                              Navigator.pushReplacementNamed(context, 'crear_cliente');
+                              Navigator.pushNamed(context, 'crear_cliente');
                             },
                             child: Container(
                                 width: size.width * 0.2,

@@ -90,7 +90,7 @@ Future<void> crearProducto(
   }
 }
 
-Future<List<Producto?>> crearProducto2(
+Future crearProducto2(
     String codigoProducto,
     String nombreProducto,
     String precioProducto,
@@ -101,6 +101,7 @@ Future<List<Producto?>> crearProducto2(
     String idTipoProducto,
     var pickedFile,
     context) async {
+  if (pickedFile != '') {
   var headers = {
     'Content-Type': 'application/json;',
     'Host': 'multipart/form-data',
@@ -113,36 +114,70 @@ Future<List<Producto?>> crearProducto2(
   List<Producto?> productoCreado = [];
   var stream = http.ByteStream(pickedFile.openRead());
   stream.cast();
-
-  var request = http.MultipartRequest(
-      'POST', Uri.parse(API_URL + 'producto/crearproducto'));
-  request.headers.addAll(headers);
-  Uint8List path = await pickedFile.readAsBytes();
-  List<int> listData = path.cast();
-  print(pickedFile.name);
-  request.fields['codigoProducto'] = codigoProducto;
-  request.fields['nombreProducto'] = nombreProducto;
-  request.fields['precioProducto'] = precioProducto;
-  request.fields['cantidadProducto'] = cantidadProducto;
-  request.files.add(http.MultipartFile.fromBytes('image', listData,
-      filename: pickedFile.name));
-  request.fields['isvProducto'] = isvProducto;
-  request.fields['descProducto'] = descProducto;
-  request.fields['isExcento'] = isExcento;
-  request.fields['idTipoProducto'] = idTipoProducto;
-  var response = await request.send();
-  response.stream.bytesToString().asStream().listen((event) {
-    var parsedJson = json.decode(event);
-    print(parsedJson);
-    print(response.statusCode);
-  });
-  if (response.statusCode == 200) {
-    print(Producto);
-
-  } else {
-    print(response.statusCode);
+  try { 
+    var request = http.MultipartRequest(
+        'POST', Uri.parse(API_URL + 'producto/crearproducto'));
+    request.headers.addAll(headers);
+    Uint8List path = await pickedFile.readAsBytes();
+    List<int> listData = path.cast();
+    print(pickedFile.name);
+    request.fields['codigoProducto'] = codigoProducto;
+    request.fields['nombreProducto'] = nombreProducto;
+    request.fields['precioProducto'] = precioProducto;
+    request.fields['cantidadProducto'] = cantidadProducto;
+    request.files.add(http.MultipartFile.fromBytes('image', listData,
+        filename: pickedFile.name));
+    request.fields['isvProducto'] = isvProducto;
+    request.fields['descProducto'] = descProducto;
+    request.fields['isExcento'] = isExcento;
+    request.fields['idTipoProducto'] = idTipoProducto;
+    var response = await request.send();
+    response.stream.bytesToString().asStream().listen((event) {
+      var parsedJson = json.decode(event);
+      print(parsedJson);
+      print(response.statusCode);
+    });
+    if (response.statusCode == 200) {
+      print(Producto);
+      return 200;
+    } else if (response.statusCode == 500) {
+      print('ocurrió un error');
+      return 500;
+    } else {
+      print(response.statusCode);
+    }
+  } catch (e) {
+    print(e);
+    return 1928;
   }
-  return productoCreado;
+  } else {
+    try {
+      var response = await http.post(Uri.parse(API_URL + 'producto/crearproducto'),
+          body: ({
+            'codigoProducto': codigoProducto,
+            'nombreProducto': nombreProducto,
+            'precioProducto': precioProducto,
+            'cantidadProducto': cantidadProducto,
+            'isvProducto': isvProducto,
+            'descProducto': descProducto,
+            'isExcento': isExcento,
+            'idTipoProducto': idTipoProducto,
+          }));
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        print(200);
+        return 200;
+      } else if (response.statusCode == 500) {
+        print(500);
+        return 500;
+      } else if (response.statusCode == 404) {
+        return 404;
+      }
+    } catch (e) {
+      print(e);
+      return 1928;
+    }
+  }
 }
 
 Future<List<Producto?>> ActualizarProducto2(
@@ -193,8 +228,7 @@ Future<List<Producto?>> ActualizarProducto2(
     });
     if (response.statusCode == 200) {
       print(Producto);
-    } else {
-    }
+    } else {}
     return productoCreado;
   } catch (e) {
     return productoCreado;
@@ -262,7 +296,6 @@ Future<void> ActualizarSaldo(
 }
 
 Future<void> EliminarProducto(String idProducto, context) async {
-  
   var response =
       await http.post(Uri.parse(API_URL + 'producto/eliminarproducto'),
           body: ({
@@ -343,10 +376,7 @@ Future<List<Producto?>> eliminarProducto2(String id) async {
         body: ({'id': id}));
     print(response.body);
     if (response.statusCode == 200) {
-
-    } else {
-
-    }
+    } else {}
     return productoCreado;
   } catch (e) {
     print(e);
@@ -356,7 +386,7 @@ Future<List<Producto?>> eliminarProducto2(String id) async {
 
 Future<List<Producto?>> ActualizarSaldo2(
     String codigoProducto, String cantidadProducto, context) async {
-  Producto? producto= null;
+  Producto? producto = null;
   List<Producto?> productoC = [];
   try {
     var response = await http.post(
@@ -367,19 +397,13 @@ Future<List<Producto?>> ActualizarSaldo2(
         }));
 
     if (response.statusCode == 200) {
-    } else {
-    }
+    } else {}
     return productoC;
-  } catch (e){
+  } catch (e) {
     print(e);
     return productoC;
   }
-
 }
-
-
-
-
 
 Future<List<Producto?>> ActualizarProductoSinImagen(
     String idProducto,
@@ -391,36 +415,31 @@ Future<List<Producto?>> ActualizarProductoSinImagen(
     String descProducto,
     String isExcento,
     String idTipoProducto,
-    context
-    ) async {
+    context) async {
   Producto? producto = null;
   List<Producto?> productoC = [];
   try {
     var response =
-    await http.post(Uri.parse(API_URL + 'producto/actualizarsinimagen'),
-        body: ({
-          'id': idProducto,
-          'codigoProducto': codigoProducto,
-          'nombreProducto': nombreProducto,
-          'precioProducto': precioProducto,
-          'cantidadProducto': cantidadProducto,
-          'isvProducto': isvProducto,
-          'descProducto': descProducto,
-          'isExcento': isExcento,
-          'idTipoproducto': idTipoProducto,
-        }));
+        await http.post(Uri.parse(API_URL + 'producto/actualizarsinimagen'),
+            body: ({
+              'id': idProducto,
+              'codigoProducto': codigoProducto,
+              'nombreProducto': nombreProducto,
+              'precioProducto': precioProducto,
+              'cantidadProducto': cantidadProducto,
+              'isvProducto': isvProducto,
+              'descProducto': descProducto,
+              'isExcento': isExcento,
+              'idTipoproducto': idTipoProducto,
+            }));
     print(response.body);
     if (response.statusCode == 200) {
       print(producto);
-    } else {
-    }
+    } else {}
     return productoC;
-
   } catch (e) {
     return productoC;
-
-  } finally {
-  }
+  } finally {}
 }
 
 class UserApi {
