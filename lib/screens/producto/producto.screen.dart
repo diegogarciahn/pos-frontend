@@ -43,7 +43,8 @@ class _PantallaProductoState extends State<PantallaProducto> {
 
   @override
   void initState() {
-    final productoProviderI = Provider.of<ProductoProvider>(context, listen: false);
+    final productoProviderI =
+        Provider.of<ProductoProvider>(context, listen: false);
     productoProviderI.setData();
     super.initState();
   }
@@ -86,9 +87,6 @@ class _PantallaProductoState extends State<PantallaProducto> {
                                 child: RaisedButton(
                                   onPressed: () {
                                     ventanaNueva(context);
-                                    // fetchData();
-                                    setState(() {});
-                                    print('he podido ayudarme a vivir');
                                   },
                                   child: Text('Agregar'),
                                   padding: EdgeInsets.all(25),
@@ -102,7 +100,8 @@ class _PantallaProductoState extends State<PantallaProducto> {
                                   margin: EdgeInsets.all(5),
                                   child: RaisedButton(
                                     onPressed: () {
-                                      Navigator.pushNamed(context,'mantenimiento/productos/tipoproductos');
+                                      Navigator.pushNamed(context,
+                                          'mantenimiento/productos/tipoproductos');
                                     },
                                     child: Text('Agregar Tipo de producto'),
                                     padding: EdgeInsets.all(25),
@@ -133,9 +132,14 @@ class _PantallaProductoState extends State<PantallaProducto> {
                   Expanded(
                     child: ListView.builder(
                       itemBuilder: (context, index) {
-                        return index == 0 ? _searchBar() : listItem(index - 1, productoProvider.getData,context);
+                        return index == 0
+                            ? _searchBar()
+                            : (tiposN.isEmpty)
+                                ? listItem(index - 1, productoProvider.getData,
+                                    context)
+                                : listItem(index -1, tiposN, context);
                       },
-                      itemCount: productoProvider.getData.length+1,
+                      itemCount: (tiposN.isEmpty)?productoProvider.getData.length + 1:tiposN.length + 1,
                     ),
                   ),
                 ],
@@ -157,7 +161,7 @@ class _PantallaProductoState extends State<PantallaProducto> {
             onChanged: (text) {
               text = text.toLowerCase();
               setState(() {
-                tiposN = tipos.where((note) {
+                tiposN = productoProvider.getData.where((note) {
                   var noteTitle = note.nombreProducto.toString().toLowerCase();
                   return noteTitle.contains(text);
                 }).toList();
@@ -231,7 +235,8 @@ class _PantallaProductoState extends State<PantallaProducto> {
                                     setState(() {});
                                     Navigator.pop(context);
                                   } else {
-                                    ventanaError(context, 'Ocurrio un error al realizar esta acción, intente de nuevo.');
+                                    ventanaError(context,
+                                        'Ocurrio un error al realizar esta acción, intente de nuevo.');
                                   }
                                   // fetchData();
                                   setState(() {});
@@ -296,6 +301,13 @@ class _PantallaProductoState extends State<PantallaProducto> {
 
             // cantidad y precio tan invertidos, al actualizar muestran los valores invertidos, primero va precio y despues cantidad
             //  Aqui los invierto para que se vean como deben verse.
+            Expanded(
+              flex: 1,
+              child: Text(
+                '',
+                style: GoogleFonts.lato(fontSize: 15),
+              ),
+            ),
             Expanded(
               flex: 1,
               child: Text(
