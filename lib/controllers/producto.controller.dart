@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:soft_frontend/constans.dart';
-import 'package:soft_frontend/models/empleado.model.dart';
-import 'package:soft_frontend/screens/login/login.screen.dart';
+import 'package:soft_frontend/providers/producto.provider.dart';
 import '../models/Producto.model.dart';
 import 'package:soft_frontend/services/sharepreference.service.dart';
 import '../models/user.model.dart';
 import '../screens/producto/components/ventanaerror.component.dart';
 import '../screens/producto/components/ventanaexito.component.dart';
 import '../services/producto.service.dart';
-import '../screens/producto/producto.screen.dart' as global;
 
 var estaCorrecto;
 
@@ -176,6 +175,7 @@ Future crearProductoController(
     String idTipoProducto,
     var pickedFile,
     context) async {
+  ProductoProvider productoProvider = Provider.of<ProductoProvider>(context, listen: false);
   print('$codigoProducto $nombreProducto $precioProducto $isvProducto $isExcento $idTipoProducto');
   if (codigoProducto.isNotEmpty &&
       nombreProducto.isNotEmpty &&
@@ -196,10 +196,11 @@ Future crearProductoController(
         context);
     if (producto == 200) {
       ventanaExito(context);
-      Navigator.pop(context);
-      Navigator.pop(context);
+      productoProvider.setData();
     } else if (producto == 500){
       ventanaError(context, 'Ocurrió un error interno en el servidor al agregar el producto, comuniquese con el administrador.');
+    } else if (producto == 409){
+      ventanaError(context, 'Ya existe un producto con el código indicado.');
     }
   } else {
     _ventanaError(context);

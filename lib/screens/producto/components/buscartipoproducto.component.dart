@@ -1,8 +1,14 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:provider/provider.dart';
+import 'package:soft_frontend/providers/producto.provider.dart';
 import 'package:soft_frontend/services/producto.service.dart';
 
-buscarTipoProducto() {
+
+buscarTipoProducto(context) {
+  ProductoProvider productoProvider = Provider.of<ProductoProvider>(context, listen: false);
   final TextEditingController _typeAheadController = TextEditingController();
   String idTipoProductoG = '';
     return Container(
@@ -34,6 +40,8 @@ buscarTipoProducto() {
       onSuggestionSelected: (Tipoproducto2? suggestion) {
         final tipo = suggestion!;
         idTipoProductoG = tipo.id.toString();
+        productoProvider.changeIdTipoProducto = idTipoProductoG;
+        print('valor del: ${productoProvider.getidTipoProductoG}');
         _typeAheadController.text = tipo.tipoProducto;
       },
     ));

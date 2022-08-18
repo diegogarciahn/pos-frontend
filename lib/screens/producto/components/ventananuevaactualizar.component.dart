@@ -208,7 +208,7 @@ void ventanaNuevaActualizar(
                                         style: TextStyle(fontSize: 18),
                                       ),
                                     ),
-                                    buscarTipoProducto(),
+                                    buscarTipoProducto(context),
                                   ]),
                             ),
                           ),

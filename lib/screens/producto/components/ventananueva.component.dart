@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:soft_frontend/controllers/producto.controller.dart';
+import 'package:soft_frontend/providers/producto.provider.dart';
 import 'package:soft_frontend/screens/producto/components/buscartipoproducto.component.dart';
 import 'package:soft_frontend/screens/producto/components/ventanaerror.component.dart';
-
-import 'ventanaexito.component.dart';
 
 int isExceptoN = 0;
 String idTipoProductoG = '';
@@ -16,7 +16,7 @@ bool esCorrecto = false;
 bool isCorrect = false;
 String? path;
 ImagePicker picker = ImagePicker();
- int isExcento = 0;
+int isExcento = 3;
 
 void ventanaNueva(BuildContext context) {
     var idProductoController = TextEditingController();
@@ -28,6 +28,7 @@ void ventanaNueva(BuildContext context) {
     var descProductoController = TextEditingController();
     var isExcentoController = TextEditingController();
     var idTipoProductoController = TextEditingController();
+    ProductoProvider productoProvider = Provider.of<ProductoProvider>(context, listen: false);
 
     showDialog<void>(
       context: context,
@@ -187,7 +188,7 @@ void ventanaNueva(BuildContext context) {
                                           style: TextStyle(fontSize: 18),
                                         ),
                                       ),
-                                      buscarTipoProducto(),
+                                      buscarTipoProducto(context),
                                     ]),
                               ),
                             ),
@@ -232,13 +233,13 @@ void ventanaNueva(BuildContext context) {
                             margin: EdgeInsets.all(2),
                             child: RaisedButton(
                               onPressed: () async {
-                                //Estos if anidados, estan porque de verdad, Dios sabra porque no puede
-                                // hacer una comparacion
+                                String idTipoProd = productoProvider.getidTipoProductoG;
+                                print('aqui va el id producto: $idTipoProd');
                                 if (codigoProductoController.text.isEmpty |
                                     nombreProductoController.text.isEmpty |
                                     precioProductoController.text.isEmpty |
                                     cantidadProductoController.text.isEmpty |
-                                    isvProductoController.text.isEmpty) {
+                                    isvProductoController.text.isEmpty | (idTipoProd == '') | (isExcento >= 3)) {
                                   ventanaError(context, 'Por favor llene todos los campos requeridos.');
                                 } else {
                                   final respuesta = await crearProductoController(
@@ -249,7 +250,7 @@ void ventanaNueva(BuildContext context) {
                                       isvProductoController.text,
                                       (descProductoController.text.isNotEmpty)?descProductoController.text:'0',
                                       isExcento2.toString(),
-                                      idTipoProductoG,
+                                      idTipoProd,
                                       (imagePiker != null)?imagePiker:'',
                                       context);
                                   print(respuesta);

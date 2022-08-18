@@ -3,10 +3,12 @@ import 'package:flutter/foundation.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 import 'package:soft_frontend/models/Producto.model.dart';
 
 import 'package:soft_frontend/controllers/producto.controller.dart';
+import 'package:soft_frontend/providers/producto.provider.dart';
 
 import 'package:soft_frontend/services/producto.service.dart';
 
@@ -30,15 +32,8 @@ class PantallaProducto extends StatefulWidget {
 class _PantallaProductoState extends State<PantallaProducto> {
   List<Producto> tipos = <Producto>[];
   List<Producto> tiposN = <Producto>[];
-  bool _loading = true;
 
-  final TextEditingController _typeAheadController = TextEditingController();
   String idTipoProductoG = '';
-  String excenteo = '';
-  int isExcento = 0;
-  bool isExcento2 = false;
-  String isExcento3 = '';
-  int isExceptoN = 0;
   bool esCorrecto = false;
   String urlImage = '';
   String? pathActualizar = '';
@@ -48,37 +43,14 @@ class _PantallaProductoState extends State<PantallaProducto> {
 
   @override
   void initState() {
+    final productoProviderI = Provider.of<ProductoProvider>(context, listen: false);
+    productoProviderI.setData();
     super.initState();
-    //getInitData();
-    fetchData();
-  }
-
-  fetchData() async {
-    tipos.clear();
-    tiposN.clear();
-    var res = await obtenerProductos().then((value) {
-      setState(() {
-        tipos.addAll(value);
-        tiposN.addAll(value);
-      });
-    });
-    setState(() {
-      _loading = false;
-    });
-    print('valor lista api:'+tiposN.length.toString());
-  }
-
-  Future<void> getInitData() async {
-    await obtenerProductos().then((value) {
-      setState(() {
-        tipos.addAll(value);
-        tiposN.addAll(value);
-      });
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    productoProvider = Provider.of<ProductoProvider>(context);
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -114,8 +86,9 @@ class _PantallaProductoState extends State<PantallaProducto> {
                                 child: RaisedButton(
                                   onPressed: () {
                                     ventanaNueva(context);
-                                    fetchData();
+                                    // fetchData();
                                     setState(() {});
+                                    print('he podido ayudarme a vivir');
                                   },
                                   child: Text('Agregar'),
                                   padding: EdgeInsets.all(25),
@@ -160,9 +133,9 @@ class _PantallaProductoState extends State<PantallaProducto> {
                   Expanded(
                     child: ListView.builder(
                       itemBuilder: (context, index) {
-                        return index == 0 ? _searchBar() : listItem(index - 1, tiposN,context);
+                        return index == 0 ? _searchBar() : listItem(index - 1, productoProvider.getData,context);
                       },
-                      itemCount: tiposN.length+1,
+                      itemCount: productoProvider.getData.length+1,
                     ),
                   ),
                 ],
@@ -254,13 +227,13 @@ class _PantallaProductoState extends State<PantallaProducto> {
                                       context);
                                   if (isCorrect == true) {
                                     // initState2();
-                                    fetchData();
+                                    // fetchData();
                                     setState(() {});
                                     Navigator.pop(context);
                                   } else {
                                     ventanaError(context, 'Ocurrio un error al realizar esta acción, intente de nuevo.');
                                   }
-                                  fetchData();
+                                  // fetchData();
                                   setState(() {});
                                 },
                                 child: Text('Actualizar'),
@@ -360,7 +333,7 @@ class _PantallaProductoState extends State<PantallaProducto> {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          buscarTipoProducto(),
+                          buscarTipoProducto(context),
                           SizedBox(
                             height: 40,
                           ),

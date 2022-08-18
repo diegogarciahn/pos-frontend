@@ -29,9 +29,9 @@ void ventanaExito(BuildContext context) {
                           margin: EdgeInsets.all(5),
                           child: RaisedButton(
                             onPressed: () {
-                              Navigator.popAndPushNamed(
-                                  context, 'mantenimiento/productos');
+                              Navigator.pop(context);
                               // initState2();
+                              Navigator.pop(context);
                             },
                             child: Text('OK'),
                             padding: EdgeInsets.all(10),

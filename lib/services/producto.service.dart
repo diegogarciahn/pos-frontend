@@ -4,9 +4,12 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:soft_frontend/models/Producto.model.dart';
 import 'package:soft_frontend/models/buscarProducto.dart';
+import 'package:soft_frontend/providers/producto.provider.dart';
 import 'dart:io';
 import 'dart:convert';
 import '../constans.dart';
+
+ProductoProvider productoProvider = ProductoProvider();
 
 Future<List<Producto>> obtenerProductos() async {
   var data = [];
@@ -36,7 +39,7 @@ Future<List<Producto>> obtenerProductos() async {
             isvProducto: isvString,
             descProducto: descString,
             isExcento: isExcentoString,
-            urlImage: urlImage,
+            urlImage: (urlImage != '' )?urlImage:'',
             idTipoProducto: idTipoProductoString);
         listadoProductos.add(producto);
       }
@@ -166,12 +169,15 @@ Future crearProducto2(
       print(response.statusCode);
       if (response.statusCode == 200) {
         print(200);
+        productoProvider.changeIdTipoProducto = '';
         return 200;
       } else if (response.statusCode == 500) {
         print(500);
         return 500;
       } else if (response.statusCode == 404) {
         return 404;
+      } else if (response.statusCode == 409) {
+        return 409;
       }
     } catch (e) {
       print(e);
