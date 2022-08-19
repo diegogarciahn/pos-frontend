@@ -92,7 +92,7 @@ listItem(index, List<Producto> tiposN, context) {
               child: TextButton(
                 child: Text('Eliminar'),
                 onPressed: () {
-                  ventanaEliminar(context, tiposN[index].id.toString());
+                  return ventanaEliminar(context, tiposN[index].id.toString());
                 },
               )),
         ],

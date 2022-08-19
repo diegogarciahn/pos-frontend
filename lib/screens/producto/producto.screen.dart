@@ -10,9 +10,8 @@ import 'package:soft_frontend/models/Producto.model.dart';
 import 'package:soft_frontend/controllers/producto.controller.dart';
 import 'package:soft_frontend/providers/producto.provider.dart';
 
-import 'package:soft_frontend/services/producto.service.dart';
-
 import 'components/buscartipoproducto.component.dart';
+import 'components/ventanaactualizarexistencia.component.dart';
 import 'components/ventananueva.component.dart';
 import 'components/ventanaerror.component.dart';
 import 'components/listitem.component.dart';
@@ -51,11 +50,12 @@ class _PantallaProductoState extends State<PantallaProducto> {
 
   @override
   Widget build(BuildContext context) {
-    productoProvider = Provider.of<ProductoProvider>(context);
+    ProductoProvider productoProvider = Provider.of<ProductoProvider>(context);
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: Text('Productos'),
+          leading: Icon(Icons.content_paste_sharp),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -84,13 +84,15 @@ class _PantallaProductoState extends State<PantallaProducto> {
                                 width: 120,
                                 height: 80,
                                 margin: EdgeInsets.all(5),
-                                child: RaisedButton(
-                                  onPressed: () {
-                                    ventanaNueva(context);
-                                  },
-                                  child: Text('Agregar'),
-                                  padding: EdgeInsets.all(25),
-                                )),
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      ventanaNueva(context);
+                                    },
+                                    child: Text('Agregar'),
+                                    style: ButtonStyle(
+                                      padding: MaterialStateProperty.all(
+                                          EdgeInsets.all(25)),
+                                    ))),
                           ),
                           Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -98,27 +100,34 @@ class _PantallaProductoState extends State<PantallaProducto> {
                                   width: 120,
                                   height: 80,
                                   margin: EdgeInsets.all(5),
-                                  child: RaisedButton(
-                                    onPressed: () {
-                                      Navigator.pushNamed(context,
-                                          'mantenimiento/productos/tipoproductos');
-                                    },
-                                    child: Text('Agregar Tipo de producto'),
-                                    padding: EdgeInsets.all(25),
-                                  ))),
+                                  child: ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(context,
+                                            'mantenimiento/productos/tipoproductos');
+                                      },
+                                      child: Text(
+                                        'Agregar tipo de producto',
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      style: ButtonStyle(
+                                        padding: MaterialStateProperty.all(
+                                            EdgeInsets.all(25)),
+                                      )))),
                           Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Container(
                                   width: 120,
                                   height: 80,
                                   margin: EdgeInsets.all(5),
-                                  child: RaisedButton(
-                                    onPressed: () {
-                                      _ventanaActualizarInventario(context);
-                                    },
-                                    child: Text('Modificar existencia'),
-                                    padding: EdgeInsets.all(25),
-                                  ))),
+                                  child: ElevatedButton(
+                                      onPressed: () {
+                                        ventanaActualizarInventario(context);
+                                      },
+                                      child: Text('Modificar existencia'),
+                                      style: ButtonStyle(
+                                        padding: MaterialStateProperty.all(
+                                            EdgeInsets.all(25)),
+                                      )))),
                         ]),
                       ),
                     ),
@@ -133,13 +142,15 @@ class _PantallaProductoState extends State<PantallaProducto> {
                     child: ListView.builder(
                       itemBuilder: (context, index) {
                         return index == 0
-                            ? _searchBar()
+                            ? _searchBar(productoProvider)
                             : (tiposN.isEmpty)
                                 ? listItem(index - 1, productoProvider.getData,
                                     context)
-                                : listItem(index -1, tiposN, context);
+                                : listItem(index - 1, tiposN, context);
                       },
-                      itemCount: (tiposN.isEmpty)?productoProvider.getData.length + 1:tiposN.length + 1,
+                      itemCount: (tiposN.isEmpty)
+                          ? productoProvider.getData.length + 1
+                          : tiposN.length + 1,
                     ),
                   ),
                 ],
@@ -151,7 +162,7 @@ class _PantallaProductoState extends State<PantallaProducto> {
 
 // Este es para buscar productos.
 // Se usan dos listas, la que va filtrando y la que static que cuando se borra llena a la que filtra.
-  _searchBar() {
+  _searchBar(ProductoProvider productoProvider) {
     return Column(
       children: [
         Padding(
@@ -171,87 +182,6 @@ class _PantallaProductoState extends State<PantallaProducto> {
         ),
         _cardCabecera(),
       ],
-    );
-  }
-
-  void _ventanaActualizarInventario(BuildContext context) {
-    var codigoProductoController = TextEditingController();
-    var cantidadProductoController = TextEditingController();
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          actions: <Widget>[
-            Container(
-              color: Colors.white,
-              child:
-                  Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Container(
-                  width: 350,
-                  height: 250,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Text(
-                              'Código Producto',
-                              style: TextStyle(fontSize: 18),
-                            ),
-                          ),
-                          TextFormField(
-                            controller: codigoProductoController,
-                            decoration:
-                                InputDecoration(border: UnderlineInputBorder()),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Text(
-                              'Cantidad Producto',
-                              style: TextStyle(fontSize: 18),
-                            ),
-                          ),
-                          TextFormField(
-                            controller: cantidadProductoController,
-                            decoration:
-                                InputDecoration(border: UnderlineInputBorder()),
-                          ),
-                          Container(
-                              width: 100,
-                              height: 50,
-                              margin: EdgeInsets.all(5),
-                              child: RaisedButton(
-                                onPressed: () {
-                                  isCorrect = controladorCantidad(
-                                      codigoProductoController.text,
-                                      cantidadProductoController.text,
-                                      context);
-                                  if (isCorrect == true) {
-                                    // initState2();
-                                    // fetchData();
-                                    setState(() {});
-                                    Navigator.pop(context);
-                                  } else {
-                                    ventanaError(context,
-                                        'Ocurrio un error al realizar esta acción, intente de nuevo.');
-                                  }
-                                  // fetchData();
-                                  setState(() {});
-                                },
-                                child: Text('Actualizar'),
-                                padding: EdgeInsets.all(10),
-                              )),
-                        ]),
-                  ),
-                ),
-              ]),
-            ),
-          ],
-        );
-      },
     );
   }
 
@@ -325,38 +255,6 @@ class _PantallaProductoState extends State<PantallaProducto> {
           ],
         ),
       ),
-    );
-  }
-
-  void _prueba(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          actions: <Widget>[
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  width: 500,
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.all(40),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          buscarTipoProducto(context),
-                          SizedBox(
-                            height: 40,
-                          ),
-                        ]),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        );
-      },
     );
   }
 

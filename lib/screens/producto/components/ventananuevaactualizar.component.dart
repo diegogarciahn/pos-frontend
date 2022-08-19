@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:soft_frontend/providers/producto.provider.dart';
 import 'package:soft_frontend/screens/producto/components/buscartipoproducto.component.dart';
 import 'package:soft_frontend/screens/producto/components/ventanaerror.component.dart';
 
@@ -15,6 +17,7 @@ String isExcento3 = '';
 bool esCorrecto = false;
 bool isCorrect = false;
 String? path;
+int isExcento = 3;
 ImagePicker picker = ImagePicker();
 
 void ventanaNuevaActualizar(
@@ -39,8 +42,6 @@ void ventanaNuevaActualizar(
         TextEditingController(text: precioProductoP);
     late TextEditingController cantidadProducto =
         TextEditingController(text: cantidadProductoP);
-    late TextEditingController isvProducto =
-        TextEditingController(text: isvProductoP);
     late TextEditingController descProducto =
         TextEditingController(text: descProductoP);
     late TextEditingController isExcento5 =
@@ -56,6 +57,7 @@ void ventanaNuevaActualizar(
     pathActualizar = path;
     imagePiker = path;
     bool imagenNueva = false;
+    ProductoProvider productoProvider = Provider.of<ProductoProvider>(context, listen: false);
 
     showDialog<void>(
       context: context,
@@ -112,42 +114,43 @@ void ventanaNuevaActualizar(
                                         style: TextStyle(fontSize: 18),
                                       ),
                                     ),
-                                    TextFormField(
-                                        controller: isvProducto,
-                                        keyboardType: TextInputType.text,
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(),
-                                        )),
-                                    Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Text(
-                                        'Excento',
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                    ),
                                     Row(
                                       children: [
                                         Expanded(
-                                          child: RadioListTile<int>(
-                                            value: 1,
-                                            groupValue: isExceptoN,
-                                            title: Text('Si'),
-                                            onChanged: (value) {
-                                              setState(() => isExceptoN = 1);
-                                              isExcento2 = true;
-                                            },
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: RadioListTile<int>(
+                                            child: RadioListTile<int>(
                                               value: 0,
-                                              groupValue: isExceptoN,
-                                              title: Text('No'),
+                                              groupValue: isExcento,
+                                              title: Text('Excento'),
                                               onChanged: (value) {
-                                                setState(() => isExceptoN = 0);
+                                                setState(() => isExcento = 0);
+                                                isvProductoP = '0';
+                                                isExcento2 = true;
+                                              },
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: RadioListTile<int>(
+                                              value: 1,
+                                              groupValue: isExcento,
+                                              title: Text('15%'),
+                                              onChanged: (value) {
+                                                setState(() => isExcento = 1);
                                                 isExcento2 = false;
-                                              }),
-                                        ),
+                                                isvProductoP = '15';
+                                              },
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: RadioListTile<int>(
+                                                value: 2,
+                                                groupValue: isExcento,
+                                                title: Text('18%'),
+                                                onChanged: (value) {
+                                                  setState(() => isExcento = 2);
+                                                  isExcento2 = false;
+                                                  isvProductoP = '18';
+                                                }),
+                                          ),
                                       ],
                                     ),
                                   ]),
@@ -253,55 +256,20 @@ void ventanaNuevaActualizar(
                             margin: EdgeInsets.all(5),
                             child: RaisedButton(
                               onPressed: () {
-                                if (imagenNueva == false) {
-                                  isCorrect = controladorActualizarSinProducto(
-                                      idProducto.text,
-                                      codigoProducto.text,
-                                      nombreProducto.text,
-                                      precioProducto.text,
-                                      cantidadProducto.text,
-                                      isvProducto.text,
-                                      descProducto.text,
-                                      isExcento2.toString(),
-                                      idTipoProductoG,
-                                      context);
-                                  if (isCorrect == true) {
-                                    // initState2();
-                                    // fetchData();
-                                    // setState((){});
-                                    Navigator.pop(context);
-                                  } else {
-                                    ventanaError(context, 'Ocurrio un error al realizar esta acción, intente de nuevo.');
-                                  }
-                                  // initState2();
-                                  // fetchData();
-                                  // setState((){});
-                                } else {
-                                  isCorrect = controladorActualizarConImagen(
-                                      idProducto.text,
-                                      codigoProducto.text,
-                                      nombreProducto.text,
-                                      precioProducto.text,
-                                      cantidadProducto.text,
-                                      isvProducto.text,
-                                      descProducto.text,
-                                      isExcento2.toString(),
-                                      idTipoProductoG,
-                                      imagePiker,
-                                      context);
-                                  if (isCorrect == true) {
-                                    ventanaExito(context);
-                                    // initState2();
-                                    // fetchData();
-                                    // setState((){});
-                                    Navigator.pop(context);
-                                  } else {
-                                    ventanaError(context, 'Ocurrio un error al realizar esta acción, intente de nuevo.');
-                                  }
-                                  // initState2();
-                                  // fetchData();
-                                  // setState((){});
-                                }
+                                print(imagePiker.toString().substring(0,4));
+                                String idTipoProd = productoProvider.getidTipoProductoG;
+                                actualizarProductoController(
+                                idProducto.text, 
+                                codigoProducto.text, 
+                                nombreProducto.text, 
+                                precioProducto.text, 
+                                cantidadProducto.text, 
+                                isvProductoP, 
+                                descProducto.text, 
+                                isExcento2.toString(), 
+                                (idTipoProd != '')?idTipoProd:idTipoProductoG, 
+                                (imagePiker.toString().substring(0,4) != 'http')?imagePiker:'', 
+                                context);
                               },
                               child: Text('Guardar'),
                               padding: EdgeInsets.all(10),
@@ -312,6 +280,7 @@ void ventanaNuevaActualizar(
                             margin: EdgeInsets.all(5),
                             child: RaisedButton(
                               onPressed: () {
+                                productoProvider.changeIdTipoProducto = '';
                                 Navigator.pop(context);
                               },
                               child: Text('Cancelar'),

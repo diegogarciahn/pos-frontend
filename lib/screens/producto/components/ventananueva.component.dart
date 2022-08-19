@@ -265,6 +265,7 @@ void ventanaNueva(BuildContext context) {
                             margin: EdgeInsets.all(5),
                             child: RaisedButton(
                               onPressed: () {
+                                productoProvider.changeIdTipoProducto = '';
                                 Navigator.pop(context);
                               },
                               child: Text('Cancelar'),

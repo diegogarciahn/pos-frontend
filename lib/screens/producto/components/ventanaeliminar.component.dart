@@ -1,66 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:soft_frontend/controllers/producto.controller.dart';
 import '../../../services/producto.service.dart';
 import 'ventanaexito.component.dart';
 
 void ventanaEliminar(BuildContext context, String idProductoP) {
-    late TextEditingController idProducto =
-        TextEditingController(text: idProductoP);
+  late TextEditingController idProducto =
+      TextEditingController(text: idProductoP);
 
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          actions: <Widget>[
-            Container(
-              color: Colors.white,
-              child: Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(40),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '¿Está seguro de eliminar el producto?',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                            width: 200,
-                            height: 100,
-                            margin: EdgeInsets.all(5),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: RaisedButton(
-                                    onPressed: () {
-                                      EliminarProducto(
-                                          idProductoP.toString(), context);
-                                      Navigator.pop(context);
-                                      ventanaExito(context);
-                                    },
-                                    child: Text('Eliminar'),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(6.0),
-                                  child: RaisedButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text('Cancelar'),
-                                  ),
-                                ),
-                              ],
-                            )),
-                      ]),
-                ),
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: Text(
+          '¿Está seguro de eliminar el producto seleccionado?',
+          style: TextStyle(fontSize: 18),
+        ),
+        actions: <Widget>[
+          ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.red),
+                padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 25, horizontal: 15))
               ),
-            ),
-          ],
-        );
-      },
-    );
-  }
+              onPressed: () {
+                eliminarProductoController(idProductoP.toString(), context);
+              },
+              child: Text('Eliminar')),
+          ElevatedButton(
+            style: ButtonStyle(
+                padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 25 , horizontal: 15))
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancelar')),
+        ],
+      );
+    },
+  );
+}

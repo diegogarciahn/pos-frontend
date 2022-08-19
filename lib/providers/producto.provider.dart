@@ -4,7 +4,7 @@ import 'package:soft_frontend/services/producto.service.dart';
 import '../models/Producto.model.dart';
 
 class ProductoProvider with ChangeNotifier {
-  String _idTipoProductoG = 'loco';
+  String _idTipoProductoG = '';
   List<Producto> _listaProductos = [];
 
   String get getidTipoProductoG => _idTipoProductoG;

@@ -1,18 +1,13 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:soft_frontend/models/Producto.model.dart';
-import 'package:soft_frontend/models/buscarProducto.dart';
 import 'package:soft_frontend/providers/producto.provider.dart';
-import 'dart:io';
 import 'dart:convert';
 import '../constans.dart';
 
-ProductoProvider productoProvider = ProductoProvider();
-
 Future<List<Producto>> obtenerProductos() async {
-  var data = [];
   var url = Uri.parse(API_URL + 'producto/mostrarproductos');
   var response = await http.get(url);
   List<Producto> listadoProductos = [];
@@ -39,7 +34,7 @@ Future<List<Producto>> obtenerProductos() async {
             isvProducto: isvString,
             descProducto: descString,
             isExcento: isExcentoString,
-            urlImage: (urlImage != '' )?urlImage:'',
+            urlImage: (urlImage != '') ? urlImage : '',
             idTipoProducto: idTipoProductoString);
         listadoProductos.add(producto);
       }
@@ -50,47 +45,6 @@ Future<List<Producto>> obtenerProductos() async {
     print('error: $e');
   }
   return listadoProductos;
-}
-
-Future<void> crearProducto(
-    String codigoProducto,
-    String nombreProducto,
-    String precioProducto,
-    String cantidadProducto,
-    String isvProducto,
-    String descProducto,
-    String isExcento,
-    String idTipoProducto,
-    context) async {
-  if (codigoProducto.isNotEmpty &&
-      nombreProducto.isNotEmpty &&
-      precioProducto.isNotEmpty &&
-      cantidadProducto.isNotEmpty &&
-      isvProducto.isNotEmpty &&
-      descProducto.isNotEmpty &&
-      isExcento.isNotEmpty &&
-      idTipoProducto.isNotEmpty) {
-    var response =
-        await http.post(Uri.parse(API_URL + 'producto/crearproducto/'),
-            body: ({
-              'codigoProducto': codigoProducto,
-              'nombreProducto': nombreProducto,
-              'precioProducto': precioProducto,
-              'cantidadProducto': cantidadProducto,
-              'isvProducto': isvProducto,
-              'descProducto': descProducto,
-              'isExcento': isExcento,
-              'idTipoProducto': idTipoProducto,
-            }));
-
-    if (response.statusCode == 200) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Producto creado exitosamente.')));
-    } else {}
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Error al crear el producto.')));
-  }
 }
 
 Future crearProducto2(
@@ -104,68 +58,68 @@ Future crearProducto2(
     String idTipoProducto,
     var pickedFile,
     context) async {
+  ProductoProvider productoProvider = Provider.of<ProductoProvider>(context, listen: false);
   if (pickedFile != '') {
-  var headers = {
-    'Content-Type': 'application/json;',
-    'Host': 'multipart/form-data',
-    'Accept': '*/*',
-    'Connection': 'keep-alive',
-  };
-  print(codigoProducto);
-  print(pickedFile!.path);
-  Producto? producto = null;
-  List<Producto?> productoCreado = [];
-  var stream = http.ByteStream(pickedFile.openRead());
-  stream.cast();
-  try { 
-    var request = http.MultipartRequest(
-        'POST', Uri.parse(API_URL + 'producto/crearproducto'));
-    request.headers.addAll(headers);
-    Uint8List path = await pickedFile.readAsBytes();
-    List<int> listData = path.cast();
-    print(pickedFile.name);
-    request.fields['codigoProducto'] = codigoProducto;
-    request.fields['nombreProducto'] = nombreProducto;
-    request.fields['precioProducto'] = precioProducto;
-    request.fields['cantidadProducto'] = cantidadProducto;
-    request.files.add(http.MultipartFile.fromBytes('image', listData,
-        filename: pickedFile.name));
-    request.fields['isvProducto'] = isvProducto;
-    request.fields['descProducto'] = descProducto;
-    request.fields['isExcento'] = isExcento;
-    request.fields['idTipoProducto'] = idTipoProducto;
-    var response = await request.send();
-    response.stream.bytesToString().asStream().listen((event) {
-      var parsedJson = json.decode(event);
-      print(parsedJson);
-      print(response.statusCode);
-    });
-    if (response.statusCode == 200) {
-      print(Producto);
-      return 200;
-    } else if (response.statusCode == 500) {
-      print('ocurrió un error');
-      return 500;
-    } else {
-      print(response.statusCode);
+    var headers = {
+      'Content-Type': 'application/json;',
+      'Host': 'multipart/form-data',
+      'Accept': '*/*',
+      'Connection': 'keep-alive',
+    };
+    print(codigoProducto);
+    print(pickedFile!.path);
+    var stream = http.ByteStream(pickedFile.openRead());
+    stream.cast();
+    try {
+      var request = http.MultipartRequest(
+          'POST', Uri.parse(API_URL + 'producto/crearproducto'));
+      request.headers.addAll(headers);
+      Uint8List path = await pickedFile.readAsBytes();
+      List<int> listData = path.cast();
+      print(pickedFile.name);
+      request.fields['codigoProducto'] = codigoProducto;
+      request.fields['nombreProducto'] = nombreProducto;
+      request.fields['precioProducto'] = precioProducto;
+      request.fields['cantidadProducto'] = cantidadProducto;
+      request.files.add(http.MultipartFile.fromBytes('image', listData,
+          filename: pickedFile.name));
+      request.fields['isvProducto'] = isvProducto;
+      request.fields['descProducto'] = descProducto;
+      request.fields['isExcento'] = isExcento;
+      request.fields['idTipoProducto'] = idTipoProducto;
+      var response = await request.send();
+      response.stream.bytesToString().asStream().listen((event) {
+        var parsedJson = json.decode(event);
+        print(parsedJson);
+        print(response.statusCode);
+      });
+      if (response.statusCode == 200) {
+        print(Producto);
+        return 200;
+      } else if (response.statusCode == 500) {
+        print('ocurrió un error');
+        return 500;
+      } else {
+        print(response.statusCode);
+      }
+    } catch (e) {
+      print(e);
+      return 1928;
     }
-  } catch (e) {
-    print(e);
-    return 1928;
-  }
   } else {
     try {
-      var response = await http.post(Uri.parse(API_URL + 'producto/crearproducto'),
-          body: ({
-            'codigoProducto': codigoProducto,
-            'nombreProducto': nombreProducto,
-            'precioProducto': precioProducto,
-            'cantidadProducto': cantidadProducto,
-            'isvProducto': isvProducto,
-            'descProducto': descProducto,
-            'isExcento': isExcento,
-            'idTipoProducto': idTipoProducto,
-          }));
+      var response =
+          await http.post(Uri.parse(API_URL + 'producto/crearproducto'),
+              body: ({
+                'codigoProducto': codigoProducto,
+                'nombreProducto': nombreProducto,
+                'precioProducto': precioProducto,
+                'cantidadProducto': cantidadProducto,
+                'isvProducto': isvProducto,
+                'descProducto': descProducto,
+                'isExcento': isExcento,
+                'idTipoProducto': idTipoProducto,
+              }));
       print(response.statusCode);
       if (response.statusCode == 200) {
         print(200);
@@ -186,7 +140,7 @@ Future crearProducto2(
   }
 }
 
-Future<List<Producto?>> ActualizarProducto2(
+Future actualizarProducto(
     String idProducto,
     String codigoProducto,
     String nombreProducto,
@@ -198,91 +152,81 @@ Future<List<Producto?>> ActualizarProducto2(
     String idTipoProducto,
     var pickedFile,
     context) async {
-  ////////////////
-  var headers = {
-    'Content-Type': 'application/json;',
-    'Host': 'multipart/form-data',
-    'Accept': '*/*',
-    'Connection': 'keep-alive',
-  };
-  Producto? producto = null;
-  List<Producto?> productoCreado = [];
-  var stream = http.ByteStream(pickedFile.openRead());
-  stream.cast();
-  try {
-    var request = http.MultipartRequest(
-        'POST', Uri.parse(API_URL + 'producto/actualizarproducto'));
-    request.headers.addAll(headers);
-    Uint8List path = await pickedFile.readAsBytes();
-    List<int> listData = path.cast();
-    request.fields['id'] = idProducto;
-    request.fields['codigoProducto'] = codigoProducto;
-    request.fields['nombreProducto'] = nombreProducto;
-    request.fields['precioProducto'] = precioProducto;
-    request.fields['cantidadProducto'] = cantidadProducto;
-    request.files.add(http.MultipartFile.fromBytes('image', listData,
-        filename: pickedFile.name));
-    request.fields['isvProducto'] = isvProducto;
-    request.fields['descProducto'] = descProducto;
-    request.fields['isExcento'] = isExcento;
-    request.fields['idTipoProducto'] = idTipoProducto;
-    var response = await request.send();
-    response.stream.bytesToString().asStream().listen((event) {
-      var parsedJson = json.decode(event);
-      print(parsedJson);
-      print(response.statusCode);
-    });
-    if (response.statusCode == 200) {
-      print(Producto);
-    } else {}
-    return productoCreado;
-  } catch (e) {
-    return productoCreado;
-  } finally {
-    http.Client().close();
-  }
-}
-
-Future<void> ActualizarProducto(
-    String idProducto,
-    String codigoProducto,
-    String nombreProducto,
-    String precioProducto,
-    String cantidadProducto,
-    String isvProducto,
-    String descProducto,
-    String isExcento,
-    String idTipoProducto,
-    context) async {
-  if (idTipoProducto.isNotEmpty &&
-      idProducto.isNotEmpty &&
-      codigoProducto.isNotEmpty &&
-      cantidadProducto.isNotEmpty &&
-      isvProducto.isNotEmpty &&
-      descProducto.isNotEmpty &&
-      precioProducto.isNotEmpty &&
-      isExcento.isNotEmpty) {
-    var response =
-        await http.post(Uri.parse(API_URL + 'producto/actualizarproducto/'),
-            body: ({
-              'id': idProducto,
-              'codigoProducto': codigoProducto,
-              'nombreProducto': nombreProducto,
-              'precioProducto': precioProducto,
-              'cantidadProducto': cantidadProducto,
-              'isvProducto': isvProducto,
-              'descProducto': descProducto,
-              'isExcento': isExcento,
-              'idTipoproducto': idTipoProducto,
-            }));
-
-    if (response.statusCode == 200) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Producto Actualizado.')));
+      ProductoProvider productoProvider = Provider.of<ProductoProvider>(context, listen: false);
+  if (pickedFile != '') {
+    var headers = {
+      'Content-Type': 'application/json;',
+      'Host': 'multipart/form-data',
+      'Accept': '*/*',
+      'Connection': 'keep-alive',
+    };
+    var stream = http.ByteStream(pickedFile.openRead());
+    stream.cast();
+    try {
+      var request = http.MultipartRequest(
+          'POST', Uri.parse(API_URL + 'producto/actualizarproducto'));
+      request.headers.addAll(headers);
+      Uint8List path = await pickedFile.readAsBytes();
+      List<int> listData = path.cast();
+      request.fields['id'] = idProducto;
+      request.fields['codigoProducto'] = codigoProducto;
+      request.fields['nombreProducto'] = nombreProducto;
+      request.fields['precioProducto'] = precioProducto;
+      request.fields['cantidadProducto'] = cantidadProducto;
+      request.files.add(http.MultipartFile.fromBytes('image', listData,
+          filename: pickedFile.name));
+      request.fields['isvProducto'] = isvProducto;
+      request.fields['descProducto'] = descProducto;
+      request.fields['isExcento'] = isExcento;
+      request.fields['idTipoProducto'] = idTipoProducto;
+      var response = await request.send();
+      response.stream.bytesToString().asStream().listen((event) {
+        var parsedJson = json.decode(event);
+        print(parsedJson);
+        print(response.statusCode);
+      });
+      if (response.statusCode == 200) {
+        productoProvider.changeIdTipoProducto = '';
+        return 200;
+      } else if (response.statusCode == 404) {
+        return 404;
+      } else if (response.statusCode == 500) {
+        return 500;
+      }
+    } catch (e) {
+      print(e);
+      return 1928;
+    } finally {
+      http.Client().close();
     }
   } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Error al actualizar producto')));
+    try {
+      var response =
+          await http.post(Uri.parse(API_URL + 'producto/actualizarproducto/'),
+              body: ({
+                'id': idProducto,
+                'codigoProducto': codigoProducto,
+                'nombreProducto': nombreProducto,
+                'precioProducto': precioProducto,
+                'cantidadProducto': cantidadProducto,
+                'isvProducto': isvProducto,
+                'descProducto': descProducto,
+                'isExcento': isExcento,
+                'idTipoproducto': idTipoProducto,
+              }));
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        productoProvider.changeIdTipoProducto = '';
+        return 200;
+      } else if (response.statusCode == 404) {
+        return 404;
+      } else if (response.statusCode == 500) {
+        return 500;
+      }
+    } catch (e) {
+      print(e);
+      return 1928;
+    }
   }
 }
 
@@ -301,16 +245,24 @@ Future<void> ActualizarSaldo(
   }
 }
 
-Future<void> EliminarProducto(String idProducto, context) async {
-  var response =
-      await http.post(Uri.parse(API_URL + 'producto/eliminarproducto'),
-          body: ({
-            'id': idProducto,
-          }));
+Future eliminarProducto(String idProducto) async {
+  try {
+    var response =
+        await http.post(Uri.parse(API_URL + 'producto/eliminarproducto'),
+            body: ({
+              'id': idProducto,
+            }));
 
-  if (response.statusCode == 200) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text('Producto eliminado.')));
+    if (response.statusCode == 200) {
+      return 200;
+    } else if (response.statusCode == 500) {
+      return 500;
+    } else if (response.statusCode == 404) {
+      return 404;
+    }
+  } catch (e) {
+    print(e);
+    return 1928;
   }
 }
 

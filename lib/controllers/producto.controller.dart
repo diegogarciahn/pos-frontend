@@ -101,39 +101,6 @@ bool controladorActualizarSinProducto(
   return funciona;
 }
 
-bool controladorActualizarConImagen(
-    String idProducto,
-    String codigoProducto,
-    String nombreProducto,
-    String precioProducto,
-    String cantidadProducto,
-    String isvProducto,
-    String descProducto,
-    String isExcento,
-    String idTipoProducto,
-    var pickedFile,
-    context) {
-  bool funciona = false;
-  Producto producto = Producto();
-  Future<Producto?> producto2 = actualizaProductoController(
-      idProducto,
-      codigoProducto,
-      nombreProducto,
-      precioProducto,
-      cantidadProducto,
-      isvProducto,
-      descProducto,
-      isExcento,
-      idTipoProducto,
-      pickedFile,
-      context);
-  if (producto2 != null) {
-    funciona = true;
-  } else {
-    funciona = false;
-  }
-  return funciona;
-}
 
 bool controladorCantidad(
     String codigoProducto, String cantidadProducto, context) {
@@ -164,6 +131,21 @@ Future<Producto?> actualizarCantidadController(
   }
 }
 
+Future eliminarProductoController(String idProducto, context) async {
+  ProductoProvider productoProvider =
+      Provider.of<ProductoProvider>(context, listen: false);
+  final respuesta = await eliminarProducto(idProducto);
+  if (respuesta == 200) {
+    ventanaExito(context, titulo: 'Producto eliminado con éxito');
+    productoProvider.setData();
+  } else if (respuesta == 500) {
+    ventanaError(context,
+        'Ocurrió un error interno en el servidor, por facor comuniquese con el administrador.');
+  } else if (respuesta == 404) {
+    ventanaError(context, 'El producto indicado fue removido o no existe.');
+  }
+}
+
 Future crearProductoController(
     String codigoProducto,
     String nombreProducto,
@@ -175,8 +157,10 @@ Future crearProductoController(
     String idTipoProducto,
     var pickedFile,
     context) async {
-  ProductoProvider productoProvider = Provider.of<ProductoProvider>(context, listen: false);
-  print('$codigoProducto $nombreProducto $precioProducto $isvProducto $isExcento $idTipoProducto');
+  ProductoProvider productoProvider =
+      Provider.of<ProductoProvider>(context, listen: false);
+  print(
+      '$codigoProducto $nombreProducto $precioProducto $isvProducto $isExcento $idTipoProducto');
   if (codigoProducto.isNotEmpty &&
       nombreProducto.isNotEmpty &&
       precioProducto.isNotEmpty &&
@@ -197,17 +181,19 @@ Future crearProductoController(
     if (producto == 200) {
       ventanaExito(context);
       productoProvider.setData();
-    } else if (producto == 500){
-      ventanaError(context, 'Ocurrió un error interno en el servidor al agregar el producto, comuniquese con el administrador.');
-    } else if (producto == 409){
-      ventanaError(context, 'Ya existe un producto con el código indicado.');
+    } else if (producto == 500) {
+      ventanaError(context,
+          'Ocurrió un error interno en el servidor al agregar el producto, comuniquese con el administrador.');
+    } else if (producto == 409) {
+      ventanaError(context,
+          'Ya existe un producto con el código indicado o el código fue usado anteriormente.');
     }
   } else {
     _ventanaError(context);
   }
 }
 
-Future<Producto?> actualizaProductoController(
+Future actualizarProductoController(
     String id,
     String codigoProducto,
     String nombreProducto,
@@ -217,33 +203,31 @@ Future<Producto?> actualizaProductoController(
     String descProducto,
     String isExcento,
     String idTipoProducto,
-    XFile pickedFile,
+    var pickedFile,
     context) async {
-  if (id.isNotEmpty &&
-      codigoProducto.isNotEmpty &&
-      nombreProducto.isNotEmpty &&
-      precioProducto.isNotEmpty &&
-      cantidadProducto.isNotEmpty &&
-      isvProducto.isNotEmpty &&
-      descProducto.isNotEmpty &&
-      isExcento.isNotEmpty &&
-      idTipoProducto.isNotEmpty) {
-    List<Producto?> producto = await ActualizarProducto2(
-        id,
-        codigoProducto,
-        nombreProducto,
-        precioProducto,
-        cantidadProducto,
-        isvProducto,
-        descProducto,
-        isExcento,
-        idTipoProducto,
-        pickedFile,
-        context);
-    if (producto != null) {
-    } else {}
-  } else {
-    _ventanaError(context);
+  ProductoProvider productoProvider =
+      Provider.of<ProductoProvider>(context, listen: false);
+  final respuesta = await actualizarProducto(
+      id,
+      codigoProducto,
+      nombreProducto,
+      precioProducto,
+      cantidadProducto,
+      isvProducto,
+      descProducto,
+      isExcento,
+      idTipoProducto,
+      pickedFile,
+      context);
+  if (respuesta == 200) {
+    ventanaExito(context, titulo: 'Producto actualizado exitosamente');
+    productoProvider.setData();
+  } else if (respuesta == 500) {
+    ventanaError(context,
+        'Ocurrió un error al actualizar el producto, comuniquese con el administrador');
+  } else if (respuesta == 409) {
+    ventanaError(context,
+          'Ya existe un producto con el código indicado o el código fue usado anteriormente.');
   }
 }
 

@@ -1,6 +1,6 @@
   import 'package:flutter/material.dart';
 
-void ventanaExito(BuildContext context) {
+void ventanaExito(BuildContext context, {String titulo = 'Acción realizada con éxito.'}) {
     var idTipoProductoController = TextEditingController();
 
     showDialog(
@@ -17,7 +17,7 @@ void ventanaExito(BuildContext context) {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Acción realizada con éxito.',
+                        titulo,
                         style: TextStyle(fontSize: 18),
                       ),
                       SizedBox(
@@ -30,7 +30,6 @@ void ventanaExito(BuildContext context) {
                           child: RaisedButton(
                             onPressed: () {
                               Navigator.pop(context);
-                              // initState2();
                               Navigator.pop(context);
                             },
                             child: Text('OK'),
