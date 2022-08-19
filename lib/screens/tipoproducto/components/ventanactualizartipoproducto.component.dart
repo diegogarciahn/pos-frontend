@@ -1,95 +1,121 @@
-  import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+
+import '../../../controllers/tipoproducto.controller.dart';
 
 void ventanaActualizar(
-      BuildContext context,
-      String idTipoProductoP,
-      String tipoProductoP,
-      String descripcionProductoP,
-      String isvTipoProductoP) {
-    late TextEditingController idTipoProducto =
-        TextEditingController(text: idTipoProductoP);
-    late TextEditingController tipoProducto2 =
-        TextEditingController(text: tipoProductoP);
-    late TextEditingController descripcionProducto =
-        TextEditingController(text: descripcionProductoP);
-    late TextEditingController isvTipoProducto =
-        TextEditingController(text: isvTipoProductoP);
+    BuildContext context,
+    String idTipoProductoP,
+    String tipoProductoP,
+    String descripcionProductoP,
+    String isvTipoProductoP) {
+  int radioButtonGroup = 4;
+  String isvTipoProducto = isvTipoProductoP;
+  late TextEditingController tipoProducto2 =
+      TextEditingController(text: tipoProductoP);
+  late TextEditingController descripcionProducto =
+      TextEditingController(text: descripcionProductoP);
 
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          actions: <Widget>[
-            Container(
-              width: 500,
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(40),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: StatefulBuilder(
+          builder: (context, StateSetter setState) {
+            return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Tipo de Producto',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  TextFormField(
+                    controller: tipoProducto2,
+                    decoration: InputDecoration(border: UnderlineInputBorder()),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    'Descripción',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  TextFormField(
+                    controller: descripcionProducto,
+                    decoration: InputDecoration(border: UnderlineInputBorder()),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    'ISV',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  Row(
                     children: [
-                      Text(
-                        'Tipo de Producto',
-                        style: TextStyle(fontSize: 18),
+                      Expanded(
+                        child: RadioListTile<int>(
+                          value: 0,
+                          groupValue: radioButtonGroup,
+                          title: Text('Excento'),
+                          onChanged: (value) {
+                            setState(() => radioButtonGroup = 0);
+                            isvTipoProducto = '0';
+                          },
+                        ),
                       ),
-                      TextFormField(
-                        controller: tipoProducto2,
-                        decoration:
-                            InputDecoration(border: UnderlineInputBorder()),
+                      Expanded(
+                        child: RadioListTile<int>(
+                          value: 1,
+                          groupValue: radioButtonGroup,
+                          title: Text('15%'),
+                          onChanged: (value) {
+                            setState(() => radioButtonGroup = 1);
+                            isvTipoProducto = '15';
+                          },
+                        ),
                       ),
-                      SizedBox(
-                        height: 40,
+                      Expanded(
+                        child: RadioListTile<int>(
+                            value: 2,
+                            groupValue: radioButtonGroup,
+                            title: Text('18%'),
+                            onChanged: (value) {
+                              setState(() => radioButtonGroup = 2);
+                              isvTipoProducto = '18';
+                            }),
                       ),
-                      Text(
-                        'Descripción',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      TextFormField(
-                        controller: descripcionProducto,
-                        decoration:
-                            InputDecoration(border: UnderlineInputBorder()),
-                      ),
-                      SizedBox(
-                        height: 40,
-                      ),
-                      Text(
-                        'ISV',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      TextFormField(
-                        controller: isvTipoProducto,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                            border: UnderlineInputBorder(),
-                            hintText: 'Escribir en valor decimal.'),
-                      ),
-                      Container(
-                          width: 80,
-                          height: 40,
-                          margin: EdgeInsets.all(5),
-                          child: RaisedButton(
-                            onPressed: () {
-                              // estaCorrecto = controladorActualizarTipoProducto(
-                              //     idTipoProductoP,
-                              //     tipoProducto2.text,
-                              //     descripcionProducto.text,
-                              //     isvTipoProducto.text,
-                              //     context);
-                              // Navigator.popAndPushNamed(
-                              //     context, 'PantallaTipoProductos');
-                              // initState();
-                            },
-                            child: Text('Actualizar'),
-                            padding: EdgeInsets.all(10),
-                          )),
-                      SizedBox(
-                        height: 40,
-                      ),
-                    ]),
-              ),
+                    ],
+                  ),
+                ]);
+          },
+        ),
+        actions: <Widget>[
+          ElevatedButton(
+            onPressed: () {
+              actualizarTipoProductoController(
+                  idTipoProductoP,
+                  tipoProducto2.text,
+                  descripcionProducto.text,
+                  isvTipoProducto,
+                  context);
+            },
+            child: Text('Guardar'),
+            style: ButtonStyle(
+              padding: MaterialStateProperty.all(EdgeInsets.all(20)),
             ),
-          ],
-        );
-      },
-    );
-  }
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text('Cancelar'),
+            style: ButtonStyle(
+              padding: MaterialStateProperty.all(EdgeInsets.all(20)),
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}

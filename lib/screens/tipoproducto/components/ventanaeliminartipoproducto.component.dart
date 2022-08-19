@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:soft_frontend/controllers/tipoproducto.controller.dart';
 import 'package:soft_frontend/screens/tipoproducto/components/ventanaexitotipoproducto.component.dart';
 
 import '../../../services/tipoproducto.service.dart';
 
-void ventanaEliminar2(BuildContext context, String idTipoProductoP) {
-  late TextEditingController idTipoProducto =
-      TextEditingController(text: idTipoProductoP);
+void ventanaEliminar(BuildContext context, String idTipoProductoP) {
 
   showDialog(
     context: context,
@@ -18,10 +17,7 @@ void ventanaEliminar2(BuildContext context, String idTipoProductoP) {
         actions: <Widget>[
           ElevatedButton(
             onPressed: () {
-              EliminarTipoProducto(
-                  idTipoProducto.text, context);
-              Navigator.pop(context);
-              ventanaExito(context);
+              eliminarTipoProductoController(context, idTipoProductoP);
             },
             child: Text('Eliminar'),
             style: ButtonStyle(

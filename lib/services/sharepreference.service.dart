@@ -5,7 +5,7 @@ import '../models/models.dart';
   Future<String> getToken() async {
 
     SharedPreferences prefs = await  SharedPreferences.getInstance();
-    final String? response = prefs.getString("response");
+    final String? response = prefs.getString('response');
     Object? finalresponse;
     finalresponse = response;
 
@@ -17,13 +17,13 @@ import '../models/models.dart';
   }
   Future<bool> setArqueadoCerrado() async {
     SharedPreferences prefs = await  SharedPreferences.getInstance();
-     final response = prefs.setBool("arqueoabierto",false);
+     final response = prefs.setBool('arqueoabierto',false);
     return response;
 
   }
   Future<bool> getarqueo() async {
     SharedPreferences prefs = await  SharedPreferences.getInstance();
-    bool? response = prefs.getBool("arqueoabierto");
+    bool? response = prefs.getBool('arqueoabierto');
     return response!;
   }
 

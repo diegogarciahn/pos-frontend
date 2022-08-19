@@ -1,58 +1,93 @@
 import 'package:flutter/material.dart';
+
+import 'package:provider/provider.dart';
+
+import 'package:soft_frontend/providers/tipoproducto.provider.dart';
+
+import '../constans.dart';
+
 import 'package:soft_frontend/models/Tipoproducto.model.dart';
+
+import '../screens/tipoproducto/components/ventanaerrortipoproducto.component.dart';
+import '../screens/tipoproducto/components/ventanaexitotipoproducto.component.dart';
+
+import '../services/sharepreference.service.dart';
 import '../services/tipoproducto.service.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:soft_frontend/screens/tipoproducto/tipoproducto.screen.dart';
-import '../screens/tipoproducto/tipoproducto.screen.dart' as global;
 
-var estaCorrecto;
-bool controladorCrearTipoProducto(String tipoproducto,
-    String descripcionProducto, String isvTipoProducto, context) {
-  bool funciona = false;
-  Tipoproducto tipoProducto = Tipoproducto();
-  Future<Tipoproducto?> producto2 = crearTipoProductoController(
-      tipoproducto, descripcionProducto, isvTipoProducto, context);
-  if (producto2 != null) {
-    funciona = true;
-  } else {
-    funciona = false;
-  }
-  return funciona;
+Future<String> esperarToken(BuildContext context) async {
+  final token = await getToken().catchError((error) {
+    Navigator.pushReplacementNamed(context, 'login');
+    const snackBar = SnackBar(
+      content: Text('Por favor inicie sesión para acceder al sistema.'),
+      backgroundColor: Colors.red,
+    );
+    snackbarKey.currentState?.showSnackBar(snackBar);
+    return '';
+  });
+  return token;
 }
 
-bool controladorActualizarTipoProducto(String id, String tipoproducto,
-    String descripcionProducto, String isvTipoProducto, context) {
-  bool funciona = false;
-  Tipoproducto tipoProducto = Tipoproducto();
-  Future<Tipoproducto?> producto2 = actualizarTipoProductoController(
-      id, tipoproducto, descripcionProducto, isvTipoProducto, context);
-  if (producto2 == null) {
-    funciona = true;
-  } else {
-    funciona = false;
-  }
-  return funciona;
-}
-
-Future<Tipoproducto?> crearTipoProductoController(String tipoproducto2,
-    String descripcionProducto, String isvTipoProducto, context) async {
-  if (tipoproducto2.isNotEmpty &&
-      descripcionProducto.isNotEmpty &&
-      isvTipoProducto.isNotEmpty) {
-    List<Tipoproducto?> producto = await crearTipoProducto2(
-        tipoproducto2, descripcionProducto, isvTipoProducto, context);
-    if (producto != null) {
-      _ventanaExito(context);
-    } else {
-      _ventanaError(context);
+Future obtenerTipoDeProductosController(context) async {
+  TipoProductoProvider tipoProductoProvider =
+      Provider.of<TipoProductoProvider>(context, listen: false);
+  final token = await esperarToken(context);
+  if (token.isNotEmpty) {
+    final respuesta = await obtenerTipos(token);
+    if (respuesta is List<Tipoproducto>) {
+      tipoProductoProvider.setListTipoProducto(respuesta);
+    } else if (respuesta == 500) {
+      ventanaError(context,
+          mensaje:
+              'Ocurrió un error interno del servidor, comuniquese con el administrador.');
+    } else if (respuesta == 409) {
+      Navigator.pushReplacementNamed(context, 'login');
+      const snackBar = SnackBar(
+        content: Text('Por favor inicie sesión para acceder al sistema.'),
+        backgroundColor: Colors.red,
+      );
+      snackbarKey.currentState?.showSnackBar(snackBar);
+    } else if (respuesta == 1928) {
+      ventanaError(context);
     }
-  } else {
-    _ventanaError(context);
   }
 }
 
-Future<Tipoproducto?> actualizarTipoProductoController(
+Future crearTipoProductoController(String tipoproducto2,
+    String descripcionProducto, String isvTipoProducto, context) async {
+  final token = await esperarToken(context);
+  if (token != '') {
+    if (tipoproducto2.isNotEmpty &&
+        descripcionProducto.isNotEmpty &&
+        isvTipoProducto.isNotEmpty) {
+      final respuesta = await crearTipoProductoService(
+          tipoproducto2, descripcionProducto, isvTipoProducto, token);
+      if (respuesta == 200) {
+        ventanaExito(context, mensaje: 'Tipo de producto creado con éxito');
+        obtenerTipoDeProductosController(context);
+      } else if (respuesta == 500) {
+        ventanaError(context,
+            mensaje:
+                'Ocurrió un error interno en el servidor, comuniquese con el administrador.');
+      } else if (respuesta == 1928) {
+        ventanaError(context,
+            mensaje:
+                'Ocurrió un error al realizar esta acción, comuniquese con el administrador.');
+      } else if (respuesta == 401) {
+        Navigator.pushReplacementNamed(context, 'login');
+        const snackBar = SnackBar(
+          content:
+              Text('Por favor inicie sesión para poder realizar esta acción.'),
+          backgroundColor: Colors.red,
+        );
+        snackbarKey.currentState?.showSnackBar(snackBar);
+      }
+    } else {
+      ventanaError(context, mensaje: 'Por favor complete todos los campos.');
+    }
+  }
+}
+
+Future actualizarTipoProductoController(
     String id,
     String tipoproducto2,
     String descripcionProducto,
@@ -62,108 +97,45 @@ Future<Tipoproducto?> actualizarTipoProductoController(
       tipoproducto2.isNotEmpty &&
       descripcionProducto.isNotEmpty &&
       isvTipoProducto.isNotEmpty) {
-    Tipoproducto? producto = await ActualizarTipoProducto(
-        id, tipoproducto2, descripcionProducto, isvTipoProducto, context);
-    if (producto != null) {
-      _ventanaExito(context);
-    } else {
-      _ventanaError(context);
+    final token = await esperarToken(context);
+    final respuesta = await actualizarTipoProducto(
+        id, tipoproducto2, descripcionProducto, isvTipoProducto, token);
+    if (respuesta == 200) {
+      ventanaExito(context);
+      obtenerTipoDeProductosController(context);
+    } else if (respuesta == 404) {
+      ventanaError(context, mensaje: 'El archivo al que usted está haciendo referencia fue removido o no se encuentra disponible.');
+    } else if (respuesta == 500) {
+      ventanaError(context, mensaje: 'Ocurrió un error interno en el servidor, comuniquese con el administrador.');
+    } else if (respuesta == 1928) {
+      ventanaError(context);
     }
-    return producto;
   } else {
-    _ventanaError(context);
+    ventanaError(context);
   }
 }
 
-void _ventanaExito(BuildContext context) {
-  var idTipoProductoController = TextEditingController();
-
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        actions: <Widget>[
-          Container(
-            width: 500,
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(40),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Acción realizada con éxito.",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    Container(
-                        width: 80,
-                        height: 40,
-                        margin: EdgeInsets.all(5),
-                        child: RaisedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            //initState();
-                          },
-                          child: Text('OK'),
-                          padding: EdgeInsets.all(10),
-                        )),
-                    SizedBox(
-                      height: 40,
-                    ),
-                  ]),
-            ),
-          ),
-        ],
-      );
-    },
-  );
-}
-
-void _ventanaError(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        actions: <Widget>[
-          Container(
-            width: 500,
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(40),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Ocurrio un error al realizar esta acción, intente de nuevo.",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    Container(
-                        width: 80,
-                        height: 40,
-                        margin: EdgeInsets.all(5),
-                        child: RaisedButton(
-                          onPressed: () {
-                            Navigator.popAndPushNamed(
-                                context, 'PantallaTipoProductos');
-                            //initState();
-                          },
-                          child: Text('OK'),
-                          padding: EdgeInsets.all(10),
-                        )),
-                    SizedBox(
-                      height: 40,
-                    ),
-                  ]),
-            ),
-          ),
-        ],
-      );
-    },
-  );
+Future eliminarTipoProductoController(context, String idTipoProducto) async{
+  final token = await esperarToken(context);
+  final respuesta = await eliminarTipoProductoService(idTipoProducto, token);
+  if (respuesta == 200) {
+        ventanaExito(context, mensaje: 'Tipo de producto eliminado con éxito');
+        obtenerTipoDeProductosController(context);
+      } else if (respuesta == 500) {
+        ventanaError(context,
+            mensaje:
+                'Ocurrió un error interno en el servidor, comuniquese con el administrador.');
+      } else if (respuesta == 1928) {
+        ventanaError(context,
+            mensaje:
+                'Ocurrió un error al realizar esta acción, comuniquese con el administrador.');
+      } else if (respuesta == 401) {
+        Navigator.pushReplacementNamed(context, 'login');
+        const snackBar = SnackBar(
+          content:
+              Text('Por favor inicie sesión para poder realizar esta acción.'),
+          backgroundColor: Colors.red,
+        );
+        snackbarKey.currentState?.showSnackBar(snackBar);
+      }
 }

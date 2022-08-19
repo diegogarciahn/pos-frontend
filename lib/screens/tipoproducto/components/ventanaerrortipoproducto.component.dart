@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-void ventanaExito(BuildContext context,
-    {String mensaje = 'Acción realizada con éxito.'}) {
+void ventanaError(BuildContext context, {String mensaje = 'Ocurrio un error al realizar esta acción, intente de nuevo.'}) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -29,12 +28,11 @@ void ventanaExito(BuildContext context,
                       child: ElevatedButton(
                         onPressed: () {
                           Navigator.pop(context);
-                          Navigator.pop(context);
                         },
                         child: Text('Ok'),
                         style: ButtonStyle(
                           padding:
-                              MaterialStateProperty.all(EdgeInsets.all(10)),
+                              MaterialStateProperty.all(EdgeInsets.all(20)),
                         ),
                       ),
                     ),

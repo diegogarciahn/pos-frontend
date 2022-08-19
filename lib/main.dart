@@ -17,6 +17,7 @@ import 'package:soft_frontend/screens/producto/producto.screen.dart';
 import 'package:soft_frontend/screens/rol/gestionroles.screen.dart';
 
 import 'providers/producto.provider.dart';
+import 'providers/tipoproducto.provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,7 +31,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ProductoProvider())
+        ChangeNotifierProvider(create: (_) => ProductoProvider()),
+        ChangeNotifierProvider(create: (_) => TipoProductoProvider()),
       ],
       child: MaterialApp(
         scaffoldMessengerKey: snackbarKey,

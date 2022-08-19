@@ -7,13 +7,10 @@ import 'package:provider/provider.dart';
 
 import 'package:soft_frontend/models/Producto.model.dart';
 
-import 'package:soft_frontend/controllers/producto.controller.dart';
 import 'package:soft_frontend/providers/producto.provider.dart';
 
-import 'components/buscartipoproducto.component.dart';
 import 'components/ventanaactualizarexistencia.component.dart';
 import 'components/ventananueva.component.dart';
-import 'components/ventanaerror.component.dart';
 import 'components/listitem.component.dart';
 
 bool isCorrect = false;

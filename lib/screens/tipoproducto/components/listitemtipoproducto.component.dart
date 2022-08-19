@@ -56,7 +56,7 @@ listItem(index, context, List<Tipoproducto> tiposN) {
                   ),
                   child: Text('Eliminar', style: TextStyle(color: Colors.white)),
                   onPressed: () {
-                    ventanaEliminar2(context, tiposN[index].id.toString());
+                    ventanaEliminar(context, tiposN[index].id.toString());
                   },
                 )),
           ],

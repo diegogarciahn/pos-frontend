@@ -40,18 +40,18 @@ Future<bool?> logout_controller(context) async {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Arqueo abierto"),
-          content: Text("Cierra los arqueos antes de cerrar sesion"),
+          title: Text('Arqueo abierto'),
+          content: Text('Cierra los arqueos antes de cerrar sesion'),
           actions: <Widget>[
             ElevatedButton(
-              child: Text("Ir Pantalla Arqueo"),
+              child: Text('Ir Pantalla Arqueo'),
               onPressed: () {
                 Navigator.pop(context);
                 Navigator.popAndPushNamed(context, 'ventas');
               },
             ),
             ElevatedButton(
-              child: Text("Cerrar Ventana"),
+              child: Text('Cerrar Ventana'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -104,7 +104,7 @@ Future<User?> crearUsuario_Controller(
 
   if (user != null) {
     ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Usuario creado con exito")));
+        const SnackBar(content: Text('Usuario creado con exito')));
     //Navigator.pushNamed(context, "Traerusuarios");
   }
 }
@@ -113,9 +113,9 @@ Future<Usuario?> eliminarUsuario_Controller(String id, context) async {
   List<Usuario?> usuario = await eliminarUsuario(id);
   print(id);
   if (Usuario != null) {
-    Navigator.pushNamed(context, "gestionUsuarios");
+    Navigator.pushNamed(context, 'gestionUsuarios');
     ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("User eliminado con exito")));
+        const SnackBar(content: Text('User eliminado con exito')));
   } else {}
 }
 
@@ -142,11 +142,11 @@ Future<Usuario?> actualizarUsuario_Controller(
       //print(idEmpleado);
       print(idRol);
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Usuario Actualizado con exito")));
-      Navigator.pushNamed(context, "gestionUsuarios");
+          const SnackBar(content: Text('Usuario Actualizado con exito')));
+      Navigator.pushNamed(context, 'gestionUsuarios');
     } else {}
   } else {
     ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text("Campos en blanco")));
+        .showSnackBar(const SnackBar(content: Text('Campos en blanco')));
   }
 }

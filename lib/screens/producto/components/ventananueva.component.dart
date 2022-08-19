@@ -224,56 +224,6 @@ void ventanaNueva(BuildContext context) {
                             }),
                       ],
                     ),
-                    // Row(children: [
-                    // Container(
-                    //     width: 100,
-                    //     height: 50,
-                    //     margin: EdgeInsets.all(2),
-                    //     child: ElevatedButton(
-                    //       onPressed: () async {
-                    //         String idTipoProd = productoProvider.getidTipoProductoG;
-                    //         print('aqui va el id producto: $idTipoProd');
-                    //         if (codigoProductoController.text.isEmpty |
-                    //             nombreProductoController.text.isEmpty |
-                    //             precioProductoController.text.isEmpty |
-                    //             cantidadProductoController.text.isEmpty |
-                    //             isvProductoController.text.isEmpty | (idTipoProd == '') | (isExcento >= 3)) {
-                    //           ventanaError(context, mensaje: 'Por favor llene todos los campos requeridos.');
-                    //         } else {
-                    //           final respuesta = await crearProductoController(
-                    //               codigoProductoController.text,
-                    //               nombreProductoController.text,
-                    //               precioProductoController.text,
-                    //               cantidadProductoController.text,
-                    //               isvProductoController.text,
-                    //               (descProductoController.text.isNotEmpty)?descProductoController.text:'0',
-                    //               isExcento2.toString(),
-                    //               idTipoProd,
-                    //               (imagePiker != null)?imagePiker:'',
-                    //               context);
-                    //           print(respuesta);
-                    //         }
-                    //       },
-                    //       child: Text('Guardar'),
-                    //       style: ButtonStyle(
-                    //         padding: MaterialStateProperty.all(EdgeInsets.all(10)),
-                    //       ),
-                    //     )),
-                    // Container(
-                    //     width: 100,
-                    //     height: 50,
-                    //     margin: EdgeInsets.all(5),
-                    //     child: ElevatedButton(
-                    //       onPressed: () {
-                    //         productoProvider.changeIdTipoProducto = '';
-                    //         Navigator.pop(context);
-                    //       },
-                    //       child: Text('Cancelar'),
-                    //       style: ButtonStyle(
-                    //         padding: MaterialStateProperty.all(EdgeInsets.all(10)),
-                    //       ),
-                    //     )),
-                    // ]),
                   ],
                 ),
               ),
@@ -281,60 +231,52 @@ void ventanaNueva(BuildContext context) {
           },
         ),
         actions: [
-          Container(
-              width: 100,
-              height: 50,
-              margin: EdgeInsets.all(2),
-              child: ElevatedButton(
-                onPressed: () async {
-                  String idTipoProd = productoProvider.getidTipoProductoG;
-                  print('aqui va el id producto: $idTipoProd');
-                  if (codigoProductoController.text.isEmpty |
-                      nombreProductoController.text.isEmpty |
-                      precioProductoController.text.isEmpty |
-                      cantidadProductoController.text.isEmpty |
-                      isvProductoController.text.isEmpty |
-                      (idTipoProd == '') |
-                      (isExcento >= 3)) {
-                    ventanaError(context,
-                        mensaje:
-                            'Por favor llene todos los campos requeridos.');
-                  } else {
-                    final respuesta = await crearProductoController(
-                        codigoProductoController.text,
-                        nombreProductoController.text,
-                        precioProductoController.text,
-                        cantidadProductoController.text,
-                        isvProductoController.text,
-                        (descProductoController.text.isNotEmpty)
-                            ? descProductoController.text
-                            : '0',
-                        isExcento2.toString(),
-                        idTipoProd,
-                        (imagePiker != null) ? imagePiker : '',
-                        context);
-                    print(respuesta);
-                  }
-                },
-                child: Text('Guardar'),
-                style: ButtonStyle(
-                  padding: MaterialStateProperty.all(EdgeInsets.all(10)),
-                ),
-              )),
-          Container(
-              width: 100,
-              height: 50,
-              margin: EdgeInsets.all(5),
-              child: ElevatedButton(
-                onPressed: () {
-                  productoProvider.changeIdTipoProducto = '';
-                  Navigator.pop(context);
-                },
-                child: Text('Cancelar'),
-                style: ButtonStyle(
-                  padding: MaterialStateProperty.all(EdgeInsets.all(10)),
-                ),
-              )),
+          ElevatedButton(
+            onPressed: () async {
+              String idTipoProd = productoProvider.getidTipoProductoG;
+              print('aqui va el id producto: $idTipoProd');
+              if (codigoProductoController.text.isEmpty |
+                  nombreProductoController.text.isEmpty |
+                  precioProductoController.text.isEmpty |
+                  cantidadProductoController.text.isEmpty |
+                  isvProductoController.text.isEmpty |
+                  (idTipoProd == '') |
+                  (isExcento >= 3)) {
+                ventanaError(context,
+                    mensaje:
+                        'Por favor llene todos los campos requeridos.');
+              } else {
+                final respuesta = await crearProductoController(
+                    codigoProductoController.text,
+                    nombreProductoController.text,
+                    precioProductoController.text,
+                    cantidadProductoController.text,
+                    isvProductoController.text,
+                    (descProductoController.text.isNotEmpty)
+                        ? descProductoController.text
+                        : '0',
+                    isExcento2.toString(),
+                    idTipoProd,
+                    (imagePiker != null) ? imagePiker : '',
+                    context);
+                print(respuesta);
+              }
+            },
+            child: Text('Guardar'),
+            style: ButtonStyle(
+              padding: MaterialStateProperty.all(EdgeInsets.all(10)),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              productoProvider.changeIdTipoProducto = '';
+              Navigator.pop(context);
+            },
+            child: Text('Cancelar'),
+            style: ButtonStyle(
+              padding: MaterialStateProperty.all(EdgeInsets.all(10)),
+            ),
+          ),
         ],
       );
     },

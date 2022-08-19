@@ -107,7 +107,7 @@ Future filtrarArqueoIdUsuario_Controller(
   }
 }
 
-Future validarArqueoActivo_Controller(context) async {
+Future validarArqueoActivoController(context) async {
   final token = await expectToken(context);
   if (token != '') {
     //List<ManipularArqueo?> arqueo1 = await validarArqueoActivo(token);
