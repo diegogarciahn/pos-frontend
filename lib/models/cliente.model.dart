@@ -17,11 +17,11 @@ class Cliente {
 
   factory Cliente.fromJson(Map<String, dynamic> json) => Cliente(
         todoslosClientes: List<TodoslosCliente>.from(
-            json["todoslosClientes"].map((x) => TodoslosCliente.fromJson(x))),
+            json['todoslosClientes'].map((x) => TodoslosCliente.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "todoslosClientes":
+        'todoslosClientes':
             List<dynamic>.from(todoslosClientes.map((x) => x.toJson())),
       };
 }
@@ -53,28 +53,28 @@ class TodoslosCliente {
 
   factory TodoslosCliente.fromJson(Map<String, dynamic> json) =>
       TodoslosCliente(
-        id: json["id"],
-        dni: json["dni"],
-        email: json["email"],
-        rtn: json["rtn"] ?? 0,
-        nombreCliente: json["nombreCliente"],
-        direccion: json["direccion"],
-        telefonoCliente: json["telefonoCliente"],
-        isDelete: json["isDelete"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
+        id: json['id'],
+        dni: json['dni'],
+        email: json['email'],
+        rtn: json['rtn'] ?? 0,
+        nombreCliente: json['nombreCliente'],
+        direccion: json['direccion'],
+        telefonoCliente: json['telefonoCliente'],
+        isDelete: json['isDelete'],
+        createdAt: DateTime.parse(json['createdAt']),
+        updatedAt: DateTime.parse(json['updatedAt']),
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "dni": dni,
-        "email": email,
-        "rtn": rtn,
-        "nombreCliente": nombreCliente,
-        "direccion": direccion,
-        "telefonoCliente": telefonoCliente,
-        "isDelete": isDelete,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        'id': id,
+        'dni': dni,
+        'email': email,
+        'rtn': rtn,
+        'nombreCliente': nombreCliente,
+        'direccion': direccion,
+        'telefonoCliente': telefonoCliente,
+        'isDelete': isDelete,
+        'createdAt': createdAt.toIso8601String(),
+        'updatedAt': updatedAt.toIso8601String(),
       };
 }

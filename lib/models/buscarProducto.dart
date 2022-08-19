@@ -1,6 +1,3 @@
-// To parse this JSON data, do
-//
-//     final buscarProducto = buscarProductoFromJson(jsonString);
 
 import 'dart:convert';
 
@@ -16,11 +13,11 @@ class BuscarProducto {
   Producto2 producto;
 
   factory BuscarProducto.fromJson(Map<String, dynamic> json) => BuscarProducto(
-    producto: Producto2.fromJson(json["producto"]),
+    producto: Producto2.fromJson(json['producto']),
   );
 
   Map<String, dynamic> toJson() => {
-    "producto": producto.toJson(),
+    'producto': producto.toJson(),
   };
 }
 
@@ -56,35 +53,35 @@ class Producto2 {
   Tipoproducto tipoproducto;
 
   factory Producto2.fromJson(Map<String, dynamic> json) => Producto2(
-    id: json["id"],
-    codigoProducto: json["codigoProducto"],
-    nombreProducto: json["nombreProducto"],
-    precioProducto: json["precioProducto"],
-    cantidadProducto: json["cantidadProducto"],
-    isvProducto: json["isvProducto"],
-    descProducto: json["descProducto"],
-    isExcento: json["isExcento"],
-    isDelete: json["isDelete"],
-    createdAt: DateTime.parse(json["createdAt"]),
-    updatedAt: DateTime.parse(json["updatedAt"]),
-    idTipoProducto: json["idTipoProducto"],
-    tipoproducto: Tipoproducto.fromJson(json["tipoproducto"]),
+    id: json['id'],
+    codigoProducto: json['codigoProducto'],
+    nombreProducto: json['nombreProducto'],
+    precioProducto: json['precioProducto'],
+    cantidadProducto: json['cantidadProducto'],
+    isvProducto: json['isvProducto'],
+    descProducto: json['descProducto'],
+    isExcento: json['isExcento'],
+    isDelete: json['isDelete'],
+    createdAt: DateTime.parse(json['createdAt']),
+    updatedAt: DateTime.parse(json['updatedAt']),
+    idTipoProducto: json['idTipoProducto'],
+    tipoproducto: Tipoproducto.fromJson(json['tipoproducto']),
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "codigoProducto": codigoProducto,
-    "nombreProducto": nombreProducto,
-    "precioProducto": precioProducto,
-    "cantidadProducto": cantidadProducto,
-    "isvProducto": isvProducto,
-    "descProducto": descProducto,
-    "isExcento": isExcento,
-    "isDelete": isDelete,
-    "createdAt": createdAt.toIso8601String(),
-    "updatedAt": updatedAt.toIso8601String(),
-    "idTipoProducto": idTipoProducto,
-    "tipoproducto": tipoproducto.toJson(),
+    'id': id,
+    'codigoProducto': codigoProducto,
+    'nombreProducto': nombreProducto,
+    'precioProducto': precioProducto,
+    'cantidadProducto': cantidadProducto,
+    'isvProducto': isvProducto,
+    'descProducto': descProducto,
+    'isExcento': isExcento,
+    'isDelete': isDelete,
+    'createdAt': createdAt.toIso8601String(),
+    'updatedAt': updatedAt.toIso8601String(),
+    'idTipoProducto': idTipoProducto,
+    'tipoproducto': tipoproducto.toJson(),
   };
 }
 
@@ -108,22 +105,22 @@ class Tipoproducto {
   DateTime updatedAt;
 
   factory Tipoproducto.fromJson(Map<String, dynamic> json) => Tipoproducto(
-    id: json["id"],
-    tipoProducto: json["tipoProducto"],
-    descripcionProducto: json["descripcionProducto"],
-    isvTipoProducto: json["isvTipoProducto"],
-    isDelete: json["isDelete"],
-    createdAt: DateTime.parse(json["createdAt"]),
-    updatedAt: DateTime.parse(json["updatedAt"]),
+    id: json['id'],
+    tipoProducto: json['tipoProducto'],
+    descripcionProducto: json['descripcionProducto'],
+    isvTipoProducto: json['isvTipoProducto'],
+    isDelete: json['isDelete'],
+    createdAt: DateTime.parse(json['createdAt']),
+    updatedAt: DateTime.parse(json['updatedAt']),
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "tipoProducto": tipoProducto,
-    "descripcionProducto": descripcionProducto,
-    "isvTipoProducto": isvTipoProducto,
-    "isDelete": isDelete,
-    "createdAt": createdAt.toIso8601String(),
-    "updatedAt": updatedAt.toIso8601String(),
+    'id': id,
+    'tipoProducto': tipoProducto,
+    'descripcionProducto': descripcionProducto,
+    'isvTipoProducto': isvTipoProducto,
+    'isDelete': isDelete,
+    'createdAt': createdAt.toIso8601String(),
+    'updatedAt': updatedAt.toIso8601String(),
   };
 }

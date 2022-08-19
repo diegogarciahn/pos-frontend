@@ -1,9 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 import 'package:soft_frontend/models/Producto.model.dart';
-import 'package:soft_frontend/providers/producto.provider.dart';
 import 'dart:convert';
 import '../constans.dart';
 
@@ -56,9 +54,7 @@ Future crearProducto2(
     String descProducto,
     String isExcento,
     String idTipoProducto,
-    var pickedFile,
-    context) async {
-  ProductoProvider productoProvider = Provider.of<ProductoProvider>(context, listen: false);
+    var pickedFile) async {
   if (pickedFile != '') {
     var headers = {
       'Content-Type': 'application/json;',
@@ -94,7 +90,6 @@ Future crearProducto2(
         print(response.statusCode);
       });
       if (response.statusCode == 200) {
-        print(Producto);
         return 200;
       } else if (response.statusCode == 500) {
         print('ocurrió un error');
@@ -123,7 +118,6 @@ Future crearProducto2(
       print(response.statusCode);
       if (response.statusCode == 200) {
         print(200);
-        productoProvider.changeIdTipoProducto = '';
         return 200;
       } else if (response.statusCode == 500) {
         print(500);
@@ -150,9 +144,7 @@ Future actualizarProducto(
     String descProducto,
     String isExcento,
     String idTipoProducto,
-    var pickedFile,
-    context) async {
-      ProductoProvider productoProvider = Provider.of<ProductoProvider>(context, listen: false);
+    var pickedFile) async {
   if (pickedFile != '') {
     var headers = {
       'Content-Type': 'application/json;',
@@ -186,7 +178,6 @@ Future actualizarProducto(
         print(response.statusCode);
       });
       if (response.statusCode == 200) {
-        productoProvider.changeIdTipoProducto = '';
         return 200;
       } else if (response.statusCode == 404) {
         return 404;
@@ -216,7 +207,6 @@ Future actualizarProducto(
               }));
       print(response.statusCode);
       if (response.statusCode == 200) {
-        productoProvider.changeIdTipoProducto = '';
         return 200;
       } else if (response.statusCode == 404) {
         return 404;
@@ -342,8 +332,8 @@ Future<List<Producto?>> eliminarProducto2(String id) async {
   } finally {}
 }
 
-Future<List<Producto?>> ActualizarSaldo2(
-    String codigoProducto, String cantidadProducto, context) async {
+Future actualizarExistencia(
+    String codigoProducto, String cantidadProducto) async {
   Producto? producto = null;
   List<Producto?> productoC = [];
   try {
@@ -355,49 +345,16 @@ Future<List<Producto?>> ActualizarSaldo2(
         }));
 
     if (response.statusCode == 200) {
-    } else {}
-    return productoC;
+      return 200;
+    } else if (response.statusCode == 404) {
+      return 404;
+    } else if (response.statusCode == 500) {
+      return 500;
+    }
   } catch (e) {
     print(e);
-    return productoC;
+    return 1928;
   }
-}
-
-Future<List<Producto?>> ActualizarProductoSinImagen(
-    String idProducto,
-    String codigoProducto,
-    String nombreProducto,
-    String precioProducto,
-    String cantidadProducto,
-    String isvProducto,
-    String descProducto,
-    String isExcento,
-    String idTipoProducto,
-    context) async {
-  Producto? producto = null;
-  List<Producto?> productoC = [];
-  try {
-    var response =
-        await http.post(Uri.parse(API_URL + 'producto/actualizarsinimagen'),
-            body: ({
-              'id': idProducto,
-              'codigoProducto': codigoProducto,
-              'nombreProducto': nombreProducto,
-              'precioProducto': precioProducto,
-              'cantidadProducto': cantidadProducto,
-              'isvProducto': isvProducto,
-              'descProducto': descProducto,
-              'isExcento': isExcento,
-              'idTipoproducto': idTipoProducto,
-            }));
-    print(response.body);
-    if (response.statusCode == 200) {
-      print(producto);
-    } else {}
-    return productoC;
-  } catch (e) {
-    return productoC;
-  } finally {}
 }
 
 class UserApi {

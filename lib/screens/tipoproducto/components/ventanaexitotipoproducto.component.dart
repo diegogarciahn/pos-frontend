@@ -1,6 +1,8 @@
-import 'package:flutter/material.dart';
+  import 'package:flutter/material.dart';
 
-void ventanaError(BuildContext context, {String mensaje = 'Ocurrio un error al realizar esta acción, intente de nuevo.'}) {
+void ventanaExito(BuildContext context) {
+    var idTipoProductoController = TextEditingController();
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -15,7 +17,7 @@ void ventanaError(BuildContext context, {String mensaje = 'Ocurrio un error al r
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        mensaje,
+                        'Acción realizada con éxito.',
                         style: TextStyle(fontSize: 18),
                       ),
                       SizedBox(
@@ -27,8 +29,8 @@ void ventanaError(BuildContext context, {String mensaje = 'Ocurrio un error al r
                           margin: EdgeInsets.all(5),
                           child: RaisedButton(
                             onPressed: () {
-                              Navigator.pop(context);
-                              //initState();
+                              Navigator.popAndPushNamed(
+                                  context, 'PantallaTipoProductos');
                             },
                             child: Text('OK'),
                             padding: EdgeInsets.all(10),

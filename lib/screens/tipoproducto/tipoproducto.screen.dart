@@ -9,6 +9,9 @@ import 'package:soft_frontend/controllers/tipoproducto.controller.dart';
 import 'package:soft_frontend/models/Tipoproducto.model.dart';
 import 'package:soft_frontend/services/tipoproducto.service.dart';
 
+import 'components/cabeceratipoproductotable.component.dart';
+import 'components/listitemtipoproducto.component.dart';
+
 class PantallaTipoProducto extends StatefulWidget {
   const PantallaTipoProducto({Key? key}) : super(key: key);
 
@@ -17,13 +20,11 @@ class PantallaTipoProducto extends StatefulWidget {
 }
 
 class _PantallaTipoProductoState extends State<PantallaTipoProducto> {
-  int _counter = 0;
   List<Tipoproducto> tipos = <Tipoproducto>[];
   List<Tipoproducto> tiposN = <Tipoproducto>[];
   bool isCorrect = false;
 
   Future<List<Tipoproducto>> fetchNotes2() async {
-    var data = [];
     var url = Uri.parse(API_URL + 'producto/mostrartipos');
     var response = await http.get(url);
     List<Tipoproducto> users = [];
@@ -122,7 +123,7 @@ class _PantallaTipoProductoState extends State<PantallaTipoProducto> {
                   height: 500,
                   child: ListView.builder(
                     itemBuilder: (context, index) {
-                      return index == 0 ? _searchBar() : _listItem(index - 1);
+                      return index == 0 ? _searchBar() : listItem(index - 1, context, tiposN);
                     },
                     itemCount: tiposN.length + 1,
                   ),
@@ -151,7 +152,7 @@ class _PantallaTipoProductoState extends State<PantallaTipoProducto> {
             },
           ),
         ),
-        _cabecera(),
+        cabecera(),
       ],
     );
   }
@@ -282,367 +283,6 @@ class _PantallaTipoProductoState extends State<PantallaTipoProducto> {
                         height: 40,
                       ),
                     ]),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _ventanaActualizar(
-      BuildContext context,
-      String idTipoProductoP,
-      String tipoProductoP,
-      String descripcionProductoP,
-      String isvTipoProductoP) {
-    late TextEditingController idTipoProducto =
-        TextEditingController(text: idTipoProductoP);
-    late TextEditingController tipoProducto2 =
-        TextEditingController(text: tipoProductoP);
-    late TextEditingController descripcionProducto =
-        TextEditingController(text: descripcionProductoP);
-    late TextEditingController isvTipoProducto =
-        TextEditingController(text: isvTipoProductoP);
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          actions: <Widget>[
-            Container(
-              width: 500,
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(40),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Tipo de Producto',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      TextFormField(
-                        controller: tipoProducto2,
-                        decoration:
-                            InputDecoration(border: UnderlineInputBorder()),
-                      ),
-                      SizedBox(
-                        height: 40,
-                      ),
-                      Text(
-                        'Descripción',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      TextFormField(
-                        controller: descripcionProducto,
-                        decoration:
-                            InputDecoration(border: UnderlineInputBorder()),
-                      ),
-                      SizedBox(
-                        height: 40,
-                      ),
-                      Text(
-                        'ISV',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      TextFormField(
-                        controller: isvTipoProducto,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                            border: UnderlineInputBorder(),
-                            hintText: 'Escribir en valor decimal.'),
-                      ),
-                      Container(
-                          width: 80,
-                          height: 40,
-                          margin: EdgeInsets.all(5),
-                          child: RaisedButton(
-                            onPressed: () {
-                              estaCorrecto = controladorActualizarTipoProducto(
-                                  idTipoProductoP,
-                                  tipoProducto2.text,
-                                  descripcionProducto.text,
-                                  isvTipoProducto.text,
-                                  context);
-                              Navigator.popAndPushNamed(
-                                  context, 'PantallaTipoProductos');
-                              initState();
-                            },
-                            child: Text('Actualizar'),
-                            padding: EdgeInsets.all(10),
-                          )),
-                      SizedBox(
-                        height: 40,
-                      ),
-                    ]),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _ventanaProducto(BuildContext context) {
-    var tipoProductoController = TextEditingController();
-    var descripcionProductoController = TextEditingController();
-    var isvImpuestoController = TextEditingController();
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          actions: <Widget>[
-            Container(
-              width: 500,
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(40),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Tipo de Producto',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      TextFormField(
-                        controller: tipoProductoController,
-                        decoration:
-                            InputDecoration(border: UnderlineInputBorder()),
-                      ),
-                      SizedBox(
-                        height: 40,
-                      ),
-                      Text(
-                        'Descripción',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      TextFormField(
-                        controller: descripcionProductoController,
-                        decoration:
-                            InputDecoration(border: UnderlineInputBorder()),
-                      ),
-                      SizedBox(
-                        height: 40,
-                      ),
-                      Text(
-                        'ISV',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      TextFormField(
-                        controller: isvImpuestoController,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                            border: UnderlineInputBorder(),
-                            hintText: 'Escribir en valor decimal.'),
-                      ),
-                      SizedBox(
-                        height: 40,
-                      ),
-                    ]),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  _listItem(index) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.only(
-            top: 10.0, bottom: 10.0, left: 16.0, right: 16),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-              flex: 1,
-              child: Text(
-                tiposN[index].tipoProducto.toString(),
-                style: GoogleFonts.lato(fontSize: 15),
-              ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Text(
-                tiposN[index].descripcionProducto.toString(),
-                style: GoogleFonts.lato(fontSize: 15),
-              ),
-            ),
-            Expanded(
-                flex: 1,
-                child: TextButton(
-                  child: Text('Actualizar'),
-                  onPressed: () {
-                    _ventanaActualizar(
-                        context,
-                        tiposN[index].id.toString(),
-                        tiposN[index].tipoProducto.toString(),
-                        tiposN[index].descripcionProducto.toString(),
-                        tiposN[index].isvTipoProducto.toString());
-                  },
-                )),
-            Expanded(
-                flex: 1,
-                child: TextButton(
-                  child: Text('Eliminar'),
-                  onPressed: () {
-                    _ventanaEliminar2(context, tiposN[index].id.toString());
-                  },
-                )),
-          ],
-        ),
-      ),
-    );
-  }
-
-  _cabecera() {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.only(
-            top: 10.0, bottom: 10.0, left: 16.0, right: 16),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-              flex: 1,
-              child: Text(
-                'Tipo producto',
-                style: GoogleFonts.lato(fontSize: 15),
-              ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Text(
-                'Descripción',
-                style: GoogleFonts.lato(fontSize: 15),
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Text(
-                'Descripción',
-                style: GoogleFonts.lato(fontSize: 15),
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Text(
-                'Descripción',
-                style: GoogleFonts.lato(fontSize: 15),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _ventanaExito(BuildContext context) {
-    var idTipoProductoController = TextEditingController();
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          actions: <Widget>[
-            Container(
-              width: 500,
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(40),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Acción realizada con éxito.',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      SizedBox(
-                        height: 40,
-                      ),
-                      Container(
-                          width: 80,
-                          height: 40,
-                          margin: EdgeInsets.all(5),
-                          child: RaisedButton(
-                            onPressed: () {
-                              Navigator.popAndPushNamed(
-                                  context, 'PantallaTipoProductos');
-                              initState();
-                            },
-                            child: Text('OK'),
-                            padding: EdgeInsets.all(10),
-                          )),
-                      SizedBox(
-                        height: 40,
-                      ),
-                    ]),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _ventanaEliminar2(BuildContext context, String idTipoProductoP) {
-    late TextEditingController idTipoProducto =
-        TextEditingController(text: idTipoProductoP);
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          actions: <Widget>[
-            Container(
-              color: Colors.white,
-              child: Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(40),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '¿Está seguro de eliminar el tipo de producto?',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                            width: 200,
-                            height: 100,
-                            margin: EdgeInsets.all(5),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: RaisedButton(
-                                    onPressed: () {
-                                      EliminarTipoProducto(
-                                          idTipoProducto.text, context);
-                                      Navigator.pop(context);
-                                      _ventanaExito(context);
-                                    },
-                                    child: Text('Eliminar'),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(6.0),
-                                  child: RaisedButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text('Cancelar'),
-                                  ),
-                                ),
-                              ],
-                            )),
-                      ]),
-                ),
               ),
             ),
           ],

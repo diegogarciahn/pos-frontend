@@ -76,9 +76,24 @@ class _PantallaProductoState extends State<PantallaProducto> {
                     padding: const EdgeInsets.only(left: 30.0, right: 30.0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: Container(
-                        child: Column(children: <Widget>[
-                          Padding(
+                      child: Column(children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                              width: 120,
+                              height: 80,
+                              margin: EdgeInsets.all(5),
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    ventanaNueva(context);
+                                  },
+                                  child: Text('Agregar'),
+                                  style: ButtonStyle(
+                                    padding: MaterialStateProperty.all(
+                                        EdgeInsets.all(25)),
+                                  ))),
+                        ),
+                        Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
                                 width: 120,
@@ -86,50 +101,33 @@ class _PantallaProductoState extends State<PantallaProducto> {
                                 margin: EdgeInsets.all(5),
                                 child: ElevatedButton(
                                     onPressed: () {
-                                      ventanaNueva(context);
+                                      Navigator.pushNamed(context,
+                                          'mantenimiento/productos/tipoproductos');
                                     },
-                                    child: Text('Agregar'),
+                                    child: Text(
+                                      'Agregar tipo de producto',
+                                      textAlign: TextAlign.center,
+                                    ),
                                     style: ButtonStyle(
                                       padding: MaterialStateProperty.all(
                                           EdgeInsets.all(25)),
-                                    ))),
-                          ),
-                          Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                  width: 120,
-                                  height: 80,
-                                  margin: EdgeInsets.all(5),
-                                  child: ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.pushNamed(context,
-                                            'mantenimiento/productos/tipoproductos');
-                                      },
-                                      child: Text(
-                                        'Agregar tipo de producto',
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      style: ButtonStyle(
-                                        padding: MaterialStateProperty.all(
-                                            EdgeInsets.all(25)),
-                                      )))),
-                          Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                  width: 120,
-                                  height: 80,
-                                  margin: EdgeInsets.all(5),
-                                  child: ElevatedButton(
-                                      onPressed: () {
-                                        ventanaActualizarInventario(context);
-                                      },
-                                      child: Text('Modificar existencia'),
-                                      style: ButtonStyle(
-                                        padding: MaterialStateProperty.all(
-                                            EdgeInsets.all(25)),
-                                      )))),
-                        ]),
-                      ),
+                                    )))),
+                        Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                                width: 120,
+                                height: 80,
+                                margin: EdgeInsets.all(5),
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      ventanaActualizarInventario(context);
+                                    },
+                                    child: Text('Modificar existencia'),
+                                    style: ButtonStyle(
+                                      padding: MaterialStateProperty.all(
+                                          EdgeInsets.all(25)),
+                                    )))),
+                      ]),
                     ),
                   ),
                 ],
@@ -187,6 +185,7 @@ class _PantallaProductoState extends State<PantallaProducto> {
 
   _cardCabecera() {
     return Card(
+      color: Colors.blue[100],
       child: Padding(
         padding: const EdgeInsets.only(
             top: 10.0, bottom: 10.0, left: 16.0, right: 16),
