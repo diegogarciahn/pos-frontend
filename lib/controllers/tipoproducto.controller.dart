@@ -72,6 +72,8 @@ Future crearTipoProductoController(String tipoproducto2,
         ventanaError(context,
             mensaje:
                 'Ocurrió un error al realizar esta acción, comuniquese con el administrador.');
+      } else if (respuesta == 409) {
+        ventanaError(context, mensaje: 'Ya existe un tipo de producto con el nombre indicado.');
       } else if (respuesta == 401) {
         Navigator.pushReplacementNamed(context, 'login');
         const snackBar = SnackBar(

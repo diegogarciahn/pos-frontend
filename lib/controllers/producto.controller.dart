@@ -74,6 +74,7 @@ Future actualizarExistenciaController(
     if (respuesta == 200) {
       ventanaExito(context);
       productoProvider.setData();
+      productoProvider.changeIdTipoProducto = '';
     } else if (respuesta == 404) {
       ventanaError(context, mensaje: 'No existe el producto especificado.');
     } else if (respuesta == 500) {

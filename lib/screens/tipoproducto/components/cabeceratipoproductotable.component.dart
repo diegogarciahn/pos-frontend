@@ -27,14 +27,14 @@ cabecera() {
             Expanded(
               flex: 2,
               child: Text(
-                'Descripción',
+                'Acciones',
                 style: GoogleFonts.lato(fontSize: 15),
               ),
             ),
             Expanded(
               flex: 2,
               child: Text(
-                'Descripción',
+                '',
                 style: GoogleFonts.lato(fontSize: 15),
               ),
             ),

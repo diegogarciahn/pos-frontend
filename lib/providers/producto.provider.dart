@@ -12,6 +12,8 @@ class ProductoProvider with ChangeNotifier {
 
   set changeIdTipoProducto(String idTipoProducto) {
     _idTipoProductoG = idTipoProducto;
+    print('cambió el id');
+    print(_idTipoProductoG);
     notifyListeners();
   }
 

@@ -56,7 +56,7 @@ Future eliminarTipoProductoService(String idTipoProducto, String token) async {
   } else if (response.statusCode == 500) {
     return 500;
   } else if (response.statusCode == 409) {
-    return 401;
+    return 409;
   } else if (response.statusCode == 401) {
     return 401;
   }
@@ -108,7 +108,7 @@ Future crearTipoProductoService(String tipoProducto, String descripcionProducto,
     } else if (response.statusCode == 500) {
       return 500;
     } else if (response.statusCode == 409) {
-      return 401;
+      return 409;
     } else if (response.statusCode == 401) {
       return 401;
     }
