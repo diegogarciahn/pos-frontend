@@ -10,9 +10,7 @@ import '../../../constans.dart';
 listItem(index, List<Producto> tiposN, context) {
   late String enlace = '';
   if (tiposN[index].urlImage != '') {
-    enlace =
-        (tiposN[index].urlImage.toString().replaceRange(6, 7, '/'));
-    
+    enlace = (tiposN[index].urlImage.toString().replaceRange(6, 7, '/'));
   }
   return Card(
     child: Padding(
@@ -63,37 +61,52 @@ listItem(index, List<Producto> tiposN, context) {
                   height: 100,
                   width: 100,
                   imageUrl: 'http://localhost:8080/' + enlace,
-                  placeholder: (context, url) => Container(height: 20, width: 20,  child: CircularProgressIndicator()),
+                  placeholder: (context, url) => Container(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator()),
                   errorWidget: (context, url, error) =>
                       Image.asset('./assets/images/jar-loading.gif'))),
           Expanded(
               flex: 1,
-              child: TextButton(
-                child: Text('Actualizar'),
-                onPressed: () {
-                  ventanaNuevaActualizar(
-                    context,
-                    tiposN[index].id.toString(),
-                    tiposN[index].codigoProducto.toString(),
-                    tiposN[index].nombreProducto.toString(),
-                    tiposN[index].cantidadProducto.toString(),
-                    tiposN[index].precioProducto.toString(),
-                    tiposN[index].isvProducto.toString(),
-                    tiposN[index].descProducto.toString(),
-                    tiposN[index].isExcento.toString(),
-                    path = url + enlace,
-                    tiposN[index].idTipoProducto.toString(),
-                  );
-                  print(tiposN[index].urlImage);
-                },
+              child: Container(
+                padding: EdgeInsets.only(left: 10),
+                child: TextButton(
+                  child: Text('Actualizar', style: TextStyle(color: Colors.white),),
+                  onPressed: () {
+                    ventanaNuevaActualizar(
+                      context,
+                      tiposN[index].id.toString(),
+                      tiposN[index].codigoProducto.toString(),
+                      tiposN[index].nombreProducto.toString(),
+                      tiposN[index].cantidadProducto.toString(),
+                      tiposN[index].precioProducto.toString(),
+                      tiposN[index].isvProducto.toString(),
+                      tiposN[index].descProducto.toString(),
+                      tiposN[index].isExcento.toString(),
+                      path = url + enlace,
+                      tiposN[index].idTipoProducto.toString(),
+                    );
+                    print(tiposN[index].urlImage);
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.blue[400]),
+                  ),
+                ),
               )),
           Expanded(
               flex: 1,
-              child: TextButton(
-                child: Text('Eliminar'),
-                onPressed: () {
-                  return ventanaEliminar(context, tiposN[index].id.toString());
-                },
+              child: Container(
+                padding: EdgeInsets.only(left: 10),
+                child: TextButton(
+                  child: Text('Eliminar', style: TextStyle(color: Colors.white)),
+                  onPressed: () {
+                    return ventanaEliminar(context, tiposN[index].id.toString());
+                  },
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.red)
+                    ),
+                ),
               )),
         ],
       ),

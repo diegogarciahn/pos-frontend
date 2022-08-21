@@ -19,7 +19,7 @@ Future<Sucursal> getSucursal(idSucursal) async {
           createdAt: DateTime.now(),
           updatedAt: DateTime.now()));
   try {
-    var response = await http.post(Uri.parse(API_URL + "sucursales/get"),
+    var response = await http.post(Uri.parse(API_URL + 'sucursales/get'),
         body: ({'idSucursal': idSucursal.toString()}));
     print(response.body);
     if (response.statusCode == 200) {
@@ -37,24 +37,26 @@ Future<Sucursal> getSucursal(idSucursal) async {
   }
 }
 
-Future<List<DetalleSucursal>> getSucursales() async {
-  List<DetalleSucursal> sucursales = [];
+Future getSucursales(String token) async {
   try {
-    var response = await http.get(
-      Uri.parse(API_URL + "sucursales/getAll"),
+    var response = await http.post(
+      Uri.parse(API_URL + 'sucursales/getAll'),
+      body: {'token': token}
     );
 
     if (response.statusCode == 200) {
+      List<DetalleSucursal> sucursales = [];
       final decode = Sucursales.fromJson(response.body);
-      print(decode.sucursales);
       sucursales = decode.sucursales;
-
       return sucursales;
-    } else {
-      return sucursales;
+    } else if (response.statusCode == 500){
+      return 500;
+    } else if (response.statusCode == 401) {
+      return 401;
     }
   } catch (e) {
-    return sucursales;
+    print(e);
+    return 1928;
   }
 }
 
@@ -62,7 +64,7 @@ Future<String> updateSucursal(
     idSucursal, nombre, lema, direccion, telefono, email, rtn, logo) async {
   String resp = '';
   try {
-    var response = await http.post(Uri.parse(API_URL + "sucursales/update"),
+    var response = await http.post(Uri.parse(API_URL + 'sucursales/update'),
         body: ({
           'idSucursal': idSucursal.toString(),
           'nombreSucursal': nombre,

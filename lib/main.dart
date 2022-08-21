@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:soft_frontend/constans.dart';
+import 'package:soft_frontend/providers/sucursal.provider.dart';
+import 'package:soft_frontend/providers/talonarios.provider.dart';
 
 import 'package:soft_frontend/screens/arqueo/crearArqueo.screen.dart';
 import 'package:soft_frontend/screens/cliente/todosLosClientes.screen.dart';
@@ -33,6 +35,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => ProductoProvider()),
         ChangeNotifierProvider(create: (_) => TipoProductoProvider()),
+        ChangeNotifierProvider(create: (_) => TalonariosProvider()),
+        ChangeNotifierProvider(create: (_) => SucursalProvider()),
       ],
       child: MaterialApp(
         scaffoldMessengerKey: snackbarKey,
@@ -59,8 +63,8 @@ class MyApp extends StatelessWidget {
           'gestionRol': (_) => const MostrarRol(),
           //'buscar_cliente': (_) => BuscarClientes(),
           'ventas/manipular_factura': (_) => ManipularFactura(),
-          'talonarios': (_) => TalonariosScreen(),
-          'sucursal': (_) => SucursalScreen(),
+          'mantenimiento/talonarios': (_) => TalonariosScreen(),
+          'mantenimiento/sucursal': (_) => SucursalScreen(),
           'listar_tipopago': (_) => BuscarTipoPago(),
           'traer_arqueo': (_) => const MostrarArqueos(),
           'crear_arqueo': (_) => const CrearArqueo(),

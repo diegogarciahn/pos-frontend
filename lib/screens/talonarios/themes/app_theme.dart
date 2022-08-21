@@ -6,5 +6,5 @@ class AppTheme {
       primaryColor: const Color.fromRGBO(90, 97, 195, 1),
       textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
-              backgroundColor: primaryColor, primary: Colors.white)));
+              backgroundColor: primaryColor, primary: Colors.white, padding: EdgeInsets.all(20))));
 }

@@ -127,7 +127,7 @@ class _Pantalla extends StatelessWidget {
                   child: TextButtons(
                     img: 'talonario-de-cheques.png',
                     name: 'Talonarios',
-                    route: 'talonarios',
+                    route: 'mantenimiento/talonarios',
                     width: 0.2,
                     fontSize: 15,
                   ),
@@ -142,7 +142,7 @@ class _Pantalla extends StatelessWidget {
                   child: TextButtons(
                     img: 'edificio-de-oficinas.png',
                     name: 'Sucursal',
-                    route: 'sucursal',
+                    route: 'mantenimiento/sucursal',
                     width: 0.2,
                     fontSize: 15,
                   ),

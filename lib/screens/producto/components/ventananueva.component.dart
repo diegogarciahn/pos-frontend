@@ -264,7 +264,7 @@ void ventanaNueva(BuildContext context) {
             },
             child: Text('Guardar'),
             style: ButtonStyle(
-              padding: MaterialStateProperty.all(EdgeInsets.all(10)),
+              padding: MaterialStateProperty.all(EdgeInsets.all(20)),
             ),
           ),
           ElevatedButton(
@@ -274,7 +274,7 @@ void ventanaNueva(BuildContext context) {
             },
             child: Text('Cancelar'),
             style: ButtonStyle(
-              padding: MaterialStateProperty.all(EdgeInsets.all(10)),
+              padding: MaterialStateProperty.all(EdgeInsets.all(20)),
             ),
           ),
         ],
