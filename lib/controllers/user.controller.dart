@@ -1,32 +1,55 @@
-import 'dart:convert';
-import 'dart:js_util';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:soft_frontend/models/gestionUsuario.model.dart';
-import 'package:soft_frontend/screens/login/login.screen.dart';
-import 'package:soft_frontend/screens/pantallaPrincipal/principal.screen.dart';
+import 'package:soft_frontend/providers/login.provider.dart';
+import 'package:soft_frontend/screens/globals.components/snackBar.component.dart';
 import 'package:soft_frontend/services/login.service.dart';
 import 'package:soft_frontend/models/user.model.dart';
 import 'package:soft_frontend/services/sharepreference.service.dart';
 import 'package:soft_frontend/services/user.service.dart';
 
-Future<bool> login_controller(String usuario, String passwd, context) async {
+Future<bool> loginController(String usuario, String passwd, context) async {
+  LoginProvider loginProvider =
+      Provider.of<LoginProvider>(context, listen: false);
+
+  Future<bool> excepcion(String msg, SharedPreferences prefs) async {
+    loginProvider.loading = false;
+    showSnackBarGlobal(msg, context);
+    await prefs.setBool('logeado', false);
+    return false;
+  }
+
   if (usuario.isNotEmpty && passwd.isNotEmpty) {
-    User? user = await login(usuario, passwd);
+    loginProvider.loading = true;
+    final user = await login(usuario, passwd);
     final prefs = await SharedPreferences.getInstance();
-    if (user != null) {
+    if (user is User) {
+      prefs.setBool('logeado', true);
       Navigator.popAndPushNamed(context, 'pantalla_principal');
       await prefs.setBool('logeado', true);
       return true;
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Error al iniciar Sesion')));
-      await prefs.setBool('logeado', false);
-      return false;
+      switch (user) {
+        case 401:
+          return excepcion('Usuario o contraseña inválidos.', prefs);
+        case 404:
+          return excepcion('Usuario o contraseña inválidos.', prefs);
+        case 500:
+          return excepcion(
+              'Error interno en el servidor, comuniquese con soporte técnico.',
+              prefs);
+        case 503:
+          return excepcion(
+              'Error 503: servicio no disponible, comuniquese con soporte técnico.',
+              prefs);
+        default:
+          return excepcion('Error al iniciar sesión.', prefs);
+      }
     }
   } else {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text('LLenar todos lo campos')));
+    loginProvider.loading = false;
+    showSnackBarGlobal('Por favor llene todos lo campos', context);
     return false;
   }
 }
@@ -34,8 +57,8 @@ Future<bool> login_controller(String usuario, String passwd, context) async {
 Future<bool?> logout_controller(context) async {
   bool connectionResult = await getarqueo();
   print(connectionResult);
-  
-  if (connectionResult == true){
+
+  if (connectionResult == true) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -60,17 +83,17 @@ Future<bool?> logout_controller(context) async {
         );
       },
     );
-  }else{
-  bool? user = await logout();
-  if (user != null) {
-    final prefs = await SharedPreferences.getInstance();
-    final nologin = await prefs.remove('logeado');
-    Navigator.pop(context);
-    Navigator.pushReplacementNamed(context, 'login');
-    return true;
   } else {
-    return false;
-  }
+    bool? user = await logout();
+    if (user != null) {
+      final prefs = await SharedPreferences.getInstance();
+      final nologin = await prefs.remove('logeado');
+      Navigator.pop(context);
+      Navigator.pushReplacementNamed(context, 'login');
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 

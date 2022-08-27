@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:soft_frontend/constans.dart';
+import 'package:soft_frontend/providers/login.provider.dart';
 import 'package:soft_frontend/providers/sucursal.provider.dart';
 import 'package:soft_frontend/providers/talonarios.provider.dart';
+import 'package:soft_frontend/providers/tipopago.provider.dart';
 
 import 'package:soft_frontend/screens/arqueo/crearArqueo.screen.dart';
 import 'package:soft_frontend/screens/cliente/todosLosClientes.screen.dart';
 import 'package:soft_frontend/screens/empleado/crearEmpleado.screen.dart';
 import 'package:soft_frontend/screens/generarFactura/escogerVenta.screen.dart';
+import 'package:soft_frontend/screens/home/home.screen.dart';
 import 'package:soft_frontend/screens/manipularFactura/manipularfactura.screen.dart';
 import 'package:soft_frontend/screens/screens.dart';
 import 'package:soft_frontend/screens/sucursal/sucursal.screen.dart';
@@ -17,6 +20,7 @@ import 'package:soft_frontend/screens/rol/crearol.screen.dart';
 import 'package:soft_frontend/screens/tipoproducto/tipoproducto.screen.dart';
 import 'package:soft_frontend/screens/producto/producto.screen.dart';
 import 'package:soft_frontend/screens/rol/gestionroles.screen.dart';
+import 'package:soft_frontend/themes/themeapp.dart';
 
 import 'providers/producto.provider.dart';
 import 'providers/tipoproducto.provider.dart';
@@ -37,19 +41,19 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => TipoProductoProvider()),
         ChangeNotifierProvider(create: (_) => TalonariosProvider()),
         ChangeNotifierProvider(create: (_) => SucursalProvider()),
+        ChangeNotifierProvider(create: (_) => LoginProvider()),
+        ChangeNotifierProvider(create: (_) => TipoPagoProvider()),
       ],
       child: MaterialApp(
         scaffoldMessengerKey: snackbarKey,
         debugShowCheckedModeBanner: false,
         title: 'Soft',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+        theme: themeDataApp(),
         initialRoute: 'login',
         routes: {
           'login': (_) => const Login(),
-    
           'pantalla_principal': (_) => const PantallaPrincipal(),
+          'index': (_) =>  HomePage(),
           'mantenimiento': (_) => const PantallaMantenimientoPrincipal(),
           'crear_cliente': (_) => CrearClientes(),
           '/venta/crear_cliente': (_) => CrearClientes(),
@@ -65,7 +69,7 @@ class MyApp extends StatelessWidget {
           'ventas/manipular_factura': (_) => ManipularFactura(),
           'mantenimiento/talonarios': (_) => TalonariosScreen(),
           'mantenimiento/sucursal': (_) => SucursalScreen(),
-          'listar_tipopago': (_) => BuscarTipoPago(),
+          'mantenimiento/tipopagos': (_) => BuscarTipoPago(),
           'traer_arqueo': (_) => const MostrarArqueos(),
           'crear_arqueo': (_) => const CrearArqueo(),
           'PrincipalVenta': (_) => PantallaPrincipalVenta(),

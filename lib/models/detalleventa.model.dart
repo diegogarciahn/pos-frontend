@@ -16,11 +16,11 @@ class DetalleDeVentasXid {
     List<DetalleDeVentaNueva> detalleDeVentaNueva;
 
     factory DetalleDeVentasXid.fromJson(Map<String, dynamic> json) => DetalleDeVentasXid(
-        detalleDeVentaNueva: List<DetalleDeVentaNueva>.from(json["detalleDeVentaNueva"].map((x) => DetalleDeVentaNueva.fromJson(x))),
+        detalleDeVentaNueva: List<DetalleDeVentaNueva>.from(json['detalleDeVentaNueva'].map((x) => DetalleDeVentaNueva.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
-        "detalleDeVentaNueva": List<dynamic>.from(detalleDeVentaNueva.map((x) => x.toJson())),
+        'detalleDeVentaNueva': List<dynamic>.from(detalleDeVentaNueva.map((x) => x.toJson())),
     };
 }
 
@@ -54,33 +54,33 @@ class DetalleDeVentaNueva {
     Producto producto;
 
     factory DetalleDeVentaNueva.fromJson(Map<String, dynamic> json) => DetalleDeVentaNueva(
-        id: json["id"],
-        cantidad: json["cantidad"],
-        precioUnitario: json["precioUnitario"],
-        isvAplicado: json["isvAplicado"],
-        descuentoAplicado: json["descuentoAplicado"],
-        totalDetalleVenta: json["totalDetalleVenta"],
-        isDelete: json["isDelete"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
-        idVentas: json["idVentas"],
-        idProducto: json["idProducto"],
-        producto: Producto.fromJson(json["producto"]),
+        id: json['id'],
+        cantidad: json['cantidad'],
+        precioUnitario: json['precioUnitario'],
+        isvAplicado: json['isvAplicado'],
+        descuentoAplicado: json['descuentoAplicado'],
+        totalDetalleVenta: json['totalDetalleVenta'],
+        isDelete: json['isDelete'],
+        createdAt: DateTime.parse(json['createdAt']),
+        updatedAt: DateTime.parse(json['updatedAt']),
+        idVentas: json['idVentas'],
+        idProducto: json['idProducto'],
+        producto: Producto.fromJson(json['producto']),
     );
 
     Map<String, dynamic> toJson() => {
-        "id": id,
-        "cantidad": cantidad,
-        "precioUnitario": precioUnitario,
-        "isvAplicado": isvAplicado,
-        "descuentoAplicado": descuentoAplicado,
-        "totalDetalleVenta": totalDetalleVenta,
-        "isDelete": isDelete,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
-        "idVentas": idVentas,
-        "idProducto": idProducto,
-        "producto": producto.toJson(),
+        'id': id,
+        'cantidad': cantidad,
+        'precioUnitario': precioUnitario,
+        'isvAplicado': isvAplicado,
+        'descuentoAplicado': descuentoAplicado,
+        'totalDetalleVenta': totalDetalleVenta,
+        'isDelete': isDelete,
+        'createdAt': createdAt.toIso8601String(),
+        'updatedAt': updatedAt.toIso8601String(),
+        'idVentas': idVentas,
+        'idProducto': idProducto,
+        'producto': producto.toJson(),
     };
 }
 
@@ -105,7 +105,7 @@ class Producto {
     String nombreProducto;
     String precioProducto;
     int cantidadProducto;
-    String isvProducto;
+    int isvProducto;
     String descProducto;
     bool isExcento;
     bool isDelete;
@@ -114,32 +114,32 @@ class Producto {
     int idTipoProducto;
 
     factory Producto.fromJson(Map<String, dynamic> json) => Producto(
-        id: json["id"],
-        codigoProducto: json["codigoProducto"],
-        nombreProducto: json["nombreProducto"],
-        precioProducto: json["precioProducto"],
-        cantidadProducto: json["cantidadProducto"],
-        isvProducto: json["isvProducto"],
-        descProducto: json["descProducto"],
-        isExcento: json["isExcento"],
-        isDelete: json["isDelete"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
-        idTipoProducto: json["idTipoProducto"],
+        id: json['id'],
+        codigoProducto: json['codigoProducto'],
+        nombreProducto: json['nombreProducto'],
+        precioProducto: json['precioProducto'],
+        cantidadProducto: json['cantidadProducto'],
+        isvProducto: json['isvProducto'],
+        descProducto: json['descProducto'],
+        isExcento: json['isExcento'],
+        isDelete: json['isDelete'],
+        createdAt: DateTime.parse(json['createdAt']),
+        updatedAt: DateTime.parse(json['updatedAt']),
+        idTipoProducto: json['idTipoProducto'],
     );
 
     Map<String, dynamic> toJson() => {
-        "id": id,
-        "codigoProducto": codigoProducto,
-        "nombreProducto": nombreProducto,
-        "precioProducto": precioProducto,
-        "cantidadProducto": cantidadProducto,
-        "isvProducto": isvProducto,
-        "descProducto": descProducto,
-        "isExcento": isExcento,
-        "isDelete": isDelete,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
-        "idTipoProducto": idTipoProducto,
+        'id': id,
+        'codigoProducto': codigoProducto,
+        'nombreProducto': nombreProducto,
+        'precioProducto': precioProducto,
+        'cantidadProducto': cantidadProducto,
+        'isvProducto': isvProducto,
+        'descProducto': descProducto,
+        'isExcento': isExcento,
+        'isDelete': isDelete,
+        'createdAt': createdAt.toIso8601String(),
+        'updatedAt': updatedAt.toIso8601String(),
+        'idTipoProducto': idTipoProducto,
     };
 }

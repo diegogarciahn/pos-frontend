@@ -62,12 +62,17 @@ class _Pantalla extends StatelessWidget {
         automaticallyImplyLeading: false,
         title: Text("Modulo de Mantenimiento"),
         actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.popAndPushNamed(context, 'pantalla_principal');
-            },
-            child: Text("Regresar",
-                style: TextStyle(color: Colors.white, fontSize: 20)),
+          Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: size.width * 0.01, vertical: 8),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  primary: Theme.of(context).focusColor),
+              onPressed: () {
+                Navigator.popAndPushNamed(context, 'pantalla_principal');
+              },
+              child: Text("Regresar",),
+            ),
           ),
         ],
       ),
@@ -79,10 +84,6 @@ class _Pantalla extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(
-                  'Modulo de Mantenimiento',
-                  style: TextStyle(fontSize: 18),
-                ),
                 const SizedBox(
                   width: 40,
                 ),
@@ -152,17 +153,17 @@ class _Pantalla extends StatelessWidget {
                 width: 30,
               ),
               if (permisosId.contains(14)) ...[
-                  Visibility(
-                    visible: true,
-                    child: TextButtons(
-                      img: 'metodo-de-pago.png',
-                      name: 'Metodo de pago',
-                      route: 'listar_tipopago',
-                      width: 0.2,
-                      fontSize: 15,
-                    ),
+                Visibility(
+                  visible: true,
+                  child: TextButtons(
+                    img: 'metodo-de-pago.png',
+                    name: 'Metodo de pago',
+                    route: 'mantenimiento/tipopagos',
+                    width: 0.2,
+                    fontSize: 15,
                   ),
-                ],
+                ),
+              ],
             ]),
           ]),
         ),

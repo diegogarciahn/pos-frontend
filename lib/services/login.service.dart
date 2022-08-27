@@ -1,26 +1,38 @@
-import 'dart:convert';
-import 'dart:developer';
+import 'dart:async';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/user.model.dart';
 import 'package:http/http.dart' as http;
 import 'package:soft_frontend/constans.dart';
 
-Future<User?> login(String usuario, String passwd) async {
+Future login(String usuario, String passwd) async {
   var client = http.Client();
-  User? user = null;
   final prefs = await SharedPreferences.getInstance();
   try {
-    var response = await client.post(Uri.parse(API_URL + "user/login"),
+    var response = await client.post(Uri.parse(API_URL + 'user/login'),
         body: {'username': usuario, 'password': passwd});
-    if (response.statusCode == 200) {
-      User user = User.fromJson(response.body);
-      await prefs.setString("response", response.body);
-      return user;
-    } else {
-      await prefs.setString("response", response.body);
-      return user;
+    print(response.statusCode);
+    switch (response.statusCode) {
+      case 200:
+        User user = User.fromJson(response.body);
+        await prefs.setString('response', response.body);
+        return user;
+      case 401:
+        return 401;
+      case 404:
+        return 404;
+      case 408:
+        return 408;
+      case 500:
+        return 500;
     }
+  } on http.ClientException catch (_) {
+    print('Servicio no disponible.');
+    return 503;
+  } on Error catch (e) {
+    print(e);
+    return 1928;
   } finally {
     client.close();
   }
@@ -31,7 +43,7 @@ Future<bool> logout() async {
   final prefs = await SharedPreferences.getInstance();
   User? user = null;
   try {
-    var response = await client.get(Uri.parse(API_URL + "user/login"));
+    var response = await client.get(Uri.parse(API_URL + 'user/login'));
     if (response.statusCode == 200) {
       await prefs.setString('response', response.body);
       final nologin = await prefs.remove('logeado');

@@ -42,6 +42,12 @@ class _VentanaVentaState extends State<VentanaVenta> {
   bool isExcento2 = false;
 
   @override
+  void initState(){
+    expectTokenaVenta(context);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 

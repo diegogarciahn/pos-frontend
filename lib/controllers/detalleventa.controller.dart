@@ -67,12 +67,9 @@ Future buscarProductoController(
     final response =
         await buscarProductoService(codigoProducto.text.trim(), context);
     if (response is ProductoBuscado) {
-      // multiplicacion (cantidad* precioUnitario) +ISV -DESC
-
-
       double cantidad = double.parse(cantidadProducController.text);
       double precio = double.parse(response.producto.precioProducto);
-      double isv = double.parse(response.producto.isvProducto);
+      double isv = double.parse(response.producto.isvProducto.toString());
       double descuento = double.parse(response.producto.descProducto);
 
       if (isExcento == true){
@@ -91,7 +88,7 @@ Future buscarProductoController(
         double total = ((cantidad * precio)*(isv/100))+(precio * cantidad) ;
         double total2 = total - (descuento/100)*(total);
         final detalle = await crearDetalle_Controller(
-            cantidadProducController.text, response.producto.precioProducto, total2.toString(), response.producto.isvProducto, response.producto.descProducto, idVentaActual.toString(), response.producto.id.toString(), context);
+            cantidadProducController.text, response.producto.precioProducto, total2.toString(), response.producto.isvProducto.toString(), response.producto.descProducto, idVentaActual.toString(), response.producto.id.toString(), context);
         if (detalle == 200) {
           DetalleDeVentasXid detalles = await mostrardetalleventa(idVentaActual);
           print(detalles);
@@ -149,7 +146,7 @@ Future buscarProductoNombreController(
       // multiplicacion (cantidad* precioUnitario) +ISV -DESC
       double cantidad = double.parse(cantidadProducController.text);
       double precio = double.parse(response.producto.precioProducto);
-      double isv = double.parse(response.producto.isvProducto);
+      double isv = double.parse(response.producto.isvProducto.toString());
       double descuento = double.parse(response.producto.descProducto);
       double total = ((cantidad * precio) * (isv / 100)) + (precio * cantidad);
       double total2 = total - (descuento / 100) * (total);
@@ -157,7 +154,7 @@ Future buscarProductoNombreController(
           cantidadProducController.text,
           response.producto.precioProducto,
           total2.toString(),
-          response.producto.isvProducto,
+          response.producto.isvProducto.toString(),
           response.producto.descProducto,
           idVentaActual.toString(),
           response.producto.id.toString(),

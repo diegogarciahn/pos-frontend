@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-Widget cabeceraTableTalonarios(context) {
-  final tema  = Theme.of(context);
+Widget cabeceraTableTipoPago(context) {
+  final tema = Theme.of(context);
   return Card(
       color: tema.colorScheme.surface,
       child: Padding(
@@ -11,23 +11,20 @@ Widget cabeceraTableTalonarios(context) {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            itemColumn('Rango inicial', 1),
-            itemColumn('Rango final', 1),
-            itemColumn('CAI', 3),
-            itemColumn('Fecha Limite E.', 1),
-            itemColumn('Estado', 1),
-            itemColumn('Opciones', 3),
+            itemColumn('Tipo de pago', 2, tema),
+            itemColumn('Descripción', 5, tema),
+            itemColumn('Acciones', 3, tema),
           ],
         ),
       ));
 }
 
-Expanded itemColumn(String texto, int flex) {
+Expanded itemColumn(String texto, int flex, ThemeData tema) {
   return Expanded(
     flex: flex,
     child: Text(
       texto,
-      style: GoogleFonts.lato(fontSize: 15),
+      style: GoogleFonts.lato(fontSize: 15, color: tema.primaryColor),
     ),
   );
 }

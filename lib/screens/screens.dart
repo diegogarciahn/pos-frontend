@@ -3,7 +3,6 @@ export 'package:soft_frontend/screens/principalmantenimiento/principalmantenimie
 export 'package:soft_frontend/screens/gestionusuarios/gestionusuarios.screen.dart';
 export 'package:soft_frontend/screens/pantallaPrincipal/principalDesktop.screen.dart';
 export 'package:soft_frontend/screens/pantallaPrincipal/principal.screen.dart';
-export 'package:soft_frontend/screens/mantenimiento/mantenimiento.screen.dart';
 export 'package:soft_frontend/screens/ventas/ventas.screen.dart';
 export 'package:soft_frontend/screens/cliente/crearCliente.screen.dart';
 export 'package:soft_frontend/screens/cliente/actualizarCliente.screen.dart';

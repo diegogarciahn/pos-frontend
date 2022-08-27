@@ -1,19 +1,14 @@
-import 'dart:convert';
-import 'dart:js_util';
 import 'package:flutter/material.dart';
 import 'package:soft_frontend/constans.dart';
 import 'package:soft_frontend/controllers/user.controller.dart';
 import 'package:soft_frontend/models/IdVenta.model.dart';
-import 'package:soft_frontend/models/ProductoBuscado.model.dart';
 import 'package:soft_frontend/models/cliente.model.dart';
 import 'package:soft_frontend/models/ventaBuscada.model.dart';
-import 'package:soft_frontend/screens/login/login.screen.dart';
-import 'package:soft_frontend/services/cliente.service.dart';
 import 'package:soft_frontend/services/sharepreference.service.dart';
 import '../models/ventas.model.dart';
 import '../services/ventas.service.dart';
 
-Future expectToken(BuildContext context) async {
+Future expectTokenaVenta(BuildContext context) async {
   final token = await getToken().catchError((error) {
     return '';
   });
@@ -73,7 +68,7 @@ Future crearVenta_Controller(
     String idUsuario,
     String idCliente,
     context) async {
-  final token = await expectToken(context);
+  final token = await expectTokenaVenta(context);
   if (token != '') {
     if (totalIsv.isNotEmpty &&
         totalVenta.isNotEmpty &&
@@ -163,7 +158,7 @@ Future habilitarVenta(
 }
 
 Future<Ventas?> eliminarVenta_Controller(String id, context) async {
-  final token = await expectToken(context);
+  final token = await expectTokenaVenta(context);
   List<Ventas?> venta = await eliminarVenta(id, token);
   print(id);
   if (venta != null) {
@@ -176,7 +171,7 @@ Future<Ventas?> eliminarVenta_Controller(String id, context) async {
 }
 
 Future listarVentas_Controller(context) async {
-  final token = await expectToken(context);
+  final token = await expectTokenaVenta(context);
   if (token != '') {
     final response = await mostrarVentasDetalladas(token);
     if (response is VentaBuscada) {

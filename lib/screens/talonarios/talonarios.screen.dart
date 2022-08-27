@@ -25,7 +25,7 @@ class TalonariosScreen extends StatefulWidget {
 
 class _TalonariosScreenState extends State<TalonariosScreen> {
   List<DetalleSucursal> sucursales = [];
-  
+
   @override
   void initState() {
     obtenerTalonariosController(context);
@@ -37,54 +37,69 @@ class _TalonariosScreenState extends State<TalonariosScreen> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     Size size = MediaQuery.of(context).size;
-    TalonariosProvider talonariosProvider = Provider.of<TalonariosProvider>(context);
+    TalonariosProvider talonariosProvider =
+        Provider.of<TalonariosProvider>(context);
     SucursalProvider sucursalProvider = Provider.of<SucursalProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppTheme.primaryColor,
         title: const Text('Talonarios'),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.maybePop(context).then((value) {
-              if (!value) {
-                Navigator.popAndPushNamed(context, 'mantenimiento');
-              }
-            });
-          },
-        ),
+        automaticallyImplyLeading: false,
+        actions: [
+          Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: size.width * 0.01, vertical: 8),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Theme.of(context).colorScheme.secondary
+              ),
+                onPressed: () {
+                  Navigator.maybePop(context).then((value) {
+                    if (!value) {
+                      Navigator.popAndPushNamed(context, 'mantenimiento');
+                    }
+                  });
+                },
+                child: Text('Regresar',)),
+          )
+        ],
       ),
+      backgroundColor: Color.fromARGB(255, 243, 243, 243),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: size.width * 0.03),
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: height * 0.013),
+              padding: EdgeInsets.symmetric(vertical: height * 0.013),
               child: Row(
                 children: [
                   TextButton(
                     onPressed: () {
-                      sucursales  = sucursalProvider.getListSucursales;
+                      sucursales = sucursalProvider.getListSucursales;
                       alertCrearTalonario(sucursales, context);
                     },
-                    child: Text('Crear Talonario', style: TextStyle(color: Colors.white),),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor),
-                      padding: MaterialStateProperty.all(EdgeInsets.all(20),)
+                    child: Text(
+                      'Crear Talonario',
+                      style: TextStyle(color: Colors.white),
                     ),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                            Theme.of(context).primaryColor),
+                        padding: MaterialStateProperty.all(
+                          EdgeInsets.all(20),
+                        )),
                   )
                 ],
               ),
             ),
-            cabeceraTableTalonarios(),
+            cabeceraTableTalonarios(context),
             Expanded(
               child: ListView.builder(
-                itemBuilder: (context, i) { 
-                  return listItemTalonario(talonariosProvider.getListTalonarios[i], context);
-                 },
-                 itemCount: talonariosProvider.getListTalonarios.length,
-                ),
+                itemBuilder: (context, i) {
+                  return listItemTalonario(
+                      talonariosProvider.getListTalonarios[i], context);
+                },
+                itemCount: talonariosProvider.getListTalonarios.length,
+              ),
             ),
           ],
         ),

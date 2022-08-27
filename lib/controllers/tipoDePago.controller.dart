@@ -1,25 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:soft_frontend/models/tipoPago.model.dart';
+import 'package:soft_frontend/models/tipoPagoBuscado.model.dart';
 import 'package:soft_frontend/models/unPagoBuscado.model.dart';
-import 'package:soft_frontend/screens/tipoPago/editarTipoPago.screen.dart';
+import 'package:soft_frontend/screens/globals.components/alertdialogerror.component.dart';
+import 'package:soft_frontend/screens/globals.components/snackBar.component.dart';
 import '../constans.dart';
+import '../providers/tipopago.provider.dart';
 import '../screens/tipoPago/buscarTipoPago.screen.dart';
 import '../services/sharepreference.service.dart';
 import '../services/tipoPago.service.dart';
 
-Future paToken(BuildContext context) async {
+Future<String> paToken(BuildContext context) async {
   final token = await getToken().catchError((error) {
-    return '';
-  });
-  if (token != '') {
-    return token;
-  } else {
     Navigator.pushReplacementNamed(context, 'login');
     const snackBar = SnackBar(
       content: Text('Por favor inicie sesión para acceder al sistema.'),
       backgroundColor: Colors.red,
     );
     snackbarKey.currentState?.showSnackBar(snackBar);
+    return '';
+  });
+  return token;
+}
+
+Future traerTipoPagosController(context) async {
+  TipoPagoProvider tipoPagoProvider =
+      Provider.of<TipoPagoProvider>(context, listen: false);
+  final token = await paToken(context);
+  tipoPagoProvider.loading = true;
+  if (token.isNotEmpty) {
+    final respuesta = await traerPago();
+    if (respuesta is List<TipoPagoBuscado>) {
+      tipoPagoProvider.loading = false;
+      tipoPagoProvider.setListTipoPago = respuesta;
+    } else {
+      switch (respuesta) {
+        case 401:
+          showSnackBarGlobal('Por favor inicie sesión.', context);
+          Navigator.pushReplacementNamed(context, 'login');
+          break;
+        case 500:
+          tipoPagoProvider.loading = false;
+          alertError(context, mensaje: 'Ocurrió un error interno en el servidor, recargue la página o póngase en contacto con soporte técnico.');
+          break;
+        case 503:
+          tipoPagoProvider.loading = false;
+          alertError(context, mensaje: 'Ocurrió un error al momento de solicitar el servicio, recargue la página o póngase en contacto con soporte técnico.');
+          break;
+        case 1928:
+          tipoPagoProvider.loading = false;
+          alertError(context, mensaje: 'Ocurrio un error al realizar esta acción, recargue la página o póngase en contacto con soporte técnico.');
+          break;
+        default:
+      }
+    }
   }
 }
 

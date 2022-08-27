@@ -39,7 +39,7 @@ Future obtenerTipoDeProductosController(context) async {
       ventanaError(context,
           mensaje:
               'Ocurrió un error interno del servidor, comuniquese con el administrador.');
-    } else if (respuesta == 409) {
+    } else if (respuesta == 401) {
       Navigator.pushReplacementNamed(context, 'login');
       const snackBar = SnackBar(
         content: Text('Por favor inicie sesión para acceder al sistema.'),

@@ -46,7 +46,7 @@ class Producto {
     String nombreProducto;
     String precioProducto;
     int cantidadProducto;
-    String isvProducto;
+    int isvProducto;
     String descProducto;
     bool isExcento;
     bool isDelete;

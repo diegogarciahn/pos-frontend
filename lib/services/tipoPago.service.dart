@@ -15,7 +15,7 @@ Future<List<Tipopago?>> CrearTipoPago(String tipoDePago,
   Tipopago? tipopago = null;
   List<Tipopago?> tipopagoCreado = [];
   try {
-    var response = await http.post(Uri.parse(API_URL + "gene/insertartipopago"),
+    var response = await http.post(Uri.parse(API_URL + 'gene/insertartipopago'),
         body: ({
           'tipoDePago': tipoDePago,
           'descripcionTipoPago': descripcionTipoPago,
@@ -64,7 +64,7 @@ Future<List<TipoPago?>> actualizarTipoPago(String idTipoPago, String tipoDePago,
   List<TipoPago?> tipoPagoCreado = [];
   try {
     var response =
-        await http.post(Uri.parse(API_URL + "gene/actualizartipopago"),
+        await http.post(Uri.parse(API_URL + 'gene/actualizartipopago'),
             body: ({
               'idTipoPago': idTipoPago,
               'tipoDePago': tipoDePago,
@@ -91,17 +91,23 @@ Future traerPago() async {
         .get(Uri.parse(API_URL + 'gene/buscartipopago'))
         .timeout(Duration(seconds: 15));
 
-    if (response.statusCode == 200) {
-      final tipopagos = manipularTipoPagoFromJson(response.body);
-      return tipopagos.tipoPago;
-    } else if (response.statusCode == 500) {
-      return 500;
+    switch (response.statusCode) {
+      case 200:
+        final tipopagos = manipularTipoPagoFromJson(response.body);
+        return tipopagos.tipoPago;
+      case 401:
+        return 401;
+      case 500:
+        return 500;
     }
+  } on http.ClientException catch (_) {
+    print('Servicio no disponible.');
+    return 503;
   } on TimeoutException catch (_) {
     throw ('Tiempo de espera alcanzado');
   } catch (e) {
     print(e);
-    return 2;
+    return 1928;
   }
 }
 

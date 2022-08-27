@@ -49,30 +49,26 @@ class PantallaDesktop extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              _showDialog(context);
-            },
-            child: Text('Cerrar Sesion',
-                style: TextStyle(color: Colors.white, fontSize: 20)),
+          Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: size.width * 0.01, vertical: 8),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                    primary: Theme.of(context).focusColor),
+              onPressed: () {
+                _showDialog(context);
+              },
+              child: Text('Cerrar Sesion',),
+            ),
           ),
         ],
-        title: Text('Pantalla Principal'),
+        title: Text('Panel principal'),
       ),
       body: Container(
         color: const Color(0xffF3F3F3),
         child: Padding(
           padding: const EdgeInsets.all(50),
           child: Column(children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: const [
-                Text(
-                  'Panel Principal de Modulos',
-                  style: TextStyle(fontSize: 20),
-                ),
-              ],
-            ),
             const SizedBox(
               height: 100,
             ),

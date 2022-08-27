@@ -54,12 +54,17 @@ class _PantallaProductoState extends State<PantallaProducto> {
           title: Text('Productos'),
           leading: Icon(Icons.content_paste_sharp),
           actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.popAndPushNamed(context, 'mantenimiento');
-              },
-              child: Text('Regresar',
-                  style: TextStyle(color: Colors.white, fontSize: 20)),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Theme.of(context).focusColor
+                ),
+                onPressed: () {
+                  Navigator.popAndPushNamed(context, 'mantenimiento');
+                },
+                child: Text('Regresar',),
+              ),
             ),
           ],
         ),
@@ -104,11 +109,8 @@ class _PantallaProductoState extends State<PantallaProducto> {
                                     child: Text(
                                       'Agregar tipo de producto',
                                       textAlign: TextAlign.center,
-                                    ),
-                                    style: ButtonStyle(
-                                      padding: MaterialStateProperty.all(
-                                          EdgeInsets.all(25)),
-                                    )))),
+                                    ),),
+                                    )),
                         Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
@@ -182,7 +184,7 @@ class _PantallaProductoState extends State<PantallaProducto> {
 
   _cardCabecera() {
     return Card(
-      color: Colors.blue[100],
+      color: Theme.of(context).colorScheme.surface,
       child: Padding(
         padding: const EdgeInsets.only(
             top: 10.0, bottom: 10.0, left: 16.0, right: 16),

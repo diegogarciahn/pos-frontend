@@ -33,18 +33,24 @@ class _PantallaTipoProductoState extends State<PantallaTipoProducto> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.maybePop(context).then((value) {
-                  if (!value) {
-                    Navigator.popAndPushNamed(
-                        context, 'mantenimiento/productos');
-                  }
-                });
-              },
-              child: Text('Regresar',
-                  style: TextStyle(color: Colors.white, fontSize: 20)),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Theme.of(context).colorScheme.secondary
+                ),
+                onPressed: () {
+                  Navigator.maybePop(context).then((value) {
+                    if (!value) {
+                      Navigator.popAndPushNamed(
+                          context, 'mantenimiento/productos');
+                    }
+                  });
+                },
+                child: Text('Regresar',),
+              ),
             ),
           ],
           title: Text('Tipos de productos'),
@@ -62,11 +68,7 @@ class _PantallaTipoProductoState extends State<PantallaTipoProducto> {
                   },
                   child: Text(
                     'Agregar tipo de producto',
-                    style: TextStyle(fontSize: size.width * 0.01),
                     textAlign: TextAlign.center,
-                  ),
-                  style: ButtonStyle(
-                    padding: MaterialStateProperty.all(EdgeInsets.all(25)),
                   ),
                 ),
               ),
@@ -112,7 +114,7 @@ class _PantallaTipoProductoState extends State<PantallaTipoProducto> {
             },
           ),
         ),
-        cabecera(),
+        cabecera(context),
       ],
     );
   }

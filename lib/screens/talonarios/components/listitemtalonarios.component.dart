@@ -7,6 +7,7 @@ import 'package:soft_frontend/screens/talonarios/components/alerteliminartalonar
 import '../../../models/talonario.model.dart';
 
 Widget listItemTalonario(Talonario talonario, context) {
+  final tema = Theme.of(context);
   return Card(
     child: Padding(
       padding:
@@ -23,7 +24,7 @@ Widget listItemTalonario(Talonario talonario, context) {
           itemRow((talonario.active) ? 'Verdadero' : 'Falso', 1),
           buttonRow('Actualizar', 1, () => 
             alertActualizarTalonario(context, talonario), 
-          Colors.blue,
+          tema.primaryColor,
               margenes: EdgeInsets.only(right: 5)),
           buttonRow('Eliminar', 1,
               () => alertEliminarTalonario(context, talonario), Colors.red,

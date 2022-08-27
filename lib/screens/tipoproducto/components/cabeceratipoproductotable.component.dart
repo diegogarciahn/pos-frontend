@@ -1,9 +1,10 @@
   import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-cabecera() {
+cabecera(context) {
+  final tema = Theme.of(context);
     return Card(
-      color: Colors.blue[100],
+      color: tema.colorScheme.surface,
       child: Padding(
         padding: const EdgeInsets.only(
             top: 10.0, bottom: 10.0, left: 16.0, right: 16),

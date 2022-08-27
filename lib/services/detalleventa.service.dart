@@ -24,7 +24,7 @@ Future mostrardetalleventa(int idVenta) async {
       return detalleVentas;
     }
   } catch (e) {
-    print(e);
+    print('motagua campeón:'+e.toString());
   }
 }
 
@@ -80,7 +80,7 @@ Future buscarProductoService(String codigoProducto, context) async {
       return 500;
     }
   } catch (e) {
-    print(e);
+    print('Error'+e.toString());
     return 1928;
   }
 }
@@ -149,22 +149,22 @@ Future<List<String>> mostrarTotales(int idVenta) async {
       num impuestos = 0;
       num descuentos = 0;
        for (var element in detalleVentas.detalleDeVentaNueva) {
-        //((element.cantidad * double.parse(element.precioUnitario))*(double.parse(element.isvAplicado)/100)) + (double.parse(element.precioUnitario) * element.cantidad) - double.parse(element.descuentoAplicado);
+        //((element.cantidad * double.parse(element.precioUnitario))*(double.parse(element.isvAplicado.toString())/100)) + (double.parse(element.precioUnitario) * element.cantidad) - double.parse(element.descuentoAplicado);
         subtotal = subtotal +
             (double.parse(element.precioUnitario) * element.cantidad) - ((element.cantidad * double.parse(element.precioUnitario)) *
-                (double.parse(element.isvAplicado) / 100));
+                (double.parse(element.isvAplicado.toString()) / 100));
         impuestos = impuestos +
             ((element.cantidad * double.parse(element.precioUnitario)) *
-                (double.parse(element.isvAplicado) / 100));
+                (double.parse(element.isvAplicado.toString()) / 100));
         descuentos = descuentos +
             (((element.cantidad * double.parse(element.precioUnitario)) *
-                        (double.parse(element.isvAplicado) / 100)) +
+                        (double.parse(element.isvAplicado.toString()) / 100)) +
                     (double.parse(element.precioUnitario) * element.cantidad)) *
                 (double.parse(element.descuentoAplicado) / 100);
         total = total +
             ((double.parse(element.precioUnitario) * element.cantidad)) -
             (((element.cantidad * double.parse(element.precioUnitario)) *
-                        (double.parse(element.isvAplicado) / 100)) +
+                        (double.parse(element.isvAplicado.toString()) / 100)) +
                     (double.parse(element.precioUnitario) * element.cantidad)) *
                 (double.parse(element.descuentoAplicado) / 100);
         print(total);
