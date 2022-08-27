@@ -2,7 +2,6 @@
 //
 //     final mostrarUnaFactura = mostrarUnaFacturaFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 
@@ -57,7 +56,7 @@ class DetallesDeVenta {
     DateTime updatedAt;
     int idVentas;
     int idProducto;
-    Producto? producto = Producto(id: -1, codigoProducto: '', nombreProducto: '', precioProducto: '', cantidadProducto: 0, isvProducto: '', descProducto: '', isExcento: false, isDelete: false, createdAt: DateTime.parse('0000-00-00 00:00:00') , updatedAt: DateTime.parse('0000-00-00 00:00:00') , idTipoProducto: 0) ;
+    Producto? producto = Producto(id: -1, codigoProducto: '', nombreProducto: '', precioProducto: '', cantidadProducto: 0, isvProducto: 0, descProducto: '', isExcento: false, isDelete: false, createdAt: DateTime.parse('0000-00-00 00:00:00') , updatedAt: DateTime.parse('0000-00-00 00:00:00') , idTipoProducto: 0) ;
 
     factory DetallesDeVenta.fromJson(Map<String, dynamic> json) => DetallesDeVenta(
         id: json['id'] ?? -1,
@@ -111,7 +110,7 @@ class Producto {
     String nombreProducto;
     String precioProducto;
     int cantidadProducto;
-    String isvProducto;
+    int isvProducto;
     String descProducto;
     bool isExcento;
     bool isDelete;

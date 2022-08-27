@@ -118,7 +118,7 @@ class _Pantalla extends StatelessWidget {
                   child: TextButtons(
                     img: 'notas.png',
                     name: 'Facturacion',
-                    route: 'manipular_factura',
+                    route: 'ventas/facturas',
                     width: 0.3,
                     fontSize: 18,
                   ),

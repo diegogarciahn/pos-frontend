@@ -56,23 +56,30 @@ class _VentanaVentaState extends State<VentanaVenta> {
         automaticallyImplyLeading: false,
         title: Text('Nueva Venta'),
         actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.maybePop(context).then((value) {
-                (!value)
-                    ? Navigator.popAndPushNamed(context, 'PrincipalVenta')
-                    : null;
-              });
-            },
-            child: Text('Regresar',
-                style: TextStyle(color: Colors.white, fontSize: 20)),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Theme.of(context).focusColor
+              ),
+              onPressed: () {
+                Navigator.maybePop(context).then((value) {
+                  (!value)
+                      ? Navigator.popAndPushNamed(context, 'PrincipalVenta')
+                      : null;
+                });
+              },
+              child: Text('Regresar'),
+            ),
           ),
-          TextButton(
-            onPressed: () {
-              _showDialogCerrarSesion(context);
-            },
-            child: Text('Cerrar Turno',
-                style: TextStyle(color: Colors.white, fontSize: 20)),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: () {
+                _showDialogCerrarSesion(context);
+              },
+              child: Text('Cerrar Turno'),
+            ),
           ),
         ],
       ),

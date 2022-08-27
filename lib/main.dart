@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
           'ventas': (_) => const VentanaVenta(),
           'gestionRol': (_) => const MostrarRol(),
           //'buscar_cliente': (_) => BuscarClientes(),
-          'ventas/manipular_factura': (_) => ManipularFactura(),
+          'ventas/facturas': (_) => ManipularFactura(),
           'mantenimiento/talonarios': (_) => TalonariosScreen(),
           'mantenimiento/sucursal': (_) => SucursalScreen(),
           'mantenimiento/tipopagos': (_) => BuscarTipoPago(),

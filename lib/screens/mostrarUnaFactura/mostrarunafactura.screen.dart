@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:soft_frontend/constans.dart';
 import 'package:soft_frontend/controllers/manipularfactura.controller.dart';
 import 'package:soft_frontend/models/mostrarUnaFactura.model.dart';
-import 'package:soft_frontend/screens/mostrarUnaFactura/components/cabeceradetabla.component.dart';
 import 'package:soft_frontend/screens/mostrarUnaFactura/components/versiondekstop.component.dart';
 import 'package:soft_frontend/screens/mostrarUnaFactura/components/versionmobile.component.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MostrarFactura extends StatefulWidget {
   MostrarFactura({Key? key, required this.numeroFactura}) : super(key: key);
@@ -545,7 +542,7 @@ class _MostrarFacturaState extends State<MostrarFactura>
             Expanded(
               flex: 1,
               child: Text(
-                detalleVenta.isvAplicado,
+                detalleVenta.isvAplicado.toString(),
                 style: GoogleFonts.lato(fontSize: size.width * 0.009),
               ),
             ),

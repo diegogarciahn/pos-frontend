@@ -196,6 +196,7 @@ class _ManipularFacturaState extends State<ManipularFactura> {
                                     child: SizedBox(),
                                   ),
                                   ElevatedButton(
+
                                     onPressed: () {
                                       Navigator.popAndPushNamed(
                                           context, 'PrincipalVenta');
@@ -204,13 +205,10 @@ class _ManipularFacturaState extends State<ManipularFactura> {
                                       'Regresar',
                                       style: GoogleFonts.lato(),
                                     ),
-                                    style: ButtonStyle(
-                                      padding: MaterialStateProperty.all(
-                                          EdgeInsets.symmetric(
-                                              horizontal: size.width * 0.015,
-                                              vertical: 26)),
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Theme.of(context).colorScheme.secondary
                                     ),
-                                  )
+                                    ),
                                 ],
                               )
                             // Menor a 800: No mostrar titulo y botón regresar.

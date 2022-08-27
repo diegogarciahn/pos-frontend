@@ -409,7 +409,7 @@ class _MostrarUnaFacturaDekstopState extends State<MostrarUnaFacturaDekstop>
                                                     nombreProducto: '',
                                                     precioProducto: '',
                                                     cantidadProducto: 0,
-                                                    isvProducto: '',
+                                                    isvProducto: 0,
                                                     descProducto: '',
                                                     isExcento: false,
                                                     isDelete: false,
@@ -464,7 +464,7 @@ class _MostrarUnaFacturaDekstopState extends State<MostrarUnaFacturaDekstop>
             Expanded(
               flex: 1,
               child: Text(
-                detalleVenta.isvAplicado,
+                detalleVenta.isvAplicado.toString(),
                 style: TextStyle(fontSize: size.width * 0.012),
               ),
             ),

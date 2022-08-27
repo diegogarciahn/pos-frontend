@@ -231,7 +231,7 @@ class _MostrarUnaFacturaMobileState extends State<MostrarUnaFacturaMobile> {
                           nombreProducto: '',
                           precioProducto: '',
                           cantidadProducto: 0,
-                          isvProducto: '',
+                          isvProducto: 0,
                           descProducto: '',
                           isExcento: false,
                           isDelete: false,
