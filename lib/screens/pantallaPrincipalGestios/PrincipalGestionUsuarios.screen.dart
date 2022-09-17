@@ -57,10 +57,6 @@ class _Pantalla extends StatelessWidget {
       permisosId.add(user?.rol.permisos[i].id);
     }
 
-    for (int i = 0; i < permisosId.length; i++) {
-      print(permisosId[i]);
-    }
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading :false,
@@ -92,7 +88,7 @@ class _Pantalla extends StatelessWidget {
                     child: TextButtons(
                       img: 'empleado.png',
                       name: 'Empleados',
-                      route: 'traer_empleados',
+                      route: 'gestionusuarios/empleados',
                       width: 0.2,
                       fontSize: 15,
                     )),
@@ -106,7 +102,7 @@ class _Pantalla extends StatelessWidget {
                   child: TextButtons(
                     img: 'agregar.png',
                     name: 'Usuarios',
-                    route: 'gestionUsuarios',
+                    route: 'gestionusuarios/usuarios',
                     width: 0.2,
                     fontSize: 15,
                   ),
@@ -121,7 +117,7 @@ class _Pantalla extends StatelessWidget {
                   child: TextButtons(
                     img: 'tareas.png',
                     name: 'Rol',
-                    route: 'gestionRol',
+                    route: 'gestionusuarios/roles',
                     width: 0.2,
                     fontSize: 15,
                   ),

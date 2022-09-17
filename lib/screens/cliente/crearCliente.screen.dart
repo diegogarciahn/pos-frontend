@@ -24,7 +24,7 @@ class _CrearClientesState extends State<CrearClientes> {
     String ruta = ModalRoute.of(context)!.settings.name.toString();
     Navigator.maybePop(context).then((value) {
       if (!value) {
-        if (ruta == '/venta/crear_cliente') {
+        if (ruta == 'venta/crearcliente') {
           Navigator.popAndPushNamed(context, 'ventas');
         } else {
           Navigator.popAndPushNamed(context, 'mantenimiento/clientes');

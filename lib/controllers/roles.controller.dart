@@ -29,7 +29,7 @@ Future<Role?> eliminarrol_Controller(String id, context) async {
   List<Role?> rol = await eliminarRol(id);
   print(id);
   if (rol != null) {
-    Navigator.pushNamed(context, "gestionRol");
+    Navigator.pushNamed(context, "gestionusuarios/roles");
     ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(content: Text("Rol eliminado con exito")));
   } else {}
@@ -42,7 +42,7 @@ Future<Role?> actualizarRole_Controller(
     if (Listroles != null) {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("rol Actualizado con exito")));
-      Navigator.pushNamed(context, "gestionRol");
+      Navigator.pushNamed(context, "gestionusuarios/roles");
     } else {}
   } else {
     ScaffoldMessenger.of(context)

@@ -165,7 +165,7 @@ class _ActualizarEmpleadosState extends State<ActualizarEmpleados> {
                                     onPressed: () =>
                                     setState(() {
                                       
-                                        actualizaEmpleado_Controller(
+                                        actualizaEmpleadoController(
                                             idController.text,
                                             dniController.text,
                                             nombreController.text,

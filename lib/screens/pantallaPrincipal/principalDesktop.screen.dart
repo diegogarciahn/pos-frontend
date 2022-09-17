@@ -128,7 +128,7 @@ class PantallaDesktop extends StatelessWidget {
                   child: TextButtons(
                     img: 'empleado.png',
                     name: 'Gestion de Usuarios',
-                    route: 'PrincipalGestion',
+                    route: 'gestionusuarios',
                     width: 0.2,
                     fontSize: 15,
                   ),

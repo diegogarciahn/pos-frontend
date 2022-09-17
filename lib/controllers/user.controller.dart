@@ -140,7 +140,7 @@ Future<Usuario?> eliminarUsuarioController(String id, context) async {
   List<Usuario?> usuario = await eliminarUsuario(id);
   print(id);
   if (Usuario != null) {
-    Navigator.pushNamed(context, 'gestionUsuarios');
+    Navigator.pushNamed(context, 'gestionusuarios/usuarios');
     ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('User eliminado con exito')));
   } else {}
@@ -170,7 +170,7 @@ Future<Usuario?> actualizarUsuario_Controller(
       print(idRol);
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Usuario Actualizado con exito')));
-      Navigator.pushNamed(context, 'gestionUsuarios');
+      Navigator.pushNamed(context, 'gestionusuarios/usuarios');
     } else {}
   } else {
     ScaffoldMessenger.of(context)

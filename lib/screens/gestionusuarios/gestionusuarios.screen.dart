@@ -29,7 +29,7 @@ class _MostrarUsuariosState extends State<MostrarUsuarios> {
             automaticallyImplyLeading: false,
             title: const Text('Modulo Usuarios'),
             actions: <Widget>[
-              buttonAppBarRegresar(context, 'PrincipalGestion')
+              buttonAppBarRegresar(context, 'gestionusuarios')
             ]),
         body: FutureBuilder(
           future: mostrarUsuarios(),

@@ -50,7 +50,7 @@ class _CrearRolState extends State<CrearRol> {
             actions: <Widget>[
               TextButton(
                 onPressed: () {
-                  Navigator.popAndPushNamed(context, 'gestionRol');
+                  Navigator.popAndPushNamed(context, 'gestionusuarios/roles');
                 },
                 child: Text('Regresar',
                     style: TextStyle(color: Colors.white, fontSize: 20)),

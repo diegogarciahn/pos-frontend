@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:soft_frontend/controllers/cliente.controller.dart';
 import 'package:soft_frontend/controllers/empleado.controller.dart';
+import 'package:soft_frontend/screens/globals.components/buttonregresarappbar.component.dart';
 //import 'package:soft_frontend/services/cliente.service.dart';
 
-class crearEmpleados extends StatefulWidget {
+class CrearEmpleadosScreen extends StatefulWidget {
   @override
-  State<crearEmpleados> createState() => _CrearEmpleadosState();
+  State<CrearEmpleadosScreen> createState() => _CrearEmpleadosScreenState();
 }
 
-class _CrearEmpleadosState extends State<crearEmpleados> {
+class _CrearEmpleadosScreenState extends State<CrearEmpleadosScreen> {
   var dniController = TextEditingController();
   var nombreController = TextEditingController();
   var apellidoController = TextEditingController();
@@ -18,14 +18,13 @@ class _CrearEmpleadosState extends State<crearEmpleados> {
   var sexoController = TextEditingController();
 
   @override
-  Widget build(context) =>
-      Scaffold(
-        appBar: AppBar(
-            leading: IconButton(icon: const Icon( Icons.arrow_back),
-            onPressed: () {Navigator.pushReplacementNamed(context, 'traer_empleados');},),
-            title: Text('Crear Empleado'),
-          ),
-        body: LayoutBuilder(builder: (context, constraints) {
+  Widget build(context) => Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text('Crear Empleado'),
+        actions: [buttonAppBarRegresar(context, 'gestionusuarios/empleados')],
+      ),
+      body: LayoutBuilder(builder: (context, constraints) {
         return SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Container(
@@ -40,7 +39,7 @@ class _CrearEmpleadosState extends State<crearEmpleados> {
                 children: [
                   const SizedBox(height: 3),
                   const Text(
-                    "llenar todos los campos",
+                    'llenar todos los campos',
                     style: TextStyle(fontSize: 15, color: Color(0xff606060)),
                   ),
                   const SizedBox(height: 20),
@@ -55,7 +54,7 @@ class _CrearEmpleadosState extends State<crearEmpleados> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "DNI",
+                                'DNI',
                                 style: TextStyle(fontSize: 18),
                               ),
                               TextFormField(
@@ -68,7 +67,7 @@ class _CrearEmpleadosState extends State<crearEmpleados> {
                                 height: 40,
                               ),
                               Text(
-                                "Nombre",
+                                'Nombre',
                                 style: TextStyle(fontSize: 18),
                               ),
                               TextFormField(
@@ -81,7 +80,7 @@ class _CrearEmpleadosState extends State<crearEmpleados> {
                                 height: 40,
                               ),
                               Text(
-                                "Apellido",
+                                'Apellido',
                                 style: TextStyle(fontSize: 18),
                               ),
                               TextFormField(
@@ -94,7 +93,7 @@ class _CrearEmpleadosState extends State<crearEmpleados> {
                                 height: 40,
                               ),
                               Text(
-                                "Direccion",
+                                'Direccion',
                                 style: TextStyle(fontSize: 18),
                               ),
                               TextFormField(
@@ -107,7 +106,7 @@ class _CrearEmpleadosState extends State<crearEmpleados> {
                                 height: 40,
                               ),
                               Text(
-                                "Telefono",
+                                'Telefono',
                                 style: TextStyle(fontSize: 18),
                               ),
                               TextFormField(
@@ -120,7 +119,7 @@ class _CrearEmpleadosState extends State<crearEmpleados> {
                                 height: 40,
                               ),
                               Text(
-                                "Fecha de Nacimiento",
+                                'Fecha de Nacimiento',
                                 style: TextStyle(fontSize: 18),
                               ),
                               TextFormField(
@@ -133,7 +132,7 @@ class _CrearEmpleadosState extends State<crearEmpleados> {
                                 height: 40,
                               ),
                               Text(
-                                "Sexo",
+                                'Sexo',
                                 style: TextStyle(fontSize: 18),
                               ),
                               TextFormField(
@@ -180,7 +179,7 @@ class _CrearEmpleadosState extends State<crearEmpleados> {
                                             child: Padding(
                                               padding: EdgeInsets.symmetric(
                                                   horizontal: 10, vertical: 10),
-                                              child: Text('Aceptar'),
+                                              child: Text('Crear'),
                                             )),
                                       ),
                                     ),
@@ -189,7 +188,9 @@ class _CrearEmpleadosState extends State<crearEmpleados> {
                                         child: Center(
                                             child: ElevatedButton(
                                                 onPressed: () =>
-                                                     Navigator.popAndPushNamed(context,'traer_empleados'),
+                                                    Navigator.popAndPushNamed(
+                                                        context,
+                                                        'gestionusuarios/empleados'),
                                                 child: Padding(
                                                   padding: EdgeInsets.symmetric(
                                                       horizontal: 10,

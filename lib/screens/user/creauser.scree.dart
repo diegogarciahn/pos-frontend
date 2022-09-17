@@ -33,7 +33,7 @@ class _CrearUserState extends State<CrearUser> {
             actions: <Widget>[
               TextButton(
                 onPressed: () {
-                  Navigator.popAndPushNamed(context, 'gestionUsuarios');
+                  Navigator.popAndPushNamed(context, 'gestionusuarios/usuarios');
                 },
                 child: Text('Regresar',
                     style: TextStyle(color: Colors.white, fontSize: 20)),
@@ -56,7 +56,7 @@ class _CrearUserState extends State<CrearUser> {
                       children: [
                         TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, 'gestionUsuarios');
+                            Navigator.pushNamed(context, 'gestionusuarios/usuarios');
                           },
                           child: Container(
                               width: size.width * 0.15,

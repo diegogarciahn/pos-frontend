@@ -109,7 +109,7 @@ class _VentanaVentaState extends State<VentanaVenta> {
                               if (botonesHabilitados) {
                                 null;
                               } else {
-                                Navigator.pushNamed(context, '/venta/crear_cliente');
+                                Navigator.pushNamed(context, 'venta/crearcliente');
                               }
                             },
                             child: Padding(
