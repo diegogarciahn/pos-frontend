@@ -1,10 +1,10 @@
 // ignore_for_file: unnecessary_new
 
 import 'package:flutter/material.dart';
-import 'package:soft_frontend/screens/globals.components/buttonregresarappbar.component.dart';
 import 'package:soft_frontend/screens/rol/components/cabeceraDeTablaRoles.component.dart';
 import 'package:soft_frontend/screens/rol/components/itemDeTablaRoles.component.dart';
 import 'package:soft_frontend/services/rol.service.dart';
+import '../../globals/globals.components.dart';
 import '../../models/gestionrol.model.dart';
 
 class MostrarRol extends StatefulWidget {

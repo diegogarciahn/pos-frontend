@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:soft_frontend/controllers/empleado.controller.dart';
 import 'package:soft_frontend/providers/empleado.provider.dart';
 import 'package:soft_frontend/screens/empleado/components/cabeceraDeTablaEmpleados.component.dart';
-import 'package:soft_frontend/screens/globals.components/buttonregresarappbar.component.dart';
 
+import '../../globals/globals.components.dart';
 import 'components/itemDeTablaEmpleados.component.dart';
 
 class TodosLosEmpleados2 extends StatefulWidget {

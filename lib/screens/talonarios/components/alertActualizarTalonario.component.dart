@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
 import 'package:soft_frontend/controllers/talonarios.controller.dart';
-import 'package:soft_frontend/screens/globals.components/alertdialogerror.component.dart';
 
+import '../../../globals/globals.components.dart';
 import '../../../models/talonario.model.dart';
 import '../themes/app_theme.dart';
 

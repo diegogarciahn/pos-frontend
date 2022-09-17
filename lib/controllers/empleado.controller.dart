@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:soft_frontend/models/empleado.model.dart';
-import 'package:soft_frontend/screens/globals.components/alertdialogerror.component.dart';
 import '../constans.dart';
+import '../globals/globals.components.dart';
 import '../models/empleado.model.dart';
 import '../providers/empleado.provider.dart';
-import '../screens/globals.components/snackBar.component.dart';
 import '../services/empleado.service.dart';
 import '../services/sharepreference.service.dart';
 

@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:soft_frontend/models/talonario.model.dart';
 import 'package:soft_frontend/providers/talonarios.provider.dart';
-import 'package:soft_frontend/screens/globals.components/alertaexito.component.dart';
-import 'package:soft_frontend/screens/globals.components/alertdialogerror.component.dart';
 import 'package:soft_frontend/services/talonarios.service.dart';
 
 import '../constans.dart';
+import '../globals/globals.components.dart';
 import '../services/sharepreference.service.dart';
 
 Future<String> esperarToken(BuildContext context) async {

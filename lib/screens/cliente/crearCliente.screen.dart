@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:soft_frontend/controllers/cliente.controller.dart';
-import 'package:soft_frontend/screens/globals.components/buttonregresarappbar.component.dart';
+
+import '../../globals/globals.components.dart';
 
 class CrearClientes extends StatefulWidget {
   const CrearClientes({Key? key}) : super(key: key);

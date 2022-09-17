@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:soft_frontend/models/sucursal.model.dart';
 import 'package:soft_frontend/providers/sucursal.provider.dart';
-import 'package:soft_frontend/screens/globals.components/alertdialogerror.component.dart';
 import 'package:soft_frontend/services/sucursal.service.dart';
 
 import '../constans.dart';
+import '../globals/globals.components.dart';
 import '../services/sharepreference.service.dart';
 
 Future<String> esperarToken(BuildContext context) async {

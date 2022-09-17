@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:soft_frontend/screens/gestionusuarios/components/cabeceraDeTablaUsuarios.component.dart';
-import 'package:soft_frontend/screens/globals.components/buttonregresarappbar.component.dart';
 import 'package:soft_frontend/services/user.service.dart';
+import '../../globals/globals.components.dart';
 import '../../models/gestionUsuario.model.dart';
 import 'components/itemDeTablaUsuarios.component.dart';
 

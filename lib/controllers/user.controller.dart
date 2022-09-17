@@ -3,11 +3,12 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:soft_frontend/models/gestionUsuario.model.dart';
 import 'package:soft_frontend/providers/login.provider.dart';
-import 'package:soft_frontend/screens/globals.components/snackBar.component.dart';
 import 'package:soft_frontend/services/login.service.dart';
 import 'package:soft_frontend/models/user.model.dart';
 import 'package:soft_frontend/services/sharepreference.service.dart';
 import 'package:soft_frontend/services/user.service.dart';
+
+import '../globals/globals.components.dart';
 
 Future<bool> excepcion(String msg, SharedPreferences prefs, context) async {
   LoginProvider loginProvider =

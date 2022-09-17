@@ -3,7 +3,8 @@ import 'package:soft_frontend/controllers/Arqueo.controller.dart';
 import 'package:soft_frontend/models/Arqueo.model.dart';
 import 'package:soft_frontend/screens/arqueo/components/cabeceraDeTablaArqueo.component.dart';
 import 'package:soft_frontend/screens/arqueo/components/itemDeTablaArqueo.component.dart';
-import 'package:soft_frontend/screens/globals.components/buttonregresarappbar.component.dart';
+
+import '../../globals/globals.components.dart';
 
 class MostrarArqueos extends StatefulWidget {
   const MostrarArqueos({Key? key}) : super(key: key);

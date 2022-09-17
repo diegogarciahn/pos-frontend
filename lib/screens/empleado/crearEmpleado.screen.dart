@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:soft_frontend/controllers/empleado.controller.dart';
-import 'package:soft_frontend/screens/globals.components/buttonregresarappbar.component.dart';
+
+import '../../globals/globals.components.dart';
 //import 'package:soft_frontend/services/cliente.service.dart';
 
 class CrearEmpleadosScreen extends StatefulWidget {

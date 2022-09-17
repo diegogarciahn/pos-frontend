@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:soft_frontend/controllers/user.controller.dart';
-import 'package:soft_frontend/screens/globals.components/buttonregresarappbar.component.dart';
 import 'package:soft_frontend/screens/screens.dart';
+import '../../globals/globals.components.dart';
 import '../../models/models.dart';
 import '../../widgets/widgets.dart';
 
