@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-Widget cabeceraTableArqueos(context) {
-  final tema  = Theme.of(context);
+Widget cabeceraTableUsuario(context) {
+  final tema = Theme.of(context);
   return Card(
       color: tema.colorScheme.surface,
       child: Padding(
@@ -11,15 +11,11 @@ Widget cabeceraTableArqueos(context) {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            itemColumn('Arqueo', 1),
-            itemColumn('Fecha inicial', 2),
-            itemColumn('Fecha final', 2),
-            itemColumn('Efectivo apertura', 2),
-            itemColumn('Efectivo cierre', 2),
-            itemColumn('Otros pagos', 2),
-            itemColumn('Ventas al crédito', 2),
-            itemColumn('Venta total', 2),
-            itemColumn('Efectivo total', 2),
+            itemColumn('Usuario', 2),
+            itemColumn('Email', 2),
+            itemColumn('Empleado', 2),
+            itemColumn('Rol', 2),
+            itemColumn('Opciones', 2),
           ],
         ),
       ));
@@ -30,7 +26,9 @@ Expanded itemColumn(String texto, int flex) {
     flex: flex,
     child: Text(
       texto,
+      textAlign: TextAlign.left,
       style: GoogleFonts.lato(fontSize: 15),
     ),
   );
 }
+

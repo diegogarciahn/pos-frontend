@@ -1,10 +1,10 @@
-// ignore_for_file: prefer_const_constructors
-import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:soft_frontend/controllers/cliente.controller.dart';
-import 'package:soft_frontend/services/cliente.service.dart';
+import 'package:soft_frontend/screens/globals.components/buttonregresarappbar.component.dart';
 
 class CrearClientes extends StatefulWidget {
+  const CrearClientes({Key? key}) : super(key: key);
+
   @override
   State<CrearClientes> createState() => _CrearClientesState();
 }
@@ -17,6 +17,9 @@ class _CrearClientesState extends State<CrearClientes> {
   var telefonoController = TextEditingController();
   var emailController = TextEditingController();
 
+  // Esta función sirve para saber desde dónde fue llamada esta pantalla.
+  // Si fue llamada desde venta regresará a la pantalla de venta, caso contrario
+  // regresará a la pantalla de clientes del modulo de mantenimiento.
   regresarPantalla(context) {
     String ruta = ModalRoute.of(context)!.settings.name.toString();
     Navigator.maybePop(context).then((value) {
@@ -24,7 +27,7 @@ class _CrearClientesState extends State<CrearClientes> {
         if (ruta == '/venta/crear_cliente') {
           Navigator.popAndPushNamed(context, 'ventas');
         } else {
-          Navigator.popAndPushNamed(context, 'traer_clientes');
+          Navigator.popAndPushNamed(context, 'mantenimiento/clientes');
         }
       }
     });
@@ -35,13 +38,11 @@ class _CrearClientesState extends State<CrearClientes> {
       Scaffold(body: LayoutBuilder(builder: (context, constraints) {
         return Scaffold(
           appBar: AppBar(
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                regresarPantalla(context);
-              },
-            ),
+            automaticallyImplyLeading: false,
             title: Text('Crear Cliente'),
+            actions: [
+              buttonAppBarRegresar(context, '', funcion: () => regresarPantalla(context)),
+            ],
           ),
           body: SingleChildScrollView(
             scrollDirection: Axis.vertical,
@@ -151,46 +152,27 @@ class _CrearClientesState extends State<CrearClientes> {
                                 SizedBox(
                                   height: 40,
                                 ),
-                                Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      TextButton(
-                                        onPressed: null,
-                                        child: Center(
-                                          child: ElevatedButton(
-                                              onPressed: () =>
-                                                  crearClienteController(
-                                                      dniController.text,
-                                                      emailController.text,
-                                                      rtnController.text,
-                                                      nombreController.text,
-                                                      direccionController.text,
-                                                      telefonoController.text,
-                                                      context),
-                                              child: Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 10,
-                                                    vertical: 10),
-                                                child: Text('Aceptar'),
-                                              )),
-                                        ),
-                                      ),
-                                      TextButton(
-                                          onPressed: null,
-                                          child: Center(
-                                              child: ElevatedButton(
-                                                  onPressed: () {
-                                                    regresarPantalla(context);
-                                                  },
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 10,
-                                                            vertical: 10),
-                                                    child: Text('Cancelar'),
-                                                  )))),
-                                    ]),
+                                TextButton(
+                                  onPressed: null,
+                                  child: Center(
+                                    child: ElevatedButton(
+                                        onPressed: () =>
+                                            crearClienteController(
+                                                dniController,
+                                                emailController,
+                                                rtnController,
+                                                nombreController,
+                                                direccionController,
+                                                telefonoController,
+                                                context),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10,
+                                              vertical: 10),
+                                          child: Text('Crear'),
+                                        )),
+                                  ),
+                                ),
                               ],
                             )),
                       ),

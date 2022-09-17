@@ -67,6 +67,7 @@ Widget item(TodoslosCliente lista, context) {
               child: Text('Si'),
               onPressed: () {
                 eliminarClienteController(id, context);
+                Navigator.pop(context);
               },
             ),
             ElevatedButton(

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:soft_frontend/controllers/user.controller.dart';
+import 'package:soft_frontend/screens/globals.components/buttonregresarappbar.component.dart';
 import 'package:soft_frontend/screens/screens.dart';
 import '../../models/models.dart';
 import '../../widgets/widgets.dart';
@@ -63,16 +64,9 @@ class _Pantalla extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading :false,
-        title: Text("Modulo Gestion de Usuarios"),
+        title: Text('Modulo Gestion de Usuarios'),
          actions: <Widget>[
-          TextButton(
-            
-            onPressed: () {
-              Navigator.popAndPushNamed(context, 'pantalla_principal');
-            },
-            child: Text("Regresar",
-                style: TextStyle(color: Colors.white, fontSize: 20)),
-          ),
+          buttonAppBarRegresar(context, 'inicio'),
         ],
       ),
       body: Container(
@@ -83,10 +77,6 @@ class _Pantalla extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(
-                  'Modulo de Gestion de usuarios',
-                  style: TextStyle(fontSize: 20),
-                ),
                 const SizedBox(
                   width: 40,
                 ),

@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
         initialRoute: 'login',
         routes: {
           'login': (_) => const Login(),
-          'pantalla_principal': (_) => const PantallaPrincipal(),
+          'inicio': (_) => const PantallaPrincipal(),
           'index': (_) =>  HomePage(),
           'mantenimiento': (_) => const PantallaMantenimientoPrincipal(),
           'mantenimiento/clientes/crearcliente': (_) => CrearClientes(),

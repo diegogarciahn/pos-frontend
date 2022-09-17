@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:soft_frontend/providers/cliente.provider.dart';
+import 'package:soft_frontend/screens/globals.components/alertaexito.component.dart';
 import '../constans.dart';
 import '../models/cliente.model.dart';
 import '../screens/globals.components/alertdialogerror.component.dart';
@@ -60,38 +61,61 @@ Future traerClientesController(context) async {
 }
 
 Future crearClienteController(
-    String dni,
-    String email,
-    String rtn,
-    String nombreCliente,
-    String direccion,
-    String telefonoCliente,
+    TextEditingController dni,
+    TextEditingController email,
+    TextEditingController rtn,
+    TextEditingController nombreCliente,
+    TextEditingController direccion,
+    TextEditingController telefonoCliente,
     context) async {
-  if (dni.isNotEmpty &&
-      nombreCliente.isNotEmpty &&
-      direccion.isNotEmpty &&
-      telefonoCliente.isNotEmpty) {
-    List<Cliente?> cliente = await crearCliente(
-        dni, email, rtn, nombreCliente, direccion, telefonoCliente, context);
-    if (cliente != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Cliente añadido con exito')));
-      Navigator.pushNamed(context, 'traer_clientes');
-    } else {
-      /////
+  if (dni.text.isNotEmpty &&
+      nombreCliente.text.isNotEmpty &&
+      direccion.text.isNotEmpty &&
+      telefonoCliente.text.isNotEmpty) {
+    final respuesta = await crearCliente(
+        dni.text, email.text, rtn.text, nombreCliente.text, direccion.text, telefonoCliente.text, context);
+    switch (respuesta) {
+      case 200:
+        alertaExito(context, mensaje: 'Cliente creado con éxito.');
+        dni.clear();
+        email.clear();
+        rtn.clear();
+        nombreCliente.clear();
+        direccion.clear();
+        telefonoCliente.clear();
+        traerClientesController(context);
+        break;
+      case 401:
+        Navigator.pushReplacementNamed(context, 'login');
+        showSnackBarGlobal('Por favor inicie sesión para completar esta acción.', context);
+        break;
+      case 503:
+        alertError(context, mensaje: 'El servidor no responde, espere un momento para realizar esta acción o comuníquese con soporte técnico.');
+        break;
+      case 409:
+        alertError(context,mensaje: 'Ya existe un cliente creado con el DNI indicado.');
+        break;
+      case 500:
+        alertError(context, mensaje: 'Ocurrió un error interno en el servidor, comuníquese con soporte técnico.');
+        break;
+      case 1928:
+        alertError(context);
+        break;
+      default:
     }
   } else {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text('Campos en blanco')));
+    alertError(context, mensaje: 'Por favor complete todos las campos.');
   }
 }
 
 Future eliminarClienteController(String id, context) async {
-  ClienteProvider clienteProvider =
-      Provider.of<ClienteProvider>(context, listen: false);
   String token = await esperarToken(context);
   final respuesta = await eliminarCliente(id, token);
   switch (respuesta) {
+    case 200:
+      alertaExito(context, mensaje: 'Cliente eliminado exitósamente.');
+      traerClientesController(context);
+      break;
     case 401:
       showSnackBarGlobal('Por favor inicie sesión.', context);
       Navigator.pushReplacementNamed(context, 'login');

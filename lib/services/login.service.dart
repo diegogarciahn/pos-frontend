@@ -11,8 +11,9 @@ Future login(String usuario, String passwd) async {
   final prefs = await SharedPreferences.getInstance();
   try {
     var response = await client.post(Uri.parse(API_URL + 'user/login'),
-        body: {'username': usuario, 'password': passwd});
-    print(response.statusCode);
+        body: {'username': usuario, 'password': passwd}).timeout(Duration(seconds: 5) ,onTimeout: () {
+          return http.Response('error', 503);
+        },);
     switch (response.statusCode) {
       case 200:
         User user = User.fromJson(response.body);
@@ -36,6 +37,7 @@ Future login(String usuario, String passwd) async {
   } finally {
     client.close();
   }
+  print('abrazame muy fuerte amor');
 }
 
 Future<bool> logout() async {

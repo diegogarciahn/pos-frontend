@@ -48,7 +48,7 @@ class _EscogerVentaPruebState extends State<EscogerVentaPrueb> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.popAndPushNamed(context, 'pantalla_principal');
+                Navigator.popAndPushNamed(context, 'inicio');
               },
               child: Text('Regresar',
                   style: TextStyle(color: Colors.white, fontSize: 20)),

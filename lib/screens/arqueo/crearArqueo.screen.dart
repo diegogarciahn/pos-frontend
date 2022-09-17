@@ -86,7 +86,7 @@ class _CrearArqueoState extends State<CrearArqueo> {
                                           onPressed: () =>
                                               Navigator.pushReplacementNamed(
                                                   context,
-                                                  'pantalla_principal'),
+                                                  'inicio'),
                                           child: Padding(
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: 10, vertical: 10),

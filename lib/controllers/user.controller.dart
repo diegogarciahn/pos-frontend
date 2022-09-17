@@ -9,42 +9,46 @@ import 'package:soft_frontend/models/user.model.dart';
 import 'package:soft_frontend/services/sharepreference.service.dart';
 import 'package:soft_frontend/services/user.service.dart';
 
+Future<bool> excepcion(String msg, SharedPreferences prefs, context) async {
+  LoginProvider loginProvider =
+      Provider.of<LoginProvider>(context, listen: false);
+  loginProvider.loading = false;
+  showSnackBarGlobal(msg, context);
+  await prefs.setBool('logeado', false);
+  return false;
+}
+
+
 Future<bool> loginController(String usuario, String passwd, context) async {
   LoginProvider loginProvider =
       Provider.of<LoginProvider>(context, listen: false);
 
-  Future<bool> excepcion(String msg, SharedPreferences prefs) async {
-    loginProvider.loading = false;
-    showSnackBarGlobal(msg, context);
-    await prefs.setBool('logeado', false);
-    return false;
-  }
-
   if (usuario.isNotEmpty && passwd.isNotEmpty) {
     loginProvider.loading = true;
     final user = await login(usuario, passwd);
+    print(user);
     final prefs = await SharedPreferences.getInstance();
     if (user is User) {
-      prefs.setBool('logeado', true);
-      Navigator.popAndPushNamed(context, 'pantalla_principal');
+      // prefs.setBool('logeado', true);
+      Navigator.popAndPushNamed(context, 'inicio');
       await prefs.setBool('logeado', true);
       return true;
     } else {
       switch (user) {
         case 401:
-          return excepcion('Usuario o contraseña inválidos.', prefs);
+          return excepcion('Usuario o contraseña inválidos.', prefs, context);
         case 404:
-          return excepcion('Usuario o contraseña inválidos.', prefs);
+          return excepcion('Usuario o contraseña inválidos.', prefs, context);
         case 500:
           return excepcion(
               'Error interno en el servidor, comuniquese con soporte técnico.',
-              prefs);
+              prefs, context);
         case 503:
           return excepcion(
               'Error 503: servicio no disponible, comuniquese con soporte técnico.',
-              prefs);
+              prefs, context);
         default:
-          return excepcion('Error al iniciar sesión.', prefs);
+          return excepcion('Error al iniciar sesión.', prefs, context);
       }
     }
   } else {
@@ -132,7 +136,7 @@ Future<User?> crearUsuario_Controller(
   }
 }
 
-Future<Usuario?> eliminarUsuario_Controller(String id, context) async {
+Future<Usuario?> eliminarUsuarioController(String id, context) async {
   List<Usuario?> usuario = await eliminarUsuario(id);
   print(id);
   if (Usuario != null) {

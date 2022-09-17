@@ -6,11 +6,8 @@ import 'package:soft_frontend/models/models.dart';
 import '../models/cliente.model.dart';
 
 // ignore: non_constant_identifier_names
-Future<List<Cliente?>> crearCliente(String dni, String email, String rtn,
+Future crearCliente(String dni, String email, String rtn,
     String nombre, String direccion, String telefono, context) async {
-  var client = http.Client();
-  Cliente? cliente = null;
-  List<Cliente?> clienteCreado = [];
   try {
     var response = await http.post(Uri.parse(API_URL + 'cliente/crearCliente'),
         body: ({
@@ -20,20 +17,21 @@ Future<List<Cliente?>> crearCliente(String dni, String email, String rtn,
           'nombreCliente': nombre,
           'direccion': direccion,
           'telefonoCliente': telefono
-        }));
-    print(response.body);
-    if (response.statusCode == 200) {
-      print(Cliente);
-      //return clienteCreado;
-    } else if (response.statusCode == 400) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('El dni ya esta siendo utilizado')));
-    } else {
-      // return clienteCreado;
+        })).timeout(Duration(seconds: 5),onTimeout: (() => http.Response('error', 503)));
+    switch (response.statusCode) {
+      case 200:
+        return 200;
+      case 401:
+        return 401;
+      case 409:
+        return 409;
+      case 500:
+        return 500;
+      case 503:
+        return 503;
     }
-    return clienteCreado;
   } catch (e) {
-    return clienteCreado;
+    return 1928;
   } finally {
     http.Client().close();
   }

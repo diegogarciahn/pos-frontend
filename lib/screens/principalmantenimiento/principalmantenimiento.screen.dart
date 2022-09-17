@@ -69,7 +69,7 @@ class _Pantalla extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                   primary: Theme.of(context).focusColor),
               onPressed: () {
-                Navigator.popAndPushNamed(context, 'pantalla_principal');
+                Navigator.popAndPushNamed(context, 'inicio');
               },
               child: Text("Regresar",),
             ),

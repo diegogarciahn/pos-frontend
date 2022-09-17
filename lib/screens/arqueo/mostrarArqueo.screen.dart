@@ -1,11 +1,9 @@
-// ignore_for_file: unnecessary_new
-
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:soft_frontend/controllers/Arqueo.controller.dart';
 import 'package:soft_frontend/models/Arqueo.model.dart';
-import 'package:soft_frontend/screens/arqueo/crearArqueo.screen.dart';
 import 'package:soft_frontend/screens/arqueo/components/cabeceraDeTablaArqueo.component.dart';
+import 'package:soft_frontend/screens/arqueo/components/itemDeTablaArqueo.component.dart';
+import 'package:soft_frontend/screens/globals.components/buttonregresarappbar.component.dart';
 
 class MostrarArqueos extends StatefulWidget {
   const MostrarArqueos({Key? key}) : super(key: key);
@@ -20,27 +18,13 @@ class _MostrarArqueosState extends State<MostrarArqueos> {
   List<Arqueo> filtroArqueos = [];
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: const Text('Modulo Arqueo'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.popAndPushNamed(context, 'pantalla_principal');
-              },
-              child: Text('Regresar',
-                  style: TextStyle(color: Colors.white, fontSize: 20)),
-            ),
-          ],
+          actions: <Widget>[buttonAppBarRegresar(context, 'inicio')],
         ),
         body: FutureBuilder(
           future: listarArqueos_Controller(context),
@@ -63,7 +47,7 @@ class _MostrarArqueosState extends State<MostrarArqueos> {
                             padding: EdgeInsets.only(right: size.width * 0.01),
                             child: Text(
                               'Buscar Arqueo por IdUsuario',
-                              style: GoogleFonts.poppins(
+                              style: TextStyle(
                                   color: Colors.black87,
                                   fontSize: size.width * 0.015,
                                   fontWeight: FontWeight.w600),
@@ -88,8 +72,7 @@ class _MostrarArqueosState extends State<MostrarArqueos> {
                             controller: _textEditingController,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.circular(size.width * 0.02),
+                                borderRadius: BorderRadius.circular(5),
                                 borderSide: BorderSide(
                                   color: Colors.black,
                                 ),
@@ -118,9 +101,6 @@ class _MostrarArqueosState extends State<MostrarArqueos> {
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 40,
-                    ),
                     Expanded(
                         child: Container(
                             margin: EdgeInsets.symmetric(
@@ -134,7 +114,7 @@ class _MostrarArqueosState extends State<MostrarArqueos> {
                                     BorderRadius.all(Radius.circular(5))),
                             child: Column(
                               children: [
-                                CabeceraDeTablaArqueo(size: size),
+                                cabeceraTableArqueos(context),
                                 SizedBox(
                                   height: size.height * 0.01,
                                 ),
@@ -148,366 +128,12 @@ class _MostrarArqueosState extends State<MostrarArqueos> {
                                                   .text.isNotEmpty
                                               ? filtroArqueos.length
                                               : listaArqueos.length,
-                                          itemBuilder: (context, index) {
-                                            //item(listaArqueos[index]);
-                                            return Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Row(
-                                                children: [
-                                                  Expanded(
-                                                      flex: 1,
-                                                      child: Text(
-                                                        _textEditingController!
-                                                                .text.isNotEmpty
-                                                            ? filtroArqueos[
-                                                                    index]
-                                                                .idArqueo
-                                                                .toString()
-                                                            : listaArqueos[
-                                                                    index]
-                                                                .idArqueo
-                                                                .toString(),
-                                                        style: GoogleFonts.lato(
-                                                            fontSize:
-                                                                size.width *
-                                                                    0.01,
-                                                            fontWeight:
-                                                                FontWeight.w800,
-                                                            color:
-                                                                Colors.black),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        textScaleFactor: 1,
-                                                      )),
-                                                  Expanded(
-                                                      flex: 3,
-                                                      child: Text(
-                                                        _textEditingController!
-                                                                .text.isNotEmpty
-                                                            ? filtroArqueos[
-                                                                    index]
-                                                                .fechaInicio
-                                                                .toString()
-                                                            : listaArqueos[
-                                                                    index]
-                                                                .fechaInicio
-                                                                .toString(),
-                                                        style: GoogleFonts.lato(
-                                                            fontSize:
-                                                                size.width *
-                                                                    0.01,
-                                                            fontWeight:
-                                                                FontWeight.w800,
-                                                            color:
-                                                                Colors.black),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        textScaleFactor: 1,
-                                                      )),
-                                                  Expanded(
-                                                      flex: 3,
-                                                      child: Text(
-                                                        _textEditingController!
-                                                                .text.isNotEmpty
-                                                            ? filtroArqueos[
-                                                                    index]
-                                                                .fechaFinal
-                                                                .toString()
-                                                            : listaArqueos[
-                                                                    index]
-                                                                .fechaFinal
-                                                                .toString(),
-                                                        style: GoogleFonts.lato(
-                                                            fontSize:
-                                                                size.width *
-                                                                    0.01,
-                                                            fontWeight:
-                                                                FontWeight.w800,
-                                                            color:
-                                                                Colors.black),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        textScaleFactor: 1,
-                                                      )),
-                                                  Expanded(
-                                                      flex: 2,
-                                                      child: Text(
-                                                        _textEditingController!
-                                                                .text.isNotEmpty
-                                                            ? filtroArqueos[
-                                                                    index]
-                                                                .efectivoApertura
-                                                                .toString()
-                                                            : listaArqueos[
-                                                                    index]
-                                                                .efectivoApertura
-                                                                .toString(),
-                                                        style: GoogleFonts.lato(
-                                                            fontSize:
-                                                                size.width *
-                                                                    0.01,
-                                                            fontWeight:
-                                                                FontWeight.w800,
-                                                            color:
-                                                                Colors.black),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        textScaleFactor: 1,
-                                                      )),
-                                                  Expanded(
-                                                      flex: 2,
-                                                      child: Text(
-                                                        _textEditingController!
-                                                                .text.isNotEmpty
-                                                            ? filtroArqueos[
-                                                                    index]
-                                                                .efectivoCierre
-                                                                .toString()
-                                                            : listaArqueos[
-                                                                    index]
-                                                                .efectivoCierre
-                                                                .toString(),
-                                                        style: GoogleFonts.lato(
-                                                            fontSize:
-                                                                size.width *
-                                                                    0.01,
-                                                            fontWeight:
-                                                                FontWeight.w800,
-                                                            color:
-                                                                Colors.black),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        textScaleFactor: 1,
-                                                      )),
-                                                  Expanded(
-                                                      flex: 2,
-                                                      child: Text(
-                                                        _textEditingController!
-                                                                .text.isNotEmpty
-                                                            ? filtroArqueos[
-                                                                    index]
-                                                                .otrosPagos
-                                                                .toString()
-                                                            : listaArqueos[
-                                                                    index]
-                                                                .otrosPagos
-                                                                .toString(),
-                                                        style: GoogleFonts.lato(
-                                                            fontSize:
-                                                                size.width *
-                                                                    0.01,
-                                                            fontWeight:
-                                                                FontWeight.w800,
-                                                            color:
-                                                                Colors.black),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        textScaleFactor: 1,
-                                                      )),
-                                                  Expanded(
-                                                      flex: 2,
-                                                      child: Text(
-                                                        _textEditingController!
-                                                                .text.isNotEmpty
-                                                            ? filtroArqueos[
-                                                                    index]
-                                                                .ventaCredito
-                                                                .toString()
-                                                            : listaArqueos[
-                                                                    index]
-                                                                .ventaCredito
-                                                                .toString(),
-                                                        style: GoogleFonts.lato(
-                                                            fontSize:
-                                                                size.width *
-                                                                    0.01,
-                                                            fontWeight:
-                                                                FontWeight.w800,
-                                                            color:
-                                                                Colors.black),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        textScaleFactor: 1,
-                                                      )),
-                                                  Expanded(
-                                                      flex: 2,
-                                                      child: Text(
-                                                        _textEditingController!
-                                                                .text.isNotEmpty
-                                                            ? filtroArqueos[
-                                                                    index]
-                                                                .ventaTotal
-                                                                .toString()
-                                                            : listaArqueos[
-                                                                    index]
-                                                                .ventaTotal
-                                                                .toString(),
-                                                        style: GoogleFonts.lato(
-                                                            fontSize:
-                                                                size.width *
-                                                                    0.01,
-                                                            fontWeight:
-                                                                FontWeight.w800,
-                                                            color:
-                                                                Colors.black),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        textScaleFactor: 1,
-                                                      )),
-                                                  Expanded(
-                                                      flex: 2,
-                                                      child: Text(
-                                                        _textEditingController!
-                                                                .text.isNotEmpty
-                                                            ? filtroArqueos[
-                                                                    index]
-                                                                .efectivoTotal
-                                                                .toString()
-                                                            : listaArqueos[
-                                                                    index]
-                                                                .efectivoTotal
-                                                                .toString(),
-                                                        style: GoogleFonts.lato(
-                                                            fontSize:
-                                                                size.width *
-                                                                    0.01,
-                                                            fontWeight:
-                                                                FontWeight.w800,
-                                                            color:
-                                                                Colors.black),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        textScaleFactor: 1,
-                                                      )),
-                                                  Expanded(
-                                                      flex: 3,
-                                                      child: Text(
-                                                        _textEditingController!
-                                                                .text.isNotEmpty
-                                                            ? filtroArqueos[
-                                                                    index]
-                                                                .createdAt
-                                                                .toString()
-                                                            : listaArqueos[
-                                                                    index]
-                                                                .createdAt
-                                                                .toString(),
-                                                        style: GoogleFonts.lato(
-                                                            fontSize:
-                                                                size.width *
-                                                                    0.01,
-                                                            fontWeight:
-                                                                FontWeight.w800,
-                                                            color:
-                                                                Colors.black),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        textScaleFactor: 1,
-                                                      )),
-                                                  Expanded(
-                                                      flex: 3,
-                                                      child: Text(
-                                                        _textEditingController!
-                                                                .text.isNotEmpty
-                                                            ? filtroArqueos[
-                                                                    index]
-                                                                .updatedAt
-                                                                .toString()
-                                                            : listaArqueos[
-                                                                    index]
-                                                                .updatedAt
-                                                                .toString(),
-                                                        style: GoogleFonts.lato(
-                                                            fontSize:
-                                                                size.width *
-                                                                    0.01,
-                                                            fontWeight:
-                                                                FontWeight.w800,
-                                                            color:
-                                                                Colors.black),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        textScaleFactor: 1,
-                                                      )),
-                                                  Expanded(
-                                                      flex: 1,
-                                                      child: Text(
-                                                        _textEditingController!
-                                                                .text.isNotEmpty
-                                                            ? filtroArqueos[
-                                                                    index]
-                                                                .idUsuario
-                                                                .toString()
-                                                            : listaArqueos[
-                                                                    index]
-                                                                .idUsuario
-                                                                .toString(),
-                                                        style: GoogleFonts.lato(
-                                                            fontSize:
-                                                                size.width *
-                                                                    0.01,
-                                                            fontWeight:
-                                                                FontWeight.w800,
-                                                            color:
-                                                                Colors.black),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        textScaleFactor: 1,
-                                                      )),
-                                                  Expanded(
-                                                      flex: 1,
-                                                      child: Text(
-                                                        _textEditingController!
-                                                                .text.isNotEmpty
-                                                            ? filtroArqueos[
-                                                                    index]
-                                                                .idSesion
-                                                                .toString()
-                                                            : listaArqueos[
-                                                                    index]
-                                                                .idSesion
-                                                                .toString(),
-                                                        style: GoogleFonts.lato(
-                                                            fontSize:
-                                                                size.width *
-                                                                    0.01,
-                                                            fontWeight:
-                                                                FontWeight.w800,
-                                                            color:
-                                                                Colors.black),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        textScaleFactor: 1,
-                                                      )),
-                                                  /*Expanded(
-                                                      flex: 3,
-                                                      child: TextButton(
-                                                        child: Text('Eliminar'),
-                                                        onPressed: () {
-                                                          _showDialogEliminar(
-                                                              context,
-                                                              listaArqueos[
-                                                                      index]
-                                                                  .idArqueo
-                                                                  .toString());
-                                                        },
-                                                      )),*/
-                                                  /*
-                                                  Expanded(
-                                                      flex: 3,
-                                                      child: TextButton(
-                                                        child: Text(
-                                                            'Cerrar Sesion'),
-                                                        onPressed: () {
-                                                          _showDialogActualizar(
-                                                              context);
-                                                        },
-                                                      )),*/
-                                                ],
-                                              ),
-                                            );
-                                          }),
+                                          itemBuilder: (context, index) =>
+                                              itemTableArqueo(
+                                                  (filtroArqueos.isEmpty)
+                                                      ? listaArqueos[index]
+                                                      : filtroArqueos[index],
+                                                  size)),
                                     ),
                                   ),
                                 ),
@@ -578,7 +204,7 @@ class _MostrarArqueosState extends State<MostrarArqueos> {
                                   padding: const EdgeInsets.all(5.0),
                                   child: Text(
                                     'Efectivo de Apertura',
-                                    style: GoogleFonts.lato(
+                                    style: TextStyle(
                                         fontSize: size.width * 0.01,
                                         fontWeight: FontWeight.w800,
                                         color: Colors.black),
