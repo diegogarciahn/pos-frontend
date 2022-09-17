@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:soft_frontend/constans.dart';
+import 'package:soft_frontend/providers/cliente.provider.dart';
 import 'package:soft_frontend/providers/login.provider.dart';
 import 'package:soft_frontend/providers/sucursal.provider.dart';
 import 'package:soft_frontend/providers/talonarios.provider.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SucursalProvider()),
         ChangeNotifierProvider(create: (_) => LoginProvider()),
         ChangeNotifierProvider(create: (_) => TipoPagoProvider()),
+        ChangeNotifierProvider(create: (_) => ClienteProvider()),
       ],
       child: MaterialApp(
         scaffoldMessengerKey: snackbarKey,
@@ -55,9 +57,9 @@ class MyApp extends StatelessWidget {
           'pantalla_principal': (_) => const PantallaPrincipal(),
           'index': (_) =>  HomePage(),
           'mantenimiento': (_) => const PantallaMantenimientoPrincipal(),
-          'crear_cliente': (_) => CrearClientes(),
+          'mantenimiento/clientes/crearcliente': (_) => CrearClientes(),
           '/venta/crear_cliente': (_) => CrearClientes(),
-          'traer_clientes': (_) => const TodosLosClientes2(),
+          'mantenimiento/clientes': (_) => const TodosLosClientes2(),
           'crear_empleado': (_) => crearEmpleados(),
           'traer_empleados': (_) => const TodosLosEmpleados2(),
           //'crearUsuarios': (_) => CrearUser(),

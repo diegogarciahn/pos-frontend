@@ -99,7 +99,7 @@ class _Pantalla extends StatelessWidget {
                     child: TextButtons(
                       img: 'satisfied.png',
                       name: 'Clientes',
-                      route: 'traer_clientes',
+                      route: 'mantenimiento/clientes',
                       width: 0.2,
                       fontSize: 15,
                     )),

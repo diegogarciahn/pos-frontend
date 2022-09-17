@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:soft_frontend/constans.dart';
@@ -8,14 +6,8 @@ import 'package:soft_frontend/models/models.dart';
 import '../models/cliente.model.dart';
 
 // ignore: non_constant_identifier_names
-Future<List<Cliente?>> crearCliente(
-    String dni,
-    String email,
-    String rtn, 
-    String nombre,
-    String direccion,
-    String telefono,
-    context) async {
+Future<List<Cliente?>> crearCliente(String dni, String email, String rtn,
+    String nombre, String direccion, String telefono, context) async {
   var client = http.Client();
   Cliente? cliente = null;
   List<Cliente?> clienteCreado = [];
@@ -47,26 +39,24 @@ Future<List<Cliente?>> crearCliente(
   }
 }
 
-Future<List<Cliente?>> eliminarCliente(String id) async {
-  print(id);
-  var client = http.Client();
-  Cliente? cliente = null;
-  List<Cliente?> clienteCreado = [];
+Future eliminarCliente(String id, String token) async {
   try {
     var response = await http.post(
         Uri.parse(API_URL + 'cliente/eliminarCliente'),
-        body: ({'id': id}));
+        body: ({'id': id, 'token': token}));
     print(response.body);
     if (response.statusCode == 200) {
-      print(Cliente);
-      //return clienteCreado;
-    } else {
-      // return clienteCreado;
+      return 200;
+    } else if (response.statusCode == 404) {
+      return 404;
+    } else if (response.statusCode == 401) {
+      return 401;
+    } else if (response.statusCode == 500) {
+      return 500;
     }
-    return clienteCreado;
   } catch (e) {
     print(e);
-    return clienteCreado;
+    return 1928;
   } finally {
     http.Client().close();
   }
@@ -121,17 +111,23 @@ Future<void> buscarClienteNombre(String nombre, context) async {
   }
 }
 
-Future traerClientes() async {
+Future traerClientes(String token) async {
   try {
     final response = await http.post(
-        Uri.parse(API_URL + 'cliente/traerTodosLosClientes')); ///////////////
+        Uri.parse(API_URL + 'cliente/traerTodosLosClientes'), body: {'token': token}); ///////////////
     if (response.statusCode == 200) {
-      // print(response.request);
-      // print(jsonDecode(response.body));
-      Cliente listaCliente = clienteFromJson(response.body);
-      return listaCliente;
+      final listaCliente = clienteFromJson(response.body);
+      return listaCliente.todoslosClientes;
+    } else if (response.statusCode == 404) {
+      return 404;
+    } else if (response.statusCode == 401) {
+      return 401;
+    } else if (response.statusCode == 500) {
+      return 500;
     }
-  } catch (e) {}
+  } catch (e) {
+    return 1928;
+  }
 }
 
 Future<void> buscarClienteDni(String dni, context) async {

@@ -68,6 +68,7 @@ class _PantallaProductoState extends State<PantallaProducto> {
             ),
           ],
         ),
+        backgroundColor: Color.fromARGB(255, 243, 243, 243),
         body: Row(
           children: [
             Padding(
